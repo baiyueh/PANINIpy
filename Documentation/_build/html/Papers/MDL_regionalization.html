@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MDL Regionalization &mdash; Scholar Code Collective  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=8209f5a7" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Network Hubs" href="Network_hubs.html" />
+    <link rel="prev" title="MDL network population clustering" href="MDL_network_population_clustering.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Scholar Code Collective
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Papers:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="hypergraph_binning.html">Hypergraph Binning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="MDL_network_population_clustering.html">MDL network population clustering</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">MDL Regionalization</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#tutorial">Tutorial</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id1">MDL Regionalization</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#reference">Reference</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#demo">Demo</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#example-code">Example Code</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#example-output">Example Output</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#link">Link</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#paper-source">Paper source</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Network_hubs.html">Network Hubs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="urban_boundary_delineation.html">Urban Boundary Delineation from Commuting Data with Bayesian Stochastic Blockmodeling: Scale, Contiguity, and Hierarchy</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Scholar Code Collective</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">MDL Regionalization</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/Papers/MDL_regionalization.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="mdl-regionalization">
+<h1>MDL Regionalization<a class="headerlink" href="#mdl-regionalization" title="Link to this heading"></a></h1>
+<section id="tutorial">
+<h2>Tutorial<a class="headerlink" href="#tutorial" title="Link to this heading"></a></h2>
+<p># Spatial regionalization based on optimal information compression: code and data
+Ipython Notebook with code for regionalization algorithm in ‘Spatial regionalization as optimal data compression’, along with metropolitan area census tract networks used in the analysis.</p>
+<p>Ethnoracial distributions for each decade are ordered: [‘Non-Hispanic White’, ‘Non-Hispanic Black’, ‘Asian’, ‘Hispanic’, and ‘Other’], and all census metadata are obtained from the Longitudinal Tract Database [here](<a class="reference external" href="https://s4.ad.brown.edu/projects/diversity/researcher/bridging.htm">https://s4.ad.brown.edu/projects/diversity/researcher/bridging.htm</a>)</p>
+<p>If you use this algorithm or the accompanying data, please cite:</p>
+<ol class="upperalpha simple">
+<li><p>Kirkley, Spatial regionalization based on optimal information compression. Communications Physics 5, 249 (2022).</p></li>
+</ol>
+<div class="math notranslate nohighlight" id="equation1">
+\[\mathcal{L}(\mathcal{D}, \mathcal{P}) = \log \left(\frac{b(V) - 1}{K - 1}\right) + \log \left(\frac{n(V) - 1}{K - 1}\right) + \sum_{k=1}^{K} \log \left(\frac{b(V_k) - 1}{R - 1}\right) + \sum_{k=1}^{K} \log \left(\frac{b(V_k) - 1}{n(V_k) - 1}\right) + \sum_{k=1}^{K} \log \Omega(a_k, c_k). \tag{1}\]</div>
+<p>We can see that the first three terms in Eq. <code class="xref eq docutils literal notranslate"><span class="pre">1</span></code> penalize us for having a greater number of clusters <span class="math notranslate nohighlight">\(K\)</span>, as they will tend to contribute greater description lengths as <span class="math notranslate nohighlight">\(K\)</span> increases, and the fourth term will not depend on the number of clusters to first order in a Stirling approximation of the binomial coefficients. For the last term in Eq. <code class="xref eq docutils literal notranslate"><span class="pre">1</span></code>, in the extreme case where there is only one category <span class="math notranslate nohighlight">\(r^*\)</span> that is represented in the population of the units <span class="math notranslate nohighlight">\(u \in V_k\)</span> (i.e. <span class="math notranslate nohighlight">\(c_k[r] = 0\)</span> for <span class="math notranslate nohighlight">\(r \neq r^*\)</span>), then we have <span class="math notranslate nohighlight">\(\Omega(a_k, c_k) = 1\)</span> and the contribution from this term vanishes. More generally, there are fewer ways the categories can be distributed among the populations in <span class="math notranslate nohighlight">\(V_k\)</span>’s constituent tracts if <span class="math notranslate nohighlight">\(c_k\)</span> is more concentrated on a single category, so the last term in Eq. <code class="xref eq docutils literal notranslate"><span class="pre">1</span></code> will penalize for having a high level of diversity within the clusters. (Or, conversely, this penalty encourages partitions <span class="math notranslate nohighlight">\(\mathcal{P}\)</span> that have homogeneous clusters.)</p>
+</section>
+<section id="id1">
+<h2>MDL Regionalization<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
+<p>This module provides a class and functions for performing MDL (Minimum Description Length) regionalization on networks.</p>
+<table class="docutils align-default" id="id3">
+<caption><span class="caption-text">Functions</span><a class="headerlink" href="#id3" title="Link to this table"></a></caption>
+<thead>
+<tr class="row-odd"><th class="head"><p>Function</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><a class="reference external" href="#init">MDL_regionalization.__init__(name)</a></p></td>
+<td><p>Initialize the MDL_regionalization class.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="#MDL_regionalization">MDL_regionalization.MDL_regionalization(adjlist, dists, pops)</a></p></td>
+<td><p>Perform MDL-based regionalization.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="#str2int">MDL_regionalization.MDL_regionalization.str2int(l)</a></p></td>
+<td><p>Convert a list of strings to a list of integers.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="#logNcK">MDL_regionalization.MDL_regionalization.logNcK(n, K)</a></p></td>
+<td><p>Compute the logarithm of the binomial coefficient.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="#logMult">MDL_regionalization.MDL_regionalization.logMult(ns)</a></p></td>
+<td><p>Compute the logarithm of the multinomial coefficient.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="#log_num_bin_sizes">MDL_regionalization.MDL_regionalization.log_num_bin_sizes(n, K)</a></p></td>
+<td><p>Compute the logarithm of the number of bin sizes.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="#log_omega">MDL_regionalization.MDL_regionalization.log_omega(row_sums, col_sums)</a></p></td>
+<td><p>Compute the logarithm of the number of non-negative integer matrices.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="#cluster_DL">MDL_regionalization.MDL_regionalization.cluster_DL(cluster)</a></p></td>
+<td><p>Compute the description length of a cluster.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="#global_DL">MDL_regionalization.MDL_regionalization.global_DL(clusters)</a></p></td>
+<td><p>Compute the global description length for all clusters.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="#random_key">MDL_regionalization.MDL_regionalization.random_key()</a></p></td>
+<td><p>Generate a random key for a new cluster.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="#cluster_merge">MDL_regionalization.MDL_regionalization.cluster_merge(key1, key2, update=False)</a></p></td>
+<td><p>Merge two clusters and update the description length.</p></td>
+</tr>
+</tbody>
+</table>
+<section id="reference">
+<h3>Reference<a class="headerlink" href="#reference" title="Link to this heading"></a></h3>
+<div id="init" class="function-header">
+    <span class="class-name">class</span> <span class="function-name">MDL_regionalization.__init__(name)</span> <a href="#__init__" class="source-link">[source]</a>
+</div><p><strong>Description</strong>:
+Initialize the MDL_regionalization class.</p>
+<div id="MDL_regionalization" class="function-header">
+    <span class="class-name">function</span> <span class="function-name">MDL_regionalization.MDL_regionalization(adjlist, dists, pops)</span> <a href="#MDL_regionalization" class="source-link">[source]</a>
+</div><p><strong>Description</strong>:
+Perform MDL-based regionalization.</p>
+<p><strong>Parameters</strong>:</p>
+<div class="parameter-block">
+    (adjlist, dists, pops)
+</div>
+
+<ul class="parameter-list">
+    <li><span class="param-name">adjlist</span>: List of lists, representing adjacency list of integer node indices.</li>
+    <li><span class="param-name">dists</span>: 2D numpy array with normalize probability mass function for each unit.</li>
+    <li><span class="param-name">pops</span>: Populations of units.</li>
+</ul><dl class="simple">
+<dt><strong>Returns</strong>:</dt><dd><ul class="simple">
+<li><p><strong>float</strong>: Inverse compression ratio of data.</p></li>
+<li><p><strong>list</strong>: Cluster labels for all units.</p></li>
+<li><p><strong>numpy.ndarray</strong>: Distributions input to algorithm.</p></li>
+</ul>
+</dd>
+</dl>
+<div id="str2int" class="function-header">
+    <span class="class-name">function</span> <span class="function-name">MDL_regionalization.MDL_regionalization.str2int(l)</span> <a href="#str2int" class="source-link">[source]</a>
+</div><p><strong>Description</strong>:
+Convert a list of strings to a list of integers.</p>
+<p><strong>Parameters</strong>:</p>
+<div class="parameter-block">
+    (l)
+</div>
+
+<ul class="parameter-list">
+    <li><span class="param-name">l</span>: List of strings.</li>
+</ul><dl class="simple">
+<dt><strong>Returns</strong>:</dt><dd><ul class="simple">
+<li><p><strong>list</strong>: List of integers.</p></li>
+</ul>
+</dd>
+</dl>
+<div id="logNcK" class="function-header">
+    <span class="class-name">function</span> <span class="function-name">MDL_regionalization.MDL_regionalization.logNcK(n, K)</span> <a href="#logNcK" class="source-link">[source]</a>
+</div><p><strong>Description</strong>:
+Compute the logarithm of the binomial coefficient.</p>
+<p><strong>Parameters</strong>:</p>
+<div class="parameter-block">
+    (n, K)
+</div>
+
+<ul class="parameter-list">
+    <li><span class="param-name">n</span>: Total number of elements.</li>
+    <li><span class="param-name">K</span>: Number of elements to choose.</li>
+</ul><dl class="simple">
+<dt><strong>Returns</strong>:</dt><dd><ul class="simple">
+<li><p><strong>float</strong>: Logarithm of the binomial coefficient.</p></li>
+</ul>
+</dd>
+</dl>
+<div id="logMult" class="function-header">
+    <span class="class-name">function</span> <span class="function-name">MDL_regionalization.MDL_regionalization.logMult(ns)</span> <a href="#logMult" class="source-link">[source]</a>
+</div><p><strong>Description</strong>:
+Compute the logarithm of the multinomial coefficient.</p>
+<p><strong>Parameters</strong>:</p>
+<div class="parameter-block">
+    (ns)
+</div>
+
+<ul class="parameter-list">
+    <li><span class="param-name">ns</span>: List of counts.</li>
+</ul><dl class="simple">
+<dt><strong>Returns</strong>:</dt><dd><ul class="simple">
+<li><p><strong>float</strong>: Logarithm of the multinomial coefficient.</p></li>
+</ul>
+</dd>
+</dl>
+<div id="log_num_bin_sizes" class="function-header">
+    <span class="class-name">function</span> <span class="function-name">MDL_regionalization.MDL_regionalization.log_num_bin_sizes(n, K)</span> <a href="#log_num_bin_sizes" class="source-link">[source]</a>
+</div><p><strong>Description</strong>:
+Compute the logarithm of the number of bin sizes.</p>
+<p><strong>Parameters</strong>:</p>
+<div class="parameter-block">
+    (n, K)
+</div>
+
+<ul class="parameter-list">
+    <li><span class="param-name">n</span>: Total number of elements.</li>
+    <li><span class="param-name">K</span>: Number of bins.</li>
+</ul><dl class="simple">
+<dt><strong>Returns</strong>:</dt><dd><ul class="simple">
+<li><p><strong>float</strong>: Logarithm of the number of bin sizes.</p></li>
+</ul>
+</dd>
+</dl>
+<div id="log_omega" class="function-header">
+    <span class="class-name">function</span> <span class="function-name">MDL_regionalization.MDL_regionalization.log_omega(row_sums, col_sums)</span> <a href="#log_omega" class="source-link">[source]</a>
+</div><p><strong>Description</strong>:
+Compute the logarithm of the number of non-negative integer matrices.</p>
+<p><strong>Parameters</strong>:</p>
+<div class="parameter-block">
+    (row_sums, col_sums)
+</div>
+
+<ul class="parameter-list">
+    <li><span class="param-name">row_sums</span>: Array of row sums.</li>
+    <li><span class="param-name">col_sums</span>: Array of column sums.</li>
+</ul><dl class="simple">
+<dt><strong>Returns</strong>:</dt><dd><ul class="simple">
+<li><p><strong>float</strong>: Logarithm of the number of non-negative integer matrices.</p></li>
+</ul>
+</dd>
+</dl>
+<div id="cluster_DL" class="function-header">
+    <span class="class-name">function</span> <span class="function-name">MDL_regionalization.MDL_regionalization.cluster_DL(cluster)</span> <a href="#cluster_DL" class="source-link">[source]</a>
+</div><p><strong>Description</strong>:
+Compute the description length of a cluster.</p>
+<p><strong>Parameters</strong>:</p>
+<div class="parameter-block">
+    (cluster)
+</div>
+
+<ul class="parameter-list">
+    <li><span class="param-name">cluster</span>: Set of cluster indices.</li>
+</ul><dl class="simple">
+<dt><strong>Returns</strong>:</dt><dd><ul class="simple">
+<li><p><strong>float</strong>: Description length of the cluster.</p></li>
+</ul>
+</dd>
+</dl>
+<div id="global_DL" class="function-header">
+    <span class="class-name">function</span> <span class="function-name">MDL_regionalization.MDL_regionalization.global_DL(clusters)</span> <a href="#global_DL" class="source-link">[source]</a>
+</div><p><strong>Description</strong>:
+Compute the global description length for all clusters.</p>
+<p><strong>Parameters</strong>:</p>
+<div class="parameter-block">
+    (clusters)
+</div>
+
+<ul class="parameter-list">
+    <li><span class="param-name">clusters</span>: List of clusters.</li>
+</ul><dl class="simple">
+<dt><strong>Returns</strong>:</dt><dd><ul class="simple">
+<li><p><strong>float</strong>: Global description length for all clusters.</p></li>
+</ul>
+</dd>
+</dl>
+<div id="random_key" class="function-header">
+    <span class="class-name">function</span> <span class="function-name">MDL_regionalization.MDL_regionalization.random_key()</span> <a href="#random_key" class="source-link">[source]</a>
+</div><p><strong>Description</strong>:
+Generate a random key for a new cluster.</p>
+<dl class="simple">
+<dt><strong>Returns</strong>:</dt><dd><ul class="simple">
+<li><p><strong>str</strong>: Random key for a new cluster.</p></li>
+</ul>
+</dd>
+</dl>
+<div id="cluster_merge" class="function-header">
+    <span class="class-name">function</span> <span class="function-name">MDL_regionalization.MDL_regionalization.cluster_merge(key1, key2, update=False)</span> <a href="#cluster_merge" class="source-link">[source]</a>
+</div><p><strong>Description</strong>:
+Merge two clusters and update the description length.</p>
+<p><strong>Parameters</strong>:</p>
+<div class="parameter-block">
+    (key1, key2, update=False)
+</div>
+
+<ul class="parameter-list">
+    <li><span class="param-name">key1</span>: Key of the first cluster.</li>
+    <li><span class="param-name">key2</span>: Key of the second cluster.</li>
+    <li><span class="param-name">update</span>: Boolean indicating whether to update the clusters.</li>
+</ul><dl class="simple">
+<dt><strong>Returns</strong>:</dt><dd><ul class="simple">
+<li><p><strong>tuple</strong>: Tuple containing the minimum change in description length and a boolean indicating if the merge was successful.</p></li>
+</ul>
+</dd>
+</dl>
+</section>
+</section>
+<section id="demo">
+<h2>Demo<a class="headerlink" href="#demo" title="Link to this heading"></a></h2>
+<section id="example-code">
+<h3>Example Code<a class="headerlink" href="#example-code" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">data_dir</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;D:\Research HKU\PYPI_lib\ScholarCodeCollective\MDL_regionalization_main&quot;</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">data_dir</span><span class="p">)</span>
+<span class="n">nodelist</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">data_dir</span><span class="p">,</span> <span class="s1">&#39;metro_tract_metadata.csv&#39;</span><span class="p">))</span>
+<span class="n">edgelist</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">data_dir</span><span class="p">,</span> <span class="s1">&#39;metro_network_edgelists.csv&#39;</span><span class="p">))</span>
+<span class="n">nodelist</span> <span class="o">=</span> <span class="n">nodelist</span><span class="p">[</span><span class="n">nodelist</span><span class="p">[</span><span class="s1">&#39;metro&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;New_Haven-Milford--CT&#39;</span><span class="p">]</span>
+<span class="n">nodelist</span><span class="p">[</span><span class="s1">&#39;tract_index&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="n">nodelist</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">edgelist</span> <span class="o">=</span> <span class="n">edgelist</span><span class="p">[</span><span class="n">edgelist</span><span class="p">[</span><span class="s1">&#39;tract1&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">nodelist</span><span class="p">[</span><span class="s1">&#39;tractID&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)</span> \
+                    <span class="o">&amp;</span> <span class="n">edgelist</span><span class="p">[</span><span class="s1">&#39;tract2&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">nodelist</span><span class="p">[</span><span class="s1">&#39;tractID&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)]</span>
+<span class="n">tract2index</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">nodelist</span><span class="p">[</span><span class="s1">&#39;tractID&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span><span class="n">nodelist</span><span class="p">[</span><span class="s1">&#39;tract_index&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">))</span>
+<span class="n">edgelist</span><span class="p">[</span><span class="s1">&#39;tract1_index&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">tract2index</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">edgelist</span><span class="p">[</span><span class="s1">&#39;tract1&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">]</span>
+<span class="n">edgelist</span><span class="p">[</span><span class="s1">&#39;tract2_index&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">tract2index</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">edgelist</span><span class="p">[</span><span class="s1">&#39;tract2&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">]</span>
+
+<span class="n">dists</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="nb">eval</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">nodelist</span><span class="p">[</span><span class="s1">&#39;races2010&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">])</span>
+<span class="n">pops</span> <span class="o">=</span> <span class="n">nodelist</span><span class="p">[</span><span class="s1">&#39;pop2010&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+
+<span class="n">adjlist</span> <span class="o">=</span> <span class="p">[[]</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nodelist</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])]</span>
+<span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">edgelist</span><span class="p">[[</span><span class="s1">&#39;tract1_index&#39;</span><span class="p">,</span><span class="s1">&#39;tract2_index&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">tolist</span><span class="p">():</span>
+    <span class="n">i</span><span class="p">,</span><span class="n">j</span> <span class="o">=</span> <span class="n">e</span>
+    <span class="n">adjlist</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
+    <span class="n">adjlist</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+
+<span class="n">mdl_instance</span> <span class="o">=</span> <span class="n">MDL_regionalization</span><span class="p">(</span><span class="s2">&quot;example&quot;</span><span class="p">)</span>
+<span class="n">inverse_compression_ratio</span><span class="p">,</span> <span class="n">cluster_labels</span><span class="p">,</span> <span class="n">dists</span> <span class="o">=</span> <span class="n">mdl_instance</span><span class="o">.</span><span class="n">MDL_regionalization</span><span class="p">(</span><span class="n">adjlist</span><span class="p">,</span> <span class="n">dists</span><span class="p">,</span> <span class="n">pops</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">inverse_compression_ratio</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">cluster_labels</span><span class="p">)</span>
+
+<span class="n">geometry_data_dir</span> <span class="o">=</span> <span class="s1">&#39;D:\Research HKU\mobility\geometry_trct&#39;</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Loading geometries...&quot;</span><span class="p">)</span>
+<span class="n">geometries_us</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">read_file</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">geometry_data_dir</span><span class="p">,</span> <span class="s1">&#39;Tract_2010Census_DP1_ct.shp&#39;</span><span class="p">))</span>
+<span class="n">geometries_us</span><span class="p">[</span><span class="s1">&#39;tractID&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">geometries_us</span><span class="p">[</span><span class="s1">&#39;GEOID10&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span><span class="o">.</span><span class="n">str</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+
+
+<span class="n">required_columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;tractID&#39;</span><span class="p">,</span> <span class="s1">&#39;geometry&#39;</span><span class="p">]</span>
+<span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">required_columns</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">col</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">geometries_us</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Missing required column in geometries_us: </span><span class="si">{</span><span class="n">col</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="n">nodelist</span><span class="p">[</span><span class="s1">&#39;tractID&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">nodelist</span><span class="p">[</span><span class="s1">&#39;tractID&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span>
+
+<span class="n">cluster_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
+    <span class="s1">&#39;tractID&#39;</span><span class="p">:</span> <span class="n">nodelist</span><span class="p">[</span><span class="s1">&#39;tractID&#39;</span><span class="p">],</span>
+    <span class="s1">&#39;cluster&#39;</span><span class="p">:</span> <span class="n">cluster_labels</span>
+<span class="p">})</span>
+
+<span class="n">gdf_clusters</span> <span class="o">=</span> <span class="n">geometries_us</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">cluster_df</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="s1">&#39;tractID&#39;</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;right&#39;</span><span class="p">)</span>
+
+<span class="n">cluster_centroids</span> <span class="o">=</span> <span class="n">gdf_clusters</span><span class="o">.</span><span class="n">dissolve</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s1">&#39;cluster&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">centroid</span>
+
+<span class="n">unique_clusters</span> <span class="o">=</span> <span class="n">gdf_clusters</span><span class="p">[</span><span class="s1">&#39;cluster&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span><span class="o">.</span><span class="n">unique</span><span class="p">()</span>
+<span class="n">unique_clusters</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
+
+<span class="n">colors</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">tab20</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">20</span><span class="p">))</span>
+<span class="n">custom_cmap</span> <span class="o">=</span> <span class="n">ListedColormap</span><span class="p">(</span><span class="n">colors</span><span class="p">[:</span><span class="nb">len</span><span class="p">(</span><span class="n">unique_clusters</span><span class="p">)])</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+<span class="n">gdf_clusters</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">column</span><span class="o">=</span><span class="s1">&#39;cluster&#39;</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">custom_cmap</span><span class="p">,</span> <span class="n">legend</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Clustering Results for New Haven-Milford, CT</span><span class="se">\n</span><span class="s1">Inverse Compression Ratio: </span><span class="si">{</span><span class="n">inverse_compression_ratio</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Longitude&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Latitude&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="n">handles</span> <span class="o">=</span> <span class="p">[</span><span class="n">plt</span><span class="o">.</span><span class="n">Line2D</span><span class="p">([</span><span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="n">markerfacecolor</span><span class="o">=</span><span class="n">custom_cmap</span><span class="p">(</span><span class="n">i</span><span class="p">),</span> <span class="n">markersize</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;Cluster </span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="n">cluster</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+          <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">cluster</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">unique_clusters</span><span class="p">)]</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">handles</span><span class="o">=</span><span class="n">handles</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Clusters&#39;</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s1">&#39;best&#39;</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">plot_cluster_bars</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">centroid</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">category_labels</span><span class="p">,</span> <span class="n">cluster_id</span><span class="p">):</span>
+    <span class="n">bar_width</span> <span class="o">=</span> <span class="mf">0.3</span>
+    <span class="n">num_bars</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="n">index</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">num_bars</span><span class="p">)</span>
+
+    <span class="n">trans</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">transData</span><span class="o">.</span><span class="n">transform</span><span class="p">((</span><span class="n">centroid</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">centroid</span><span class="o">.</span><span class="n">y</span><span class="p">))</span>
+    <span class="n">trans</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">transFigure</span><span class="o">.</span><span class="n">inverted</span><span class="p">()</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">trans</span><span class="p">)</span>
+    <span class="n">inset_ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_axes</span><span class="p">([</span><span class="n">trans</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="mf">0.03</span><span class="p">,</span> <span class="n">trans</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="mf">0.03</span><span class="p">,</span> <span class="mf">0.06</span><span class="p">,</span> <span class="mf">0.06</span><span class="p">],</span> <span class="n">anchor</span><span class="o">=</span><span class="s1">&#39;C&#39;</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+
+    <span class="n">inset_ax</span><span class="o">.</span><span class="n">patch</span><span class="o">.</span><span class="n">set_alpha</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">inset_ax</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">bar_width</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
+    <span class="n">inset_ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">(</span><span class="n">index</span><span class="p">)</span>
+    <span class="n">inset_ax</span><span class="o">.</span><span class="n">set_xticklabels</span><span class="p">(</span><span class="n">category_labels</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s1">&#39;right&#39;</span><span class="p">)</span>
+    <span class="n">inset_ax</span><span class="o">.</span><span class="n">set_yticklabels</span><span class="p">(</span><span class="n">inset_ax</span><span class="o">.</span><span class="n">get_yticks</span><span class="p">(),</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+    <span class="n">inset_ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Cluster </span><span class="si">{</span><span class="n">cluster_id</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">6</span><span class="p">)</span>
+    <span class="n">inset_ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="o">*</span> <span class="mf">1.1</span><span class="p">)</span>
+
+<span class="n">race_groups</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Non-Hispanic White&#39;</span><span class="p">,</span> <span class="s1">&#39;Non-Hispanic Black&#39;</span><span class="p">,</span> <span class="s1">&#39;Asian&#39;</span><span class="p">,</span> <span class="s1">&#39;Hispanic&#39;</span><span class="p">,</span> <span class="s1">&#39;Other&#39;</span><span class="p">]</span>
+
+<span class="k">for</span> <span class="n">cluster_id</span> <span class="ow">in</span> <span class="n">gdf_clusters</span><span class="p">[</span><span class="s1">&#39;cluster&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">():</span>
+    <span class="n">cluster_data</span> <span class="o">=</span> <span class="n">gdf_clusters</span><span class="p">[</span><span class="n">gdf_clusters</span><span class="p">[</span><span class="s1">&#39;cluster&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">cluster_id</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">cluster_data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">average_distribution</span> <span class="o">=</span> <span class="n">dists</span><span class="p">[</span><span class="n">cluster_data</span><span class="o">.</span><span class="n">index</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">centroid</span> <span class="o">=</span> <span class="n">cluster_centroids</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">cluster_id</span><span class="p">]</span>
+        <span class="n">plot_cluster_bars</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">centroid</span><span class="p">,</span> <span class="n">average_distribution</span><span class="p">,</span> <span class="n">race_groups</span><span class="p">,</span> <span class="n">cluster_id</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="example-output">
+<h3>Example Output<a class="headerlink" href="#example-output" title="Link to this heading"></a></h3>
+<img alt="Example output showing the MDL regionalization clustering results for New Haven-Milford, CT." src="../_images/MDL_regionalization_demo.png" />
+<p>Example output showing the MDL regionalization clustering results for New Haven-Milford, CT.</p>
+</section>
+</section>
+<section id="link">
+<h2>Link<a class="headerlink" href="#link" title="Link to this heading"></a></h2>
+<section id="paper-source">
+<h3>Paper source<a class="headerlink" href="#paper-source" title="Link to this heading"></a></h3>
+<p><a class="reference external" href="https://www.nature.com/articles/s42005-022-01029-4">https://www.nature.com/articles/s42005-022-01029-4</a></p>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="MDL_network_population_clustering.html" class="btn btn-neutral float-left" title="MDL network population clustering" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="Network_hubs.html" class="btn btn-neutral float-right" title="Network Hubs" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Baiyue.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

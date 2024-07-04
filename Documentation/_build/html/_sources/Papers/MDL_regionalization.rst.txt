@@ -1,0 +1,441 @@
+MDL Regionalization
++++++++++
+
+Tutorial 
+===============
+# Spatial regionalization based on optimal information compression: code and data
+Ipython Notebook with code for regionalization algorithm in 'Spatial regionalization as optimal data compression', along with metropolitan area census tract networks used in the analysis.
+
+Ethnoracial distributions for each decade are ordered: ['Non-Hispanic White', 'Non-Hispanic Black', 'Asian', 'Hispanic', and 'Other'], and all census metadata are obtained from the Longitudinal Tract Database [here](https://s4.ad.brown.edu/projects/diversity/researcher/bridging.htm) 
+
+If you use this algorithm or the accompanying data, please cite:
+
+A. Kirkley, Spatial regionalization based on optimal information compression. Communications Physics 5, 249 (2022).
+
+.. _equation1:
+
+.. math::
+
+    \mathcal{L}(\mathcal{D}, \mathcal{P}) = \log \left(\frac{b(V) - 1}{K - 1}\right) + \log \left(\frac{n(V) - 1}{K - 1}\right) + \sum_{k=1}^{K} \log \left(\frac{b(V_k) - 1}{R - 1}\right) + \sum_{k=1}^{K} \log \left(\frac{b(V_k) - 1}{n(V_k) - 1}\right) + \sum_{k=1}^{K} \log \Omega(a_k, c_k). \tag{1}
+
+We can see that the first three terms in Eq. :eq:`1` penalize us for having a greater number of clusters :math:`K`, as they will tend to contribute greater description lengths as :math:`K` increases, and the fourth term will not depend on the number of clusters to first order in a Stirling approximation of the binomial coefficients. For the last term in Eq. :eq:`1`, in the extreme case where there is only one category :math:`r^*` that is represented in the population of the units :math:`u \in V_k` (i.e. :math:`c_k[r] = 0` for :math:`r \neq r^*`), then we have :math:`\Omega(a_k, c_k) = 1` and the contribution from this term vanishes. More generally, there are fewer ways the categories can be distributed among the populations in :math:`V_k`'s constituent tracts if :math:`c_k` is more concentrated on a single category, so the last term in Eq. :eq:`1` will penalize for having a high level of diversity within the clusters. (Or, conversely, this penalty encourages partitions :math:`\mathcal{P}` that have homogeneous clusters.)
+
+
+MDL Regionalization
+===================
+
+This module provides a class and functions for performing MDL (Minimum Description Length) regionalization on networks.
+
+.. list-table:: Functions
+   :header-rows: 1
+
+   * - Function
+     - Description
+   * - `MDL_regionalization.__init__(name) <#init>`_
+     - Initialize the MDL_regionalization class.
+   * - `MDL_regionalization.MDL_regionalization(adjlist, dists, pops) <#MDL_regionalization>`_
+     - Perform MDL-based regionalization.
+   * - `MDL_regionalization.MDL_regionalization.str2int(l) <#str2int>`_
+     - Convert a list of strings to a list of integers.
+   * - `MDL_regionalization.MDL_regionalization.logNcK(n, K) <#logNcK>`_
+     - Compute the logarithm of the binomial coefficient.
+   * - `MDL_regionalization.MDL_regionalization.logMult(ns) <#logMult>`_
+     - Compute the logarithm of the multinomial coefficient.
+   * - `MDL_regionalization.MDL_regionalization.log_num_bin_sizes(n, K) <#log_num_bin_sizes>`_
+     - Compute the logarithm of the number of bin sizes.
+   * - `MDL_regionalization.MDL_regionalization.log_omega(row_sums, col_sums) <#log_omega>`_
+     - Compute the logarithm of the number of non-negative integer matrices.
+   * - `MDL_regionalization.MDL_regionalization.cluster_DL(cluster) <#cluster_DL>`_
+     - Compute the description length of a cluster.
+   * - `MDL_regionalization.MDL_regionalization.global_DL(clusters) <#global_DL>`_
+     - Compute the global description length for all clusters.
+   * - `MDL_regionalization.MDL_regionalization.random_key() <#random_key>`_
+     - Generate a random key for a new cluster.
+   * - `MDL_regionalization.MDL_regionalization.cluster_merge(key1, key2, update=False) <#cluster_merge>`_
+     - Merge two clusters and update the description length.
+
+Reference
+---------
+
+.. _init:
+
+.. raw:: html
+
+   <div id="init" class="function-header">
+       <span class="class-name">class</span> <span class="function-name">MDL_regionalization.__init__(name)</span> <a href="#__init__" class="source-link">[source]</a>
+   </div>
+
+**Description**:
+Initialize the MDL_regionalization class.
+
+.. _MDL_regionalization:
+
+.. raw:: html
+
+   <div id="MDL_regionalization" class="function-header">
+       <span class="class-name">function</span> <span class="function-name">MDL_regionalization.MDL_regionalization(adjlist, dists, pops)</span> <a href="#MDL_regionalization" class="source-link">[source]</a>
+   </div>
+
+**Description**:
+Perform MDL-based regionalization.
+
+**Parameters**:
+
+.. raw:: html
+
+   <div class="parameter-block">
+       (adjlist, dists, pops)
+   </div>
+
+   <ul class="parameter-list">
+       <li><span class="param-name">adjlist</span>: List of lists, representing adjacency list of integer node indices.</li>
+       <li><span class="param-name">dists</span>: 2D numpy array with normalize probability mass function for each unit.</li>
+       <li><span class="param-name">pops</span>: Populations of units.</li>
+   </ul>
+
+**Returns**:
+  - **float**: Inverse compression ratio of data.
+  - **list**: Cluster labels for all units.
+  - **numpy.ndarray**: Distributions input to algorithm.
+
+.. _str2int:
+
+.. raw:: html
+
+   <div id="str2int" class="function-header">
+       <span class="class-name">function</span> <span class="function-name">MDL_regionalization.MDL_regionalization.str2int(l)</span> <a href="#str2int" class="source-link">[source]</a>
+   </div>
+
+**Description**:
+Convert a list of strings to a list of integers.
+
+**Parameters**:
+
+.. raw:: html
+
+   <div class="parameter-block">
+       (l)
+   </div>
+
+   <ul class="parameter-list">
+       <li><span class="param-name">l</span>: List of strings.</li>
+   </ul>
+
+**Returns**:
+  - **list**: List of integers.
+
+.. _logNcK:
+
+.. raw:: html
+
+   <div id="logNcK" class="function-header">
+       <span class="class-name">function</span> <span class="function-name">MDL_regionalization.MDL_regionalization.logNcK(n, K)</span> <a href="#logNcK" class="source-link">[source]</a>
+   </div>
+
+**Description**:
+Compute the logarithm of the binomial coefficient.
+
+**Parameters**:
+
+.. raw:: html
+
+   <div class="parameter-block">
+       (n, K)
+   </div>
+
+   <ul class="parameter-list">
+       <li><span class="param-name">n</span>: Total number of elements.</li>
+       <li><span class="param-name">K</span>: Number of elements to choose.</li>
+   </ul>
+
+**Returns**:
+  - **float**: Logarithm of the binomial coefficient.
+
+.. _logMult:
+
+.. raw:: html
+
+   <div id="logMult" class="function-header">
+       <span class="class-name">function</span> <span class="function-name">MDL_regionalization.MDL_regionalization.logMult(ns)</span> <a href="#logMult" class="source-link">[source]</a>
+   </div>
+
+**Description**:
+Compute the logarithm of the multinomial coefficient.
+
+**Parameters**:
+
+.. raw:: html
+
+   <div class="parameter-block">
+       (ns)
+   </div>
+
+   <ul class="parameter-list">
+       <li><span class="param-name">ns</span>: List of counts.</li>
+   </ul>
+
+**Returns**:
+  - **float**: Logarithm of the multinomial coefficient.
+
+.. _log_num_bin_sizes:
+
+.. raw:: html
+
+   <div id="log_num_bin_sizes" class="function-header">
+       <span class="class-name">function</span> <span class="function-name">MDL_regionalization.MDL_regionalization.log_num_bin_sizes(n, K)</span> <a href="#log_num_bin_sizes" class="source-link">[source]</a>
+   </div>
+
+**Description**:
+Compute the logarithm of the number of bin sizes.
+
+**Parameters**:
+
+.. raw:: html
+
+   <div class="parameter-block">
+       (n, K)
+   </div>
+
+   <ul class="parameter-list">
+       <li><span class="param-name">n</span>: Total number of elements.</li>
+       <li><span class="param-name">K</span>: Number of bins.</li>
+   </ul>
+
+**Returns**:
+  - **float**: Logarithm of the number of bin sizes.
+
+.. _log_omega:
+
+.. raw:: html
+
+   <div id="log_omega" class="function-header">
+       <span class="class-name">function</span> <span class="function-name">MDL_regionalization.MDL_regionalization.log_omega(row_sums, col_sums)</span> <a href="#log_omega" class="source-link">[source]</a>
+   </div>
+
+**Description**:
+Compute the logarithm of the number of non-negative integer matrices.
+
+**Parameters**:
+
+.. raw:: html
+
+   <div class="parameter-block">
+       (row_sums, col_sums)
+   </div>
+
+   <ul class="parameter-list">
+       <li><span class="param-name">row_sums</span>: Array of row sums.</li>
+       <li><span class="param-name">col_sums</span>: Array of column sums.</li>
+   </ul>
+
+**Returns**:
+  - **float**: Logarithm of the number of non-negative integer matrices.
+
+.. _cluster_DL:
+
+.. raw:: html
+
+   <div id="cluster_DL" class="function-header">
+       <span class="class-name">function</span> <span class="function-name">MDL_regionalization.MDL_regionalization.cluster_DL(cluster)</span> <a href="#cluster_DL" class="source-link">[source]</a>
+   </div>
+
+**Description**:
+Compute the description length of a cluster.
+
+**Parameters**:
+
+.. raw:: html
+
+   <div class="parameter-block">
+       (cluster)
+   </div>
+
+   <ul class="parameter-list">
+       <li><span class="param-name">cluster</span>: Set of cluster indices.</li>
+   </ul>
+
+**Returns**:
+  - **float**: Description length of the cluster.
+
+.. _global_DL:
+
+.. raw:: html
+
+   <div id="global_DL" class="function-header">
+       <span class="class-name">function</span> <span class="function-name">MDL_regionalization.MDL_regionalization.global_DL(clusters)</span> <a href="#global_DL" class="source-link">[source]</a>
+   </div>
+
+**Description**:
+Compute the global description length for all clusters.
+
+**Parameters**:
+
+.. raw:: html
+
+   <div class="parameter-block">
+       (clusters)
+   </div>
+
+   <ul class="parameter-list">
+       <li><span class="param-name">clusters</span>: List of clusters.</li>
+   </ul>
+
+**Returns**:
+  - **float**: Global description length for all clusters.
+
+.. _random_key:
+
+.. raw:: html
+
+   <div id="random_key" class="function-header">
+       <span class="class-name">function</span> <span class="function-name">MDL_regionalization.MDL_regionalization.random_key()</span> <a href="#random_key" class="source-link">[source]</a>
+   </div>
+
+**Description**:
+Generate a random key for a new cluster.
+
+**Returns**:
+  - **str**: Random key for a new cluster.
+
+.. _cluster_merge:
+
+.. raw:: html
+
+   <div id="cluster_merge" class="function-header">
+       <span class="class-name">function</span> <span class="function-name">MDL_regionalization.MDL_regionalization.cluster_merge(key1, key2, update=False)</span> <a href="#cluster_merge" class="source-link">[source]</a>
+   </div>
+
+**Description**:
+Merge two clusters and update the description length.
+
+**Parameters**:
+
+.. raw:: html
+
+   <div class="parameter-block">
+       (key1, key2, update=False)
+   </div>
+
+   <ul class="parameter-list">
+       <li><span class="param-name">key1</span>: Key of the first cluster.</li>
+       <li><span class="param-name">key2</span>: Key of the second cluster.</li>
+       <li><span class="param-name">update</span>: Boolean indicating whether to update the clusters.</li>
+   </ul>
+
+**Returns**:
+  - **tuple**: Tuple containing the minimum change in description length and a boolean indicating if the merge was successful.
+
+
+
+Demo 
+=======
+Example Code
+------------
+.. code:: python
+
+  data_dir = r"D:\Research HKU\PYPI_lib\ScholarCodeCollective\MDL_regionalization_main"
+  sys.path.append(data_dir)
+  nodelist = pd.read_csv(os.path.join(data_dir, 'metro_tract_metadata.csv'))
+  edgelist = pd.read_csv(os.path.join(data_dir, 'metro_network_edgelists.csv'))
+  nodelist = nodelist[nodelist['metro'] == 'New_Haven-Milford--CT']
+  nodelist['tract_index'] = range(nodelist.shape[0])
+  edgelist = edgelist[edgelist['tract1'].isin(nodelist['tractID'].values) \
+                      & edgelist['tract2'].isin(nodelist['tractID'].values)]
+  tract2index = dict(zip(nodelist['tractID'].values,nodelist['tract_index'].values))
+  edgelist['tract1_index'] = [tract2index[t] for t in edgelist['tract1'].values]
+  edgelist['tract2_index'] = [tract2index[t] for t in edgelist['tract2'].values]
+
+  dists = np.array([eval(s) for s in nodelist['races2010'].values])
+  pops = nodelist['pop2010'].values
+
+  adjlist = [[] for _ in range(nodelist.shape[0])]
+  for e in edgelist[['tract1_index','tract2_index']].values.tolist():
+      i,j = e
+      adjlist[i].append(j)
+      adjlist[j].append(i)
+      
+  mdl_instance = MDL_regionalization("example")
+  inverse_compression_ratio, cluster_labels, dists = mdl_instance.MDL_regionalization(adjlist, dists, pops)
+
+  print(inverse_compression_ratio)
+  print(cluster_labels)
+
+  geometry_data_dir = 'D:\Research HKU\mobility\geometry_trct'
+  print("Loading geometries...")
+  geometries_us = gpd.read_file(os.path.join(geometry_data_dir, 'Tract_2010Census_DP1_ct.shp'))
+  geometries_us['tractID'] = geometries_us['GEOID10'].astype(str).str[1:]
+
+
+  required_columns = ['tractID', 'geometry']
+  for col in required_columns:
+      if col not in geometries_us.columns:
+          raise ValueError(f"Missing required column in geometries_us: {col}")
+
+  nodelist['tractID'] = nodelist['tractID'].astype(str)
+
+  cluster_df = pd.DataFrame({
+      'tractID': nodelist['tractID'],
+      'cluster': cluster_labels
+  })
+
+  gdf_clusters = geometries_us.merge(cluster_df, on='tractID', how='right')
+
+  cluster_centroids = gdf_clusters.dissolve(by='cluster').centroid
+
+  unique_clusters = gdf_clusters['cluster'].dropna().unique()
+  unique_clusters.sort()
+
+  colors = plt.cm.tab20(np.linspace(0, 1, 20))
+  custom_cmap = ListedColormap(colors[:len(unique_clusters)])
+
+  fig, ax = plt.subplots(1, 1, figsize=(12, 8))
+  gdf_clusters.plot(column='cluster', cmap=custom_cmap, legend=False, ax=ax, edgecolor='black', linewidth=0.5)
+  ax.set_title(f'Clustering Results for New Haven-Milford, CT\nInverse Compression Ratio: {inverse_compression_ratio:.2f}')
+  ax.set_xlabel('Longitude')
+  ax.set_ylabel('Latitude')
+  ax.grid(False)  
+
+  handles = [plt.Line2D([0], [0], marker='o', color='w', markerfacecolor=custom_cmap(i), markersize=10, label=f'Cluster {int(cluster)}')
+            for i, cluster in enumerate(unique_clusters)]
+  ax.legend(handles=handles, title='Clusters', loc='best')
+
+  def plot_cluster_bars(ax, centroid, data, category_labels, cluster_id):
+      bar_width = 0.3
+      num_bars = len(data)
+      index = np.arange(num_bars)
+      
+      trans = ax.transData.transform((centroid.x, centroid.y))
+      trans = fig.transFigure.inverted().transform(trans)
+      inset_ax = fig.add_axes([trans[0] - 0.03, trans[1] - 0.03, 0.06, 0.06], anchor='C', zorder=3)
+      
+      inset_ax.patch.set_alpha(0)  
+      inset_ax.bar(index, data, bar_width, color='black')  
+      inset_ax.set_xticks(index)
+      inset_ax.set_xticklabels(category_labels, rotation=45, fontsize=5, ha='right') 
+      inset_ax.set_yticklabels(inset_ax.get_yticks(), rotation=45, fontsize=4) 
+      inset_ax.set_title(f'Cluster {cluster_id}', fontsize=6)
+      inset_ax.set_ylim(0, max(data) * 1.1)
+
+  race_groups = ['Non-Hispanic White', 'Non-Hispanic Black', 'Asian', 'Hispanic', 'Other']
+
+  for cluster_id in gdf_clusters['cluster'].unique():
+      cluster_data = gdf_clusters[gdf_clusters['cluster'] == cluster_id]
+      if cluster_data.shape[0] > 0:
+          average_distribution = dists[cluster_data.index].mean(axis=0)
+          centroid = cluster_centroids.loc[cluster_id]
+          plot_cluster_bars(ax, centroid, average_distribution, race_groups, cluster_id)
+
+
+Example Output
+--------------
+.. image:: MDL_regionalization_demo.png
+    :alt: Example output showing the MDL regionalization clustering results for New Haven-Milford, CT.
+Example output showing the MDL regionalization clustering results for New Haven-Milford, CT.
+
+
+Link 
+====
+
+Paper source
+------------
+https://www.nature.com/articles/s42005-022-01029-4

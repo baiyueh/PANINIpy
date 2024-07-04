@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MDL network population clustering &mdash; Scholar Code Collective  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=8209f5a7" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Scholar Code Collective
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Papers:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../Papers/hypergraph_binning.html">Hypergraph Binning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Papers/MDL_network_population_clustering.html">MDL network population clustering</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Papers/MDL_regionalization.html">MDL Regionalization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Papers/Network_hubs.html">Network Hubs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Papers/urban_boundary_delineation.html">Urban Boundary Delineation from Commuting Data with Bayesian Stochastic Blockmodeling: Scale, Contiguity, and Hierarchy</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Scholar Code Collective</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">MDL network population clustering</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/Code/MDL_network_population_clustering.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="mdl-network-population-clustering">
+<h1>MDL network population clustering<a class="headerlink" href="#mdl-network-population-clustering" title="Link to this heading"></a></h1>
+<section id="source-code">
+<h2>Source Code<a class="headerlink" href="#source-code" title="Link to this heading"></a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">Counter</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">scipy.special</span> <span class="kn">import</span> <span class="n">loggamma</span>
+<span class="kn">import</span> <span class="nn">random</span>
+<span class="kn">import</span> <span class="nn">time</span>
+
+<span class="k">def</span> <span class="nf">generate_synthetic</span><span class="p">(</span><span class="n">S</span><span class="p">,</span><span class="n">N</span><span class="p">,</span><span class="n">modes</span><span class="p">,</span><span class="n">alphas</span><span class="p">,</span><span class="n">betas</span><span class="p">,</span><span class="n">pis</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    generate synthetic networks from the heterogeneous population model</span>
+<span class="sd">    uses fast binomial sampling for false positive edges</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">ind2ij</span><span class="p">(</span><span class="n">ind</span><span class="p">,</span><span class="n">N</span><span class="p">):</span>
+        <span class="n">i</span> <span class="o">=</span> <span class="n">N</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="o">-</span><span class="mi">8</span><span class="o">*</span><span class="n">ind</span> <span class="o">+</span> <span class="mi">4</span><span class="o">*</span><span class="n">N</span><span class="o">*</span><span class="p">(</span><span class="n">N</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">-</span><span class="mi">7</span><span class="p">)</span><span class="o">/</span><span class="mf">2.0</span> <span class="o">-</span> <span class="mf">0.5</span><span class="p">)</span>
+        <span class="n">j</span> <span class="o">=</span> <span class="n">ind</span> <span class="o">+</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">N</span><span class="o">*</span><span class="p">(</span><span class="n">N</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="n">N</span><span class="o">-</span><span class="n">i</span><span class="p">)</span><span class="o">*</span><span class="p">((</span><span class="n">N</span><span class="o">-</span><span class="n">i</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span>
+        <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">i</span><span class="p">),</span><span class="nb">int</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
+
+    <span class="n">K</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">modes</span><span class="p">)</span>
+    <span class="n">NC2</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">N</span><span class="o">*</span><span class="p">(</span><span class="n">N</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">nets</span><span class="p">,</span><span class="n">cluster_labels</span> <span class="o">=</span> <span class="p">[],[]</span>
+    <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">S</span><span class="p">):</span>
+
+        <span class="n">k</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">K</span><span class="p">),</span><span class="n">p</span><span class="o">=</span><span class="n">pis</span><span class="p">)</span>
+        <span class="n">Mk</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">modes</span><span class="p">[</span><span class="n">k</span><span class="p">])</span>
+        <span class="n">net</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">modes</span><span class="p">[</span><span class="n">k</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">()</span> <span class="o">&lt;</span> <span class="n">alphas</span><span class="p">[</span><span class="n">k</span><span class="p">]:</span> <span class="n">net</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+
+        <span class="n">num_fps</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">binomial</span><span class="p">(</span><span class="n">NC2</span><span class="o">-</span><span class="n">Mk</span><span class="p">,</span><span class="n">betas</span><span class="p">[</span><span class="n">k</span><span class="p">])</span>
+        <span class="k">while</span> <span class="n">num_fps</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">ind</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="n">NC2</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">i</span><span class="p">,</span><span class="n">j</span> <span class="o">=</span> <span class="n">ind2ij</span><span class="p">(</span><span class="n">ind</span><span class="p">,</span><span class="n">N</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span><span class="p">((</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span> <span class="ow">in</span> <span class="n">modes</span><span class="p">[</span><span class="n">k</span><span class="p">]):</span>
+                <span class="n">net</span><span class="o">.</span><span class="n">add</span><span class="p">((</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">))</span>
+                <span class="n">num_fps</span> <span class="o">-=</span> <span class="mi">1</span>
+        <span class="n">nets</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">net</span><span class="p">)</span>
+
+        <span class="n">cluster_labels</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">nets</span><span class="p">,</span><span class="n">cluster_labels</span>
+
+<span class="k">def</span> <span class="nf">remap_keys</span><span class="p">(</span><span class="n">Dict</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    remap dict keys to first K integers</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">sorted_keys</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">Dict</span><span class="o">.</span><span class="n">keys</span><span class="p">()))</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">u</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">sorted_keys</span><span class="p">):</span>
+        <span class="n">Dict</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">Dict</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">Dict</span>
+
+<span class="k">class</span> <span class="nc">MDL_populations</span><span class="p">():</span>
+
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    MDL population clustering class</span>
+
+<span class="sd">    Inputs:</span>
+<span class="sd">    edgesets: list of sets. the s-th set contains all the edges (i,j) in the s-th network in the sample (do not include the other direction (j,i) if network is undirected).</span>
+<span class="sd">        the order of edgesets within D only matters for contiguous clustering, where we want the edgesets to be in order of the samples in time</span>
+<span class="sd">    N: number of nodes in each network</span>
+<span class="sd">    K0: initial number of clusters (for discontiguous clustering, usually K0 = 1 works well; for contiguous clustering it doesn&#39;t matter)</span>
+<span class="sd">    n_fails: number of failed reassign/merge/split/merge-split moves before terminating algorithm</span>
+<span class="sd">    bipartite: &#39;None&#39; for unipartite network populations, array [# of nodes of type 1, # of nodes of type 2] otherwise</span>
+<span class="sd">    directed: boolean indicating whether edgesets contain directed edges</span>
+<span class="sd">    max_runs: maximum number of allowed moves, regardless of number of fails</span>
+
+<span class="sd">    Outputs of &#39;run_sims&#39; (unconstrained description length optimization) and &#39;dynamic_contiguous&#39; (restriction to contiguous clusters):</span>
+<span class="sd">    C: dictionary with items (cluster label):(set of indices corresponding to networks in cluster)</span>
+<span class="sd">    A: dictionary with items (cluster label):(set of edges corresponding to mode of cluster)</span>
+<span class="sd">    L: inverse compression ratio (description length after clustering)/(description length of naive transmission)</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">edgesets</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">K0</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n_fails</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span> <span class="n">bipartite</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">directed</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">max_runs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        initialize class attributes</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">edgesets</span> <span class="o">=</span> <span class="n">edgesets</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">K0</span> <span class="o">=</span> <span class="n">K0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_fails</span> <span class="o">=</span> <span class="n">n_fails</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">S</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">edgesets</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">N</span> <span class="o">=</span> <span class="n">N</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">max_runs</span> <span class="o">=</span> <span class="n">max_runs</span>
+        <span class="k">if</span> <span class="n">bipartite</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">NC2</span> <span class="o">=</span> <span class="n">bipartite</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">bipartite</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>  <span class="c1">#bipartite networks only differentiated from unipartite ones through this term</span>
+        <span class="k">if</span> <span class="n">directed</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">NC2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">N</span><span class="o">*</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">N</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="c1">#directed networks only differentiated from undirected ones through this term</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">NC2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">N</span><span class="o">*</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">N</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">C</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">E</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">A</span> <span class="o">=</span> <span class="p">{},{},{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">attmerges</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">attsplits</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">attmergesplits</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(),</span><span class="nb">set</span><span class="p">(),</span><span class="nb">set</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">initialize_clusters</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        initialize K0 random clusters and find their modes as well as the total description length of this configuration</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">s</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">permutation</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">S</span><span class="p">))):</span>
+            <span class="n">k</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">K0</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">C</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">C</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">C</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">C</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">K0</span><span class="p">):</span>
+            <span class="n">k</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">E</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">generate_Ek</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">C</span><span class="p">[</span><span class="n">k</span><span class="p">])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">A</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">update_mode</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">E</span><span class="p">[</span><span class="n">k</span><span class="p">],</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">C</span><span class="p">[</span><span class="n">k</span><span class="p">]))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">L</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">Lk</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">A</span><span class="p">[</span><span class="n">k</span><span class="p">],</span><span class="bp">self</span><span class="o">.</span><span class="n">E</span><span class="p">[</span><span class="n">k</span><span class="p">],</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">C</span><span class="p">[</span><span class="n">k</span><span class="p">]))</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">C</span><span class="p">])</span>
+
+    <span class="k">def</span> <span class="nf">random_key</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;generate random key for new cluster&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1000000000000</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">logchoose</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">N</span><span class="p">,</span><span class="n">K</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;logarithm of binomial coefficient&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">loggamma</span><span class="p">(</span><span class="n">N</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="n">loggamma</span><span class="p">(</span><span class="n">N</span><span class="o">-</span><span class="n">K</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="n">loggamma</span><span class="p">(</span><span class="n">K</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">logmult</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">Ns</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;logarithm of multinomial coefficient with denominator Ns[0]!Ns[1]!...&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">loggamma</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">Ns</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="nb">sum</span><span class="p">(</span><span class="n">loggamma</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">Ns</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">generate_Ek</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">cluster</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        tally edge counts for networks in cluster</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">Ek</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">cluster</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">edgesets</span><span class="p">[</span><span class="n">s</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">Ek</span><span class="p">:</span>
+                    <span class="n">Ek</span><span class="p">[</span><span class="n">e</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">Ek</span><span class="p">[</span><span class="n">e</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="n">Ek</span>
+
+    <span class="k">def</span> <span class="nf">update_mode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">Ek</span><span class="p">,</span><span class="n">Sk</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        generate mode from cluster edge counts by greedily removing least common edges in cluster from mode of all in-cluster edges</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">Ek_vals</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">Ek</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+        <span class="n">Acomplete</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">Ek</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="n">Sk</span> <span class="o">==</span> <span class="mi">1</span><span class="p">):</span> <span class="k">return</span> <span class="n">Acomplete</span> <span class="c1"># return network itself if cluster only has one network</span>
+        <span class="k">elif</span> <span class="ow">not</span><span class="p">(</span><span class="n">Ek</span><span class="p">):</span> <span class="k">return</span> <span class="nb">set</span><span class="p">()</span> <span class="c1"># return empty mode if networks in cluster are empty</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">Ek_vals</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="nb">next</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="n">Ek_vals</span><span class="p">))</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">):</span> <span class="k">return</span> <span class="n">Acomplete</span> <span class="c1"># return network itself if networks are all duplicates</span>
+
+        <span class="n">Etil</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">Ek</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">r</span><span class="p">,</span><span class="n">tk</span><span class="p">,</span><span class="n">fk</span><span class="p">,</span><span class="n">Mk</span><span class="p">,</span><span class="n">Ak</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span><span class="nb">sum</span><span class="p">(</span><span class="n">Ek</span><span class="o">.</span><span class="n">values</span><span class="p">()),</span><span class="mi">0</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">Ek</span><span class="p">),</span><span class="n">Acomplete</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">Mmax</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">Ek</span><span class="p">)</span>
+        <span class="n">best_mode</span><span class="p">,</span><span class="n">deltaL</span><span class="p">,</span><span class="n">deltaL_best</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span>
+        <span class="k">while</span> <span class="p">(</span><span class="n">r</span> <span class="o">&lt;</span> <span class="n">Mmax</span><span class="p">):</span>
+
+            <span class="n">e</span><span class="p">,</span><span class="n">Xij</span> <span class="o">=</span> <span class="n">Etil</span><span class="p">[</span><span class="n">r</span><span class="p">]</span>
+            <span class="n">Lafter</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">logchoose</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">NC2</span><span class="p">,</span><span class="n">Mk</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">Sk</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">S</span><span class="o">/</span><span class="n">Sk</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">logchoose</span><span class="p">(</span><span class="n">Sk</span><span class="o">*</span><span class="p">(</span><span class="n">Mk</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span><span class="n">tk</span><span class="o">-</span><span class="n">Xij</span><span class="p">)</span> \
+                        <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">logchoose</span><span class="p">(</span><span class="n">Sk</span><span class="o">*</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">NC2</span><span class="o">-</span><span class="p">(</span><span class="n">Mk</span><span class="o">-</span><span class="mi">1</span><span class="p">)),</span><span class="n">fk</span><span class="o">+</span><span class="n">Xij</span><span class="p">)</span>
+            <span class="n">Lbefore</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">logchoose</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">NC2</span><span class="p">,</span><span class="n">Mk</span><span class="p">)</span> <span class="o">+</span> <span class="n">Sk</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">S</span><span class="o">/</span><span class="n">Sk</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">logchoose</span><span class="p">(</span><span class="n">Sk</span><span class="o">*</span><span class="n">Mk</span><span class="p">,</span><span class="n">tk</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">logchoose</span><span class="p">(</span><span class="n">Sk</span><span class="o">*</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">NC2</span><span class="o">-</span><span class="n">Mk</span><span class="p">),</span><span class="n">fk</span><span class="p">)</span>
+
+            <span class="n">Ak</span><span class="o">.</span><span class="n">discard</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+            <span class="n">r</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="n">tk</span> <span class="o">-=</span> <span class="n">Xij</span>
+            <span class="n">fk</span> <span class="o">+=</span> <span class="n">Xij</span>
+            <span class="n">Mk</span> <span class="o">-=</span> <span class="mi">1</span>
+
+            <span class="n">deltaL</span> <span class="o">+=</span> <span class="p">(</span><span class="n">Lafter</span> <span class="o">-</span> <span class="n">Lbefore</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">deltaL</span> <span class="o">&lt;</span> <span class="n">deltaL_best</span><span class="p">:</span>
+                <span class="n">deltaL_best</span> <span class="o">=</span> <span class="n">deltaL</span>
+                <span class="n">best_mode</span> <span class="o">=</span> <span class="n">r</span>
+
+        <span class="n">Ak</span> <span class="o">=</span> <span class="n">Acomplete</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">best_mode</span><span class="p">):</span>
+            <span class="n">e</span><span class="p">,</span><span class="n">Xij</span> <span class="o">=</span> <span class="n">Etil</span><span class="p">[</span><span class="n">r</span><span class="p">]</span>
+            <span class="n">Ak</span><span class="o">.</span><span class="n">discard</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">Ak</span>
+
+    <span class="k">def</span> <span class="nf">Lk</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">Ak</span><span class="p">,</span><span class="n">Ek</span><span class="p">,</span><span class="n">Sk</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        cluster description length as function of mode, edge counts, and size of cluster</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">Sk</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span> <span class="k">return</span> <span class="mf">0.</span>
+        <span class="n">Mk</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">Ak</span><span class="p">)</span>
+        <span class="n">tk</span><span class="p">,</span><span class="n">fk</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span><span class="nb">sum</span><span class="p">(</span><span class="n">Ek</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+        <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">Ak</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">Ek</span><span class="p">:</span>
+                <span class="n">tk</span> <span class="o">+=</span> <span class="n">Ek</span><span class="p">[</span><span class="n">e</span><span class="p">]</span>
+                <span class="n">fk</span> <span class="o">-=</span> <span class="n">Ek</span><span class="p">[</span><span class="n">e</span><span class="p">]</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">logchoose</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">NC2</span><span class="p">,</span><span class="n">Mk</span><span class="p">)</span> <span class="o">+</span> <span class="n">Sk</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">S</span><span class="o">/</span><span class="n">Sk</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">logchoose</span><span class="p">(</span><span class="n">Sk</span><span class="o">*</span><span class="n">Mk</span><span class="p">,</span><span class="n">tk</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">logchoose</span><span class="p">(</span><span class="n">Sk</span><span class="o">*</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">NC2</span><span class="o">-</span><span class="n">Mk</span><span class="p">),</span><span class="n">fk</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">move1</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">k</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        move type 1: reassign randomly chosen network to best cluster</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">ks</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">C</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+        <span class="k">if</span> <span class="n">k</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">k</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">ks</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">C</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">move3</span><span class="p">()</span> <span class="c1">#try splitting if only one cluster</span>
+        <span class="k">else</span><span class="p">:</span>
+
+            <span class="n">s</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">C</span><span class="p">[</span><span class="n">k</span><span class="p">]))</span>
+            <span class="n">Ek_after</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">E</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+            <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">edgesets</span><span class="p">[</span><span class="n">s</span><span class="p">]:</span>
+                <span class="n">Ek_after</span><span class="p">[</span><span class="n">e</span><span class="p">]</span> <span class="o">-=</span> <span class="mi">1</span>
+                <span class="k">if</span> <span class="n">Ek_after</span><span class="p">[</span><span class="n">e</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span> <span class="k">del</span> <span class="n">Ek_after</span><span class="p">[</span><span class="n">e</span><span class="p">]</span>
+
+            <span class="n">deltaL1s</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="n">L_kbefore</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Lk</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">A</span><span class="p">[</span><span class="n">k</span><span class="p">],</span><span class="bp">self</span><span class="o">.</span><span class="n">E</span><span class="p">[</span><span class="n">k</span><span class="p">],</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">C</span><span class="p">[</span><span class="n">k</span><span class="p">]))</span>
+            <span class="n">ks</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">C</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+            <span class="k">for</span> <span class="n">kp</span> <span class="ow">in</span> <span class="nb">set</span><span class="p">(</span><span class="n">ks</span><span class="p">)</span> <span class="o">-</span> <span class="nb">set</span><span class="p">({</span><span class="n">k</span><span class="p">}):</span>
+
+                <span class="n">L_kpbefore</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Lk</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">A</span><span class="p">[</span><span class="n">kp</span><span class="p">],</span><span class="bp">self</span><span class="o">.</span><span class="n">E</span><span class="p">[</span><span class="n">kp</span><span class="p">],</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">C</span><span class="p">[</span><span class="n">kp</span><span class="p">]))</span>
+                <span class="n">Ekp_after</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">E</span><span class="p">[</span><span class="n">kp</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+                <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">edgesets</span><span class="p">[</span><span class="n">s</span><span class="p">]:</span>
+                    <span class="k">if</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">Ekp_after</span><span class="p">:</span> <span class="n">Ekp_after</span><span class="p">[</span><span class="n">e</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+                    <span class="k">else</span><span class="p">:</span> <span class="n">Ekp_after</span><span class="p">[</span><span class="n">e</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+                <span class="n">deltaL1s</span><span class="p">[</span><span class="n">kp</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Lk</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">A</span><span class="p">[</span><span class="n">kp</span><span class="p">],</span><span class="n">Ekp_after</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">C</span><span class="p">[</span><span class="n">kp</span><span class="p">])</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> \
+                                    <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">Lk</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">A</span><span class="p">[</span><span class="n">k</span><span class="p">],</span><span class="n">Ek_after</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">C</span><span class="p">[</span><span class="n">k</span><span class="p">])</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="n">L_kbefore</span> <span class="o">-</span> <span class="n">L_kpbefore</span>
+
+            <span class="k">if</span> <span class="nb">min</span><span class="p">(</span><span class="n">deltaL1s</span><span class="o">.</span><span class="n">values</span><span class="p">())</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+
+                <span class="n">min_kp</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">deltaL1s</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">deltaL1s</span><span class="o">.</span><span class="n">get</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">C</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">.</span><span class="n">discard</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">C</span><span class="p">[</span><span class="n">kp</span><span class="p">]</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">edgesets</span><span class="p">[</span><span class="n">s</span><span class="p">]:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">E</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">e</span><span class="p">]</span> <span class="o">-=</span> <span class="mi">1</span>
+                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">E</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">e</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">E</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">e</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">E</span><span class="p">[</span><span class="n">kp</span><span class="p">]:</span> <span class="bp">self</span><span class="o">.</span><span class="n">E</span><span class="p">[</span><span class="n">kp</span><span class="p">][</span><span class="n">e</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+                    <span class="k">else</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">E</span><span class="p">[</span><span class="n">kp</span><span class="p">][</span><span class="n">e</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+                <span class="n">knew</span><span class="p">,</span><span class="n">kpnew</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">random_key</span><span class="p">(),</span><span class="bp">self</span><span class="o">.</span><span class="n">random_key</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">C</span><span class="p">[</span><span class="n">knew</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">C</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">C</span><span class="p">[</span><span class="n">kpnew</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">C</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">kp</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">E</span><span class="p">[</span><span class="n">knew</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">E</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">E</span><span class="p">[</span><span class="n">kpnew</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">E</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">kp</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">A</span><span class="p">[</span><span class="n">knew</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">A</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">A</span><span class="p">[</span><span class="n">kpnew</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">A</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">kp</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">A</span><span class="p">[</span><span class="n">knew</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">update_mode</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">E</span><span class="p">[</span><span class="n">knew</span><span class="p">],</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">C</span><span class="p">[</span><span class="n">knew</span><span class="p">]))</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">A</span><span class="p">[</span><span class="n">kpnew</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">update_mode</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">E</span><span class="p">[</span><span class="n">kpnew</span><span class="p">],</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">C</span><span class="p">[</span><span class="n">kpnew</span><span class="p">]))</span>
+                <span class="k">if</span> <span class="ow">not</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">C</span><span class="p">[</span><span class="n">knew</span><span class="p">]):</span>
+                    <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">C</span><span class="p">[</span><span class="n">knew</span><span class="p">]</span>
+                    <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">A</span><span class="p">[</span><span class="n">knew</span><span class="p">]</span>
+                    <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">E</span><span class="p">[</span><span class="n">knew</span><span class="p">]</span>
+                <span class="k">return</span> <span class="kc">True</span><span class="p">,</span> <span class="n">deltaL1s</span><span class="p">[</span><span class="n">min_kp</span><span class="p">]</span>
+
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">False</span><span class="p">,</span> <span class="mi">0</span>
+
+    <span class="k">def</span> <span class="nf">move2</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        move type 2: merge two randomly chosen clusters</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">C</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span> <span class="c1">#try splitting if only one cluster</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">move3</span><span class="p">()</span>
+        <span class="n">ks</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">C</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+        <span class="n">kp</span><span class="p">,</span><span class="n">kpp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">ks</span><span class="p">,</span><span class="n">size</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span><span class="n">replace</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="p">((</span><span class="n">kp</span><span class="p">,</span><span class="n">kpp</span><span class="p">)</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">attmerges</span><span class="p">)</span> <span class="ow">or</span> <span class="p">((</span><span class="n">kpp</span><span class="p">,</span><span class="n">kp</span><span class="p">)</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">attmerges</span><span class="p">):</span> <span class="c1">#check if merge already has been tried and failed</span>
+            <span class="k">return</span> <span class="kc">False</span><span class="p">,</span><span class="mi">0</span>
+
+        <span class="n">Ek</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">E</span><span class="p">[</span><span class="n">kp</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">E</span><span class="p">[</span><span class="n">kpp</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">Ek</span><span class="p">:</span> <span class="n">Ek</span><span class="p">[</span><span class="n">e</span><span class="p">]</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">E</span><span class="p">[</span><span class="n">kpp</span><span class="p">][</span><span class="n">e</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span> <span class="n">Ek</span><span class="p">[</span><span class="n">e</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">E</span><span class="p">[</span><span class="n">kpp</span><span class="p">][</span><span class="n">e</span><span class="p">]</span>
+
+        <span class="n">Skp</span><span class="p">,</span><span class="n">Skpp</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">C</span><span class="p">[</span><span class="n">kp</span><span class="p">]),</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">C</span><span class="p">[</span><span class="n">kpp</span><span class="p">])</span>
+        <span class="n">Sk</span> <span class="o">=</span> <span class="n">Skp</span> <span class="o">+</span> <span class="n">Skpp</span>
+        <span class="n">Ak</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">update_mode</span><span class="p">(</span><span class="n">Ek</span><span class="p">,</span><span class="n">Sk</span><span class="p">)</span>
+        <span class="n">deltaL2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Lk</span><span class="p">(</span><span class="n">Ak</span><span class="p">,</span><span class="n">Ek</span><span class="p">,</span><span class="n">Sk</span><span class="p">)</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">Lk</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">A</span><span class="p">[</span><span class="n">kp</span><span class="p">],</span><span class="bp">self</span><span class="o">.</span><span class="n">E</span><span class="p">[</span><span class="n">kp</span><span class="p">],</span><span class="n">Skp</span><span class="p">)</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">Lk</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">A</span><span class="p">[</span><span class="n">kpp</span><span class="p">],</span><span class="bp">self</span><span class="o">.</span><span class="n">E</span><span class="p">[</span><span class="n">kpp</span><span class="p">],</span><span class="n">Skpp</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">deltaL2</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+
+            <span class="n">k</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">random_key</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">C</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">C</span><span class="p">[</span><span class="n">kp</span><span class="p">]</span><span class="o">.</span><span class="n">union</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">C</span><span class="p">[</span><span class="n">kpp</span><span class="p">])</span>
+            <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">C</span><span class="p">[</span><span class="n">kp</span><span class="p">]</span>
+            <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">C</span><span class="p">[</span><span class="n">kpp</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">E</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">Ek</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+            <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">E</span><span class="p">[</span><span class="n">kp</span><span class="p">]</span>
+            <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">E</span><span class="p">[</span><span class="n">kpp</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">A</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">Ak</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+            <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">A</span><span class="p">[</span><span class="n">kp</span><span class="p">]</span>
+            <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">A</span><span class="p">[</span><span class="n">kpp</span><span class="p">]</span>
+            <span class="k">return</span> <span class="kc">True</span><span class="p">,</span> <span class="n">deltaL2</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">attmerges</span><span class="o">.</span><span class="n">add</span><span class="p">((</span><span class="n">kp</span><span class="p">,</span><span class="n">kpp</span><span class="p">))</span> <span class="c1">#add to attempted merges if move fails</span>
+            <span class="k">return</span> <span class="kc">False</span><span class="p">,</span> <span class="mi">0</span>
+
+    <span class="k">def</span> <span class="nf">move3</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        move type 3: split randomly chosen cluster in two and perform K-means type algorithm to get these clusters and modes</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">ks</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">C</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+        <span class="n">k</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">ks</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">C</span><span class="p">[</span><span class="n">k</span><span class="p">])</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span> <span class="c1">#if only one network in cluster, try move 1 with this cluster</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">move1</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">attsplits</span><span class="p">:</span> <span class="c1">#if split already tried and failed, exit</span>
+            <span class="k">return</span> <span class="kc">False</span><span class="p">,</span><span class="mi">0</span>
+
+        <span class="n">Sk</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">C</span><span class="p">[</span><span class="n">k</span><span class="p">])</span>
+        <span class="n">localC</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">:</span><span class="nb">set</span><span class="p">(),</span><span class="mi">1</span><span class="p">:</span><span class="nb">set</span><span class="p">()}</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">s</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">permutation</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">C</span><span class="p">[</span><span class="n">k</span><span class="p">]))):</span>
+            <span class="n">localC</span><span class="p">[</span><span class="n">i</span> <span class="o">%</span> <span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+        <span class="n">localS</span><span class="p">,</span><span class="n">localE</span><span class="p">,</span><span class="n">localA</span><span class="p">,</span><span class="n">localL</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">:</span><span class="kc">None</span><span class="p">,</span><span class="mi">1</span><span class="p">:</span><span class="kc">None</span><span class="p">},{</span><span class="mi">0</span><span class="p">:</span><span class="kc">None</span><span class="p">,</span><span class="mi">1</span><span class="p">:</span><span class="kc">None</span><span class="p">},{</span><span class="mi">0</span><span class="p">:</span><span class="kc">None</span><span class="p">,</span><span class="mi">1</span><span class="p">:</span><span class="kc">None</span><span class="p">},{</span><span class="mi">0</span><span class="p">:</span><span class="kc">None</span><span class="p">,</span><span class="mi">1</span><span class="p">:</span><span class="kc">None</span><span class="p">}</span>
+        <span class="k">for</span> <span class="n">kl</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]:</span>
+            <span class="n">localS</span><span class="p">[</span><span class="n">kl</span><span class="p">]</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">localC</span><span class="p">[</span><span class="n">kl</span><span class="p">])</span>
+            <span class="n">localE</span><span class="p">[</span><span class="n">kl</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">generate_Ek</span><span class="p">(</span><span class="n">localC</span><span class="p">[</span><span class="n">kl</span><span class="p">])</span>
+            <span class="n">localA</span><span class="p">[</span><span class="n">kl</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">update_mode</span><span class="p">(</span><span class="n">localE</span><span class="p">[</span><span class="n">kl</span><span class="p">],</span><span class="n">localS</span><span class="p">[</span><span class="n">kl</span><span class="p">])</span>
+            <span class="n">localL</span><span class="p">[</span><span class="n">kl</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Lk</span><span class="p">(</span><span class="n">localA</span><span class="p">[</span><span class="n">kl</span><span class="p">],</span><span class="n">localE</span><span class="p">[</span><span class="n">kl</span><span class="p">],</span><span class="n">localS</span><span class="p">[</span><span class="n">kl</span><span class="p">])</span>
+
+        <span class="c1">#local 2-means type algorithm for identifying clusters C[k] will split into</span>
+        <span class="n">movement</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="n">num_iters</span><span class="p">,</span><span class="n">max_2means</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span><span class="mi">10</span>
+        <span class="k">while</span> <span class="p">(</span><span class="n">movement</span> <span class="o">==</span> <span class="kc">True</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">num_iters</span> <span class="o">&lt;</span> <span class="n">max_2means</span><span class="p">):</span>
+
+            <span class="n">movement</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="n">to_move</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">localEafter</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">C</span><span class="p">[</span><span class="n">k</span><span class="p">]:</span>
+
+                <span class="k">for</span> <span class="n">kl</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]:</span>
+                    <span class="n">localEafter</span><span class="p">[</span><span class="n">kl</span><span class="p">]</span> <span class="o">=</span> <span class="n">localE</span><span class="p">[</span><span class="n">kl</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+                <span class="k">if</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">localC</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+                    <span class="n">old</span><span class="p">,</span><span class="n">new</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span><span class="mi">1</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">old</span><span class="p">,</span><span class="n">new</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span><span class="mi">0</span>
+
+                <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">edgesets</span><span class="p">[</span><span class="n">s</span><span class="p">]:</span>
+
+                    <span class="k">if</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">localEafter</span><span class="p">[</span><span class="n">new</span><span class="p">]:</span>
+                        <span class="n">localEafter</span><span class="p">[</span><span class="n">new</span><span class="p">][</span><span class="n">e</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">localEafter</span><span class="p">[</span><span class="n">new</span><span class="p">][</span><span class="n">e</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+                    <span class="n">localEafter</span><span class="p">[</span><span class="n">old</span><span class="p">][</span><span class="n">e</span><span class="p">]</span> <span class="o">-=</span> <span class="mi">1</span>
+                    <span class="k">if</span> <span class="n">localEafter</span><span class="p">[</span><span class="n">old</span><span class="p">][</span><span class="n">e</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                        <span class="k">del</span> <span class="n">localEafter</span><span class="p">[</span><span class="n">old</span><span class="p">][</span><span class="n">e</span><span class="p">]</span>
+                <span class="n">deltaLmove</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Lk</span><span class="p">(</span><span class="n">localA</span><span class="p">[</span><span class="n">new</span><span class="p">],</span><span class="n">localEafter</span><span class="p">[</span><span class="n">new</span><span class="p">],</span><span class="nb">len</span><span class="p">(</span><span class="n">localC</span><span class="p">[</span><span class="n">new</span><span class="p">])</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> \
+                                <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">Lk</span><span class="p">(</span><span class="n">localA</span><span class="p">[</span><span class="n">old</span><span class="p">],</span><span class="n">localEafter</span><span class="p">[</span><span class="n">old</span><span class="p">],</span><span class="nb">len</span><span class="p">(</span><span class="n">localC</span><span class="p">[</span><span class="n">old</span><span class="p">])</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> \
+                                    <span class="o">-</span> <span class="n">localL</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">localL</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+                <span class="k">if</span> <span class="n">deltaLmove</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">to_move</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">s</span><span class="p">,</span><span class="n">old</span><span class="p">,</span><span class="n">new</span><span class="p">))</span>
+                    <span class="n">movement</span> <span class="o">=</span> <span class="kc">True</span>
+
+            <span class="k">for</span> <span class="n">tup</span> <span class="ow">in</span> <span class="n">to_move</span><span class="p">:</span>
+
+                <span class="n">s</span><span class="p">,</span><span class="n">old</span><span class="p">,</span><span class="n">new</span> <span class="o">=</span> <span class="n">tup</span>
+                <span class="n">localC</span><span class="p">[</span><span class="n">new</span><span class="p">]</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+                <span class="n">localC</span><span class="p">[</span><span class="n">old</span><span class="p">]</span><span class="o">.</span><span class="n">discard</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+                <span class="n">localS</span><span class="p">[</span><span class="n">new</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="n">localS</span><span class="p">[</span><span class="n">old</span><span class="p">]</span> <span class="o">-=</span> <span class="mi">1</span>
+
+                <span class="k">if</span> <span class="n">localS</span><span class="p">[</span><span class="n">old</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">move2</span><span class="p">()</span>
+
+                <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">edgesets</span><span class="p">[</span><span class="n">s</span><span class="p">]:</span>
+
+                    <span class="k">if</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">localE</span><span class="p">[</span><span class="n">new</span><span class="p">]:</span>
+                        <span class="n">localE</span><span class="p">[</span><span class="n">new</span><span class="p">][</span><span class="n">e</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">localE</span><span class="p">[</span><span class="n">new</span><span class="p">][</span><span class="n">e</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+
+                    <span class="n">localE</span><span class="p">[</span><span class="n">old</span><span class="p">][</span><span class="n">e</span><span class="p">]</span> <span class="o">-=</span> <span class="mi">1</span>
+
+                    <span class="k">if</span> <span class="n">localE</span><span class="p">[</span><span class="n">old</span><span class="p">][</span><span class="n">e</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                        <span class="k">del</span> <span class="n">localE</span><span class="p">[</span><span class="n">old</span><span class="p">][</span><span class="n">e</span><span class="p">]</span>
+
+            <span class="k">for</span> <span class="n">kl</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]:</span>
+                <span class="n">localA</span><span class="p">[</span><span class="n">kl</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">update_mode</span><span class="p">(</span><span class="n">localE</span><span class="p">[</span><span class="n">kl</span><span class="p">],</span><span class="n">localS</span><span class="p">[</span><span class="n">kl</span><span class="p">])</span>
+                <span class="n">localL</span><span class="p">[</span><span class="n">kl</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Lk</span><span class="p">(</span><span class="n">localA</span><span class="p">[</span><span class="n">kl</span><span class="p">],</span><span class="n">localE</span><span class="p">[</span><span class="n">kl</span><span class="p">],</span><span class="n">localS</span><span class="p">[</span><span class="n">kl</span><span class="p">])</span>
+
+            <span class="n">num_iters</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="n">deltaL3</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Lk</span><span class="p">(</span><span class="n">localA</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">localE</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">localS</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">Lk</span><span class="p">(</span><span class="n">localA</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">localE</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">localS</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">Lk</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">A</span><span class="p">[</span><span class="n">k</span><span class="p">],</span><span class="bp">self</span><span class="o">.</span><span class="n">E</span><span class="p">[</span><span class="n">k</span><span class="p">],</span><span class="n">Sk</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">deltaL3</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+
+            <span class="n">kp</span><span class="p">,</span><span class="n">kpp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">random_key</span><span class="p">(),</span><span class="bp">self</span><span class="o">.</span><span class="n">random_key</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">C</span><span class="p">[</span><span class="n">kp</span><span class="p">]</span> <span class="o">=</span> <span class="n">localC</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">C</span><span class="p">[</span><span class="n">kpp</span><span class="p">]</span> <span class="o">=</span> <span class="n">localC</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+            <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">C</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">E</span><span class="p">[</span><span class="n">kp</span><span class="p">]</span> <span class="o">=</span> <span class="n">localE</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">E</span><span class="p">[</span><span class="n">kpp</span><span class="p">]</span> <span class="o">=</span> <span class="n">localE</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+            <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">E</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">A</span><span class="p">[</span><span class="n">kp</span><span class="p">]</span> <span class="o">=</span> <span class="n">localA</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">A</span><span class="p">[</span><span class="n">kpp</span><span class="p">]</span> <span class="o">=</span> <span class="n">localA</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+            <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">A</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
+            <span class="k">return</span> <span class="kc">True</span><span class="p">,</span><span class="n">deltaL3</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">attsplits</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">False</span><span class="p">,</span> <span class="mi">0</span>
+
+    <span class="k">def</span> <span class="nf">move4</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        move type 4: merge two randomly chosen clusters then split them (perform moves 2 and 3 in a row)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">C</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">move3</span><span class="p">()</span> <span class="c1"># try split move if only a single cluster exists</span>
+
+        <span class="n">ks</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">C</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+        <span class="n">k1</span><span class="p">,</span><span class="n">k2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">ks</span><span class="p">,</span><span class="n">size</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span><span class="n">replace</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="k">if</span> <span class="p">((</span><span class="n">k1</span><span class="p">,</span><span class="n">k2</span><span class="p">)</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">attmergesplits</span><span class="p">)</span> <span class="ow">or</span> <span class="p">((</span><span class="n">k2</span><span class="p">,</span><span class="n">k1</span><span class="p">)</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">attmergesplits</span><span class="p">):</span> <span class="c1">#check if merge-split combo already tried with these clusters</span>
+            <span class="k">return</span> <span class="kc">False</span><span class="p">,</span><span class="mi">0</span>
+
+        <span class="n">Ck</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">C</span><span class="p">[</span><span class="n">k1</span><span class="p">]</span><span class="o">.</span><span class="n">union</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">C</span><span class="p">[</span><span class="n">k2</span><span class="p">])</span>
+        <span class="n">Sk</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">Ck</span><span class="p">)</span>
+        <span class="n">localC</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">:</span><span class="nb">set</span><span class="p">(),</span><span class="mi">1</span><span class="p">:</span><span class="nb">set</span><span class="p">()}</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">s</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">permutation</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">Ck</span><span class="p">))):</span> <span class="n">localC</span><span class="p">[</span><span class="n">i</span> <span class="o">%</span> <span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+        <span class="n">localS</span><span class="p">,</span><span class="n">localE</span><span class="p">,</span><span class="n">localA</span><span class="p">,</span><span class="n">localL</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">:</span><span class="kc">None</span><span class="p">,</span><span class="mi">1</span><span class="p">:</span><span class="kc">None</span><span class="p">},{</span><span class="mi">0</span><span class="p">:</span><span class="kc">None</span><span class="p">,</span><span class="mi">1</span><span class="p">:</span><span class="kc">None</span><span class="p">},{</span><span class="mi">0</span><span class="p">:</span><span class="kc">None</span><span class="p">,</span><span class="mi">1</span><span class="p">:</span><span class="kc">None</span><span class="p">},{</span><span class="mi">0</span><span class="p">:</span><span class="kc">None</span><span class="p">,</span><span class="mi">1</span><span class="p">:</span><span class="kc">None</span><span class="p">}</span>
+        <span class="k">for</span> <span class="n">kl</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]:</span>
+            <span class="n">localS</span><span class="p">[</span><span class="n">kl</span><span class="p">]</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">localC</span><span class="p">[</span><span class="n">kl</span><span class="p">])</span>
+            <span class="n">localE</span><span class="p">[</span><span class="n">kl</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">generate_Ek</span><span class="p">(</span><span class="n">localC</span><span class="p">[</span><span class="n">kl</span><span class="p">])</span>
+            <span class="n">localA</span><span class="p">[</span><span class="n">kl</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">update_mode</span><span class="p">(</span><span class="n">localE</span><span class="p">[</span><span class="n">kl</span><span class="p">],</span><span class="n">localS</span><span class="p">[</span><span class="n">kl</span><span class="p">])</span>
+            <span class="n">localL</span><span class="p">[</span><span class="n">kl</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Lk</span><span class="p">(</span><span class="n">localA</span><span class="p">[</span><span class="n">kl</span><span class="p">],</span><span class="n">localE</span><span class="p">[</span><span class="n">kl</span><span class="p">],</span><span class="n">localS</span><span class="p">[</span><span class="n">kl</span><span class="p">])</span>
+
+        <span class="n">movement</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="n">num_iters</span><span class="p">,</span><span class="n">max_2means</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span><span class="mi">10</span>
+        <span class="k">while</span> <span class="p">(</span><span class="n">movement</span> <span class="o">==</span> <span class="kc">True</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">num_iters</span> <span class="o">&lt;</span> <span class="n">max_2means</span><span class="p">):</span>
+
+            <span class="n">movement</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="n">to_move</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">localEafter</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">Ck</span><span class="p">:</span>
+
+                <span class="k">for</span> <span class="n">kl</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]:</span>
+                    <span class="n">localEafter</span><span class="p">[</span><span class="n">kl</span><span class="p">]</span> <span class="o">=</span> <span class="n">localE</span><span class="p">[</span><span class="n">kl</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+                <span class="k">if</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">localC</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+                    <span class="n">old</span><span class="p">,</span><span class="n">new</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span><span class="mi">1</span>
+
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">old</span><span class="p">,</span><span class="n">new</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span><span class="mi">0</span>
+
+                <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">edgesets</span><span class="p">[</span><span class="n">s</span><span class="p">]:</span>
+
+                    <span class="k">if</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">localEafter</span><span class="p">[</span><span class="n">new</span><span class="p">]:</span>
+                        <span class="n">localEafter</span><span class="p">[</span><span class="n">new</span><span class="p">][</span><span class="n">e</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">localEafter</span><span class="p">[</span><span class="n">new</span><span class="p">][</span><span class="n">e</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+
+                    <span class="n">localEafter</span><span class="p">[</span><span class="n">old</span><span class="p">][</span><span class="n">e</span><span class="p">]</span> <span class="o">-=</span> <span class="mi">1</span>
+                    <span class="k">if</span> <span class="n">localEafter</span><span class="p">[</span><span class="n">old</span><span class="p">][</span><span class="n">e</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                        <span class="k">del</span> <span class="n">localEafter</span><span class="p">[</span><span class="n">old</span><span class="p">][</span><span class="n">e</span><span class="p">]</span>
+
+                <span class="n">deltaLmove</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Lk</span><span class="p">(</span><span class="n">localA</span><span class="p">[</span><span class="n">new</span><span class="p">],</span><span class="n">localEafter</span><span class="p">[</span><span class="n">new</span><span class="p">],</span><span class="nb">len</span><span class="p">(</span><span class="n">localC</span><span class="p">[</span><span class="n">new</span><span class="p">])</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> \
+                                <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">Lk</span><span class="p">(</span><span class="n">localA</span><span class="p">[</span><span class="n">old</span><span class="p">],</span><span class="n">localEafter</span><span class="p">[</span><span class="n">old</span><span class="p">],</span><span class="nb">len</span><span class="p">(</span><span class="n">localC</span><span class="p">[</span><span class="n">old</span><span class="p">])</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> \
+                                    <span class="o">-</span> <span class="n">localL</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">localL</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+                <span class="k">if</span> <span class="n">deltaLmove</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">to_move</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">s</span><span class="p">,</span><span class="n">old</span><span class="p">,</span><span class="n">new</span><span class="p">))</span>
+                    <span class="n">movement</span> <span class="o">=</span> <span class="kc">True</span>
+
+            <span class="k">for</span> <span class="n">tup</span> <span class="ow">in</span> <span class="n">to_move</span><span class="p">:</span>
+
+                <span class="n">s</span><span class="p">,</span><span class="n">old</span><span class="p">,</span><span class="n">new</span> <span class="o">=</span> <span class="n">tup</span>
+                <span class="n">localC</span><span class="p">[</span><span class="n">new</span><span class="p">]</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+                <span class="n">localC</span><span class="p">[</span><span class="n">old</span><span class="p">]</span><span class="o">.</span><span class="n">discard</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+                <span class="n">localS</span><span class="p">[</span><span class="n">new</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="n">localS</span><span class="p">[</span><span class="n">old</span><span class="p">]</span> <span class="o">-=</span> <span class="mi">1</span>
+                <span class="k">if</span> <span class="n">localS</span><span class="p">[</span><span class="n">old</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span> <span class="c1">#if all networks go into one cluster, try merge move instead</span>
+                    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">move2</span><span class="p">()</span>
+
+                <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">edgesets</span><span class="p">[</span><span class="n">s</span><span class="p">]:</span>
+                    <span class="k">if</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">localE</span><span class="p">[</span><span class="n">new</span><span class="p">]:</span> <span class="n">localE</span><span class="p">[</span><span class="n">new</span><span class="p">][</span><span class="n">e</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+                    <span class="k">else</span><span class="p">:</span> <span class="n">localE</span><span class="p">[</span><span class="n">new</span><span class="p">][</span><span class="n">e</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+                    <span class="n">localE</span><span class="p">[</span><span class="n">old</span><span class="p">][</span><span class="n">e</span><span class="p">]</span> <span class="o">-=</span> <span class="mi">1</span>
+                    <span class="k">if</span> <span class="n">localE</span><span class="p">[</span><span class="n">old</span><span class="p">][</span><span class="n">e</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                        <span class="k">del</span> <span class="n">localE</span><span class="p">[</span><span class="n">old</span><span class="p">][</span><span class="n">e</span><span class="p">]</span>
+
+            <span class="k">for</span> <span class="n">kl</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]:</span>
+                <span class="n">localA</span><span class="p">[</span><span class="n">kl</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">update_mode</span><span class="p">(</span><span class="n">localE</span><span class="p">[</span><span class="n">kl</span><span class="p">],</span><span class="n">localS</span><span class="p">[</span><span class="n">kl</span><span class="p">])</span>
+                <span class="n">localL</span><span class="p">[</span><span class="n">kl</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Lk</span><span class="p">(</span><span class="n">localA</span><span class="p">[</span><span class="n">kl</span><span class="p">],</span><span class="n">localE</span><span class="p">[</span><span class="n">kl</span><span class="p">],</span><span class="n">localS</span><span class="p">[</span><span class="n">kl</span><span class="p">])</span>
+
+            <span class="n">num_iters</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="n">deltaL4</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Lk</span><span class="p">(</span><span class="n">localA</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">localE</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">localS</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">Lk</span><span class="p">(</span><span class="n">localA</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">localE</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">localS</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> \
+                                        <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">Lk</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">A</span><span class="p">[</span><span class="n">k1</span><span class="p">],</span><span class="bp">self</span><span class="o">.</span><span class="n">E</span><span class="p">[</span><span class="n">k1</span><span class="p">],</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">C</span><span class="p">[</span><span class="n">k1</span><span class="p">]))</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">Lk</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">A</span><span class="p">[</span><span class="n">k2</span><span class="p">],</span><span class="bp">self</span><span class="o">.</span><span class="n">E</span><span class="p">[</span><span class="n">k2</span><span class="p">],</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">C</span><span class="p">[</span><span class="n">k2</span><span class="p">]))</span>
+
+        <span class="k">if</span> <span class="n">deltaL4</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+
+            <span class="n">kp</span><span class="p">,</span><span class="n">kpp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">random_key</span><span class="p">(),</span><span class="bp">self</span><span class="o">.</span><span class="n">random_key</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">C</span><span class="p">[</span><span class="n">kp</span><span class="p">]</span> <span class="o">=</span> <span class="n">localC</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">C</span><span class="p">[</span><span class="n">kpp</span><span class="p">]</span> <span class="o">=</span> <span class="n">localC</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+            <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">C</span><span class="p">[</span><span class="n">k1</span><span class="p">]</span>
+            <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">C</span><span class="p">[</span><span class="n">k2</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">E</span><span class="p">[</span><span class="n">kp</span><span class="p">]</span> <span class="o">=</span> <span class="n">localE</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">E</span><span class="p">[</span><span class="n">kpp</span><span class="p">]</span> <span class="o">=</span> <span class="n">localE</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+            <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">E</span><span class="p">[</span><span class="n">k1</span><span class="p">]</span>
+            <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">E</span><span class="p">[</span><span class="n">k2</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">A</span><span class="p">[</span><span class="n">kp</span><span class="p">]</span> <span class="o">=</span> <span class="n">localA</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">A</span><span class="p">[</span><span class="n">kpp</span><span class="p">]</span> <span class="o">=</span> <span class="n">localA</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+            <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">A</span><span class="p">[</span><span class="n">k1</span><span class="p">]</span>
+            <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">A</span><span class="p">[</span><span class="n">k2</span><span class="p">]</span>
+            <span class="k">return</span> <span class="kc">True</span><span class="p">,</span><span class="n">deltaL4</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">attmergesplits</span><span class="o">.</span><span class="n">add</span><span class="p">((</span><span class="n">k1</span><span class="p">,</span><span class="n">k2</span><span class="p">))</span>
+            <span class="k">return</span> <span class="kc">False</span><span class="p">,</span> <span class="mi">0</span>
+
+    <span class="k">def</span> <span class="nf">run_sims</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        run discontiguous (unconstrained) merge split simulations to identify modes and clusters that minimize the description length</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">nf</span><span class="p">,</span><span class="n">runs</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span><span class="mi">0</span>
+        <span class="n">move_times</span><span class="p">,</span><span class="n">move_types</span> <span class="o">=</span> <span class="p">[],[]</span>
+        <span class="k">while</span> <span class="p">(</span><span class="n">nf</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_fails</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">runs</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_runs</span><span class="p">):</span>
+
+            <span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+            <span class="n">move</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">])</span>
+            <span class="n">accepted</span><span class="p">,</span><span class="n">deltaL</span> <span class="o">=</span> <span class="nb">eval</span><span class="p">(</span><span class="s1">&#39;self.move&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">move</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;()&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">accepted</span><span class="p">:</span> <span class="n">nf</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="k">else</span><span class="p">:</span> <span class="n">nf</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">L</span> <span class="o">+=</span> <span class="n">deltaL</span>
+            <span class="n">runs</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="n">move_times</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span><span class="o">-</span><span class="n">start</span><span class="p">)</span>
+            <span class="n">move_types</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">move</span><span class="p">)</span>
+
+        <span class="n">M</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">([</span><span class="nb">len</span><span class="p">(</span><span class="n">D</span><span class="p">)</span> <span class="k">for</span> <span class="n">D</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">edgesets</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">L</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">Lk</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">A</span><span class="p">[</span><span class="n">k</span><span class="p">],</span><span class="bp">self</span><span class="o">.</span><span class="n">E</span><span class="p">[</span><span class="n">k</span><span class="p">],</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">C</span><span class="p">[</span><span class="n">k</span><span class="p">]))</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">C</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">L</span> <span class="o">/=</span> <span class="bp">self</span><span class="o">.</span><span class="n">logchoose</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">S</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">NC2</span><span class="p">,</span><span class="n">M</span><span class="p">)</span> <span class="c1">#return (minimum description length)/(naive code length transmitting all networks separately)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">move_times</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">move_times</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">move_types</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">move_types</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">remap_keys</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">C</span><span class="p">),</span><span class="n">remap_keys</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">A</span><span class="p">),</span><span class="bp">self</span><span class="o">.</span><span class="n">L</span>
+
+    <span class="k">def</span> <span class="nf">dynamic_contiguous</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        miimize description length while constraining clusters to be contiguous in time (according to order of networks in &#39;edgesets&#39;)</span>
+<span class="sd">        uses dynamic programming approach for exact optimization, and ignores cluster label entropy terms Sk*log(S/Sk)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">LMDL</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">clusters</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">modes</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">LMDL</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">clusters</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">modes</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">LMDL</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">logchoose</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">NC2</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">edgesets</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">S</span><span class="p">)</span>
+        <span class="n">key0</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">random_key</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">clusters</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="n">key0</span><span class="p">:</span><span class="nb">set</span><span class="p">([</span><span class="mi">0</span><span class="p">])}</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">modes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="n">key0</span><span class="p">:</span><span class="bp">self</span><span class="o">.</span><span class="n">edgesets</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()}</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+        <span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">S</span><span class="p">):</span>
+
+            <span class="n">jkey</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">random_key</span><span class="p">()</span>
+            <span class="n">Lj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">LMDL</span><span class="p">[</span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">logchoose</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">NC2</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">edgesets</span><span class="p">[</span><span class="n">j</span><span class="p">]))</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">S</span><span class="p">)</span>
+            <span class="n">Cj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">clusters</span><span class="p">[</span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+            <span class="n">Cj</span><span class="p">[</span><span class="n">jkey</span><span class="p">]</span> <span class="o">=</span> <span class="nb">set</span><span class="p">([</span><span class="n">j</span><span class="p">])</span>
+            <span class="n">Aj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">modes</span><span class="p">[</span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+            <span class="n">Aj</span><span class="p">[</span><span class="n">jkey</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">edgesets</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+            <span class="n">localE</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">Aj</span><span class="p">[</span><span class="n">jkey</span><span class="p">]))</span>
+
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+
+                <span class="n">Lprop</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">LMDL</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+                <span class="n">Cprop</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">clusters</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+                <span class="n">Cprop</span><span class="p">[</span><span class="n">jkey</span><span class="p">]</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span>
+                <span class="n">Aprop</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">modes</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+                <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">edgesets</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span>
+                    <span class="k">if</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">localE</span><span class="p">:</span> <span class="n">localE</span><span class="p">[</span><span class="n">e</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+                    <span class="k">else</span><span class="p">:</span> <span class="n">localE</span><span class="p">[</span><span class="n">e</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+
+                <span class="n">Aprop</span><span class="p">[</span><span class="n">jkey</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">update_mode</span><span class="p">(</span><span class="n">localE</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">Cprop</span><span class="p">[</span><span class="n">jkey</span><span class="p">]))</span>
+                <span class="n">Lprop</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Lk</span><span class="p">(</span><span class="n">Aprop</span><span class="p">[</span><span class="n">jkey</span><span class="p">],</span><span class="n">localE</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">Cprop</span><span class="p">[</span><span class="n">jkey</span><span class="p">]))</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">Cprop</span><span class="p">[</span><span class="n">jkey</span><span class="p">])</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">S</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">Cprop</span><span class="p">[</span><span class="n">jkey</span><span class="p">]))</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">S</span><span class="p">)</span>
+
+                <span class="k">if</span> <span class="n">Lprop</span> <span class="o">&lt;</span> <span class="n">Lj</span><span class="p">:</span>
+                    <span class="n">Lj</span> <span class="o">=</span> <span class="n">Lprop</span>
+                    <span class="n">Cj</span> <span class="o">=</span> <span class="n">Cprop</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+                    <span class="n">Aj</span> <span class="o">=</span> <span class="n">Aprop</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">LMDL</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">Lj</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">clusters</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">Cj</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">modes</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">Aj</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">C</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">clusters</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">S</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">A</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">modes</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">S</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">M</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">([</span><span class="nb">len</span><span class="p">(</span><span class="n">D</span><span class="p">)</span> <span class="k">for</span> <span class="n">D</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">edgesets</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">L</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">LMDL</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">S</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">logchoose</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">S</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">NC2</span><span class="p">,</span><span class="n">M</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">runtime</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span>
+
+        <span class="k">return</span> <span class="n">remap_keys</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">C</span><span class="p">),</span><span class="n">remap_keys</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">A</span><span class="p">),</span><span class="bp">self</span><span class="o">.</span><span class="n">L</span>
+
+    <span class="k">def</span> <span class="nf">evaluate_partition</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">partition</span><span class="p">,</span><span class="n">contiguous</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        evaluate description length of partition. contiguous option removes cluster label entropy term from description length</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">s</span><span class="p">,</span><span class="n">k</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">partition</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">C</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">C</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">C</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">C</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+
+        <span class="n">K</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">C</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">K</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">E</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">generate_Ek</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">C</span><span class="p">[</span><span class="n">k</span><span class="p">])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">A</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">update_mode</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">E</span><span class="p">[</span><span class="n">k</span><span class="p">],</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">C</span><span class="p">[</span><span class="n">k</span><span class="p">]))</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">L</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">Lk</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">A</span><span class="p">[</span><span class="n">k</span><span class="p">],</span><span class="bp">self</span><span class="o">.</span><span class="n">E</span><span class="p">[</span><span class="n">k</span><span class="p">],</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">C</span><span class="p">[</span><span class="n">k</span><span class="p">]))</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">C</span><span class="p">])</span>
+
+        <span class="k">if</span> <span class="n">contiguous</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">L</span> <span class="o">-=</span> <span class="nb">sum</span><span class="p">([</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">C</span><span class="p">[</span><span class="n">k</span><span class="p">])</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">S</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">C</span><span class="p">[</span><span class="n">k</span><span class="p">]))</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">C</span><span class="p">])</span>
+
+        <span class="n">M</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">([</span><span class="nb">len</span><span class="p">(</span><span class="n">D</span><span class="p">)</span> <span class="k">for</span> <span class="n">D</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">edgesets</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">L</span> <span class="o">/=</span> <span class="bp">self</span><span class="o">.</span><span class="n">logchoose</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">S</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">NC2</span><span class="p">,</span><span class="n">M</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">L</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Baiyue.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
