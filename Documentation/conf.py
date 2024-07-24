@@ -32,9 +32,9 @@ html_css_files = [
 ]
 
 # -- Options for imgmath extension -------------------------------------------
-iimgmath_image_format = 'svg'  # Use 'png' or 'svg'
-imgmath_use_preview = True  # Better vertical alignment of images
-imgmath_add_tooltips = True  # Add LaTeX code as tooltips
+iimgmath_image_format = 'svg'  
+imgmath_use_preview = True  
+imgmath_add_tooltips = True  
 imgmath_font_size = 12  # Font size for the rendered math
 imgmath_latex = 'latex'
 imgmath_latex_preamble = r'''

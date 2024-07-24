@@ -11,10 +11,10 @@ Welcome to ScholarCodeCollective's documentation!
    :caption: Methods:
 
    Papers/hypergraph_binning
-   Papers/MDL_network_population_clustering
-   Papers/MDL_regionalization
-   Papers/Network_hubs
-   Papers/urban_boundary_delineation
+   Papers/population_clustering
+   Papers/distributional_regionalization
+   Papers/hub_identification
+   Papers/community_regionalization
  
 
 
