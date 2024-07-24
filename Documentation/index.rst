@@ -8,7 +8,7 @@ Welcome to ScholarCodeCollective's documentation!
 
 .. toctree::
    :maxdepth: 2
-   :caption: Papers:
+   :caption: Methods:
 
    Papers/hypergraph_binning
    Papers/MDL_network_population_clustering

@@ -1,18 +1,45 @@
-MDL network population clustering
+Clustering Network Populations
 +++++++++
 
 Tutorial 
 ===============
+Code to perform clustering network populations derived in ‘Compressing network populations with modal networks reveals structural diversity’. Inputs an event dataset of the form \[(edgesets, N, K0, n_fails, bipartite, directed, max_runs)\], where:
+
+- **edgesets:** List of sets. The s-th set contains all the edges (i, j) in the s-th network in the sample (do not include the other direction (j, i) if the network is undirected). The order of edgesets within the dataset only matters for contiguous clustering, where we want the edgesets to be in the order of the samples in time.
+- **N:** Number of nodes in each network.
+- **K0:** Initial number of clusters (for discontiguous clustering, usually K0 = 1 works well; for contiguous clustering, it does not matter).
+- **n_fails:** Number of failed reassign/merge/split/merge-split moves before terminating the algorithm.
+- **bipartite:** 'None' for unipartite network populations, array \[(# of nodes of type 1, # of nodes of type 2)\] otherwise.
+- **directed:** Set to True when sets of edges input are directed.
+- **max_runs:** Maximum number of allowed moves, independent of the number of failed moves.
+
+Outputs a clustering result of the form \[(C, A, L)\], where:
+
+- **C:** Dictionary with items (cluster label):(set of indices corresponding to networks in the cluster).
+- **A:** Dictionary with items (cluster label):(set of edges corresponding to the mode of the cluster).
+- **L:** Inverse compression ratio, which is the description length after clustering divided by the description length of naive transmission.
+
+using the following clustering objective:
+
 .. _equation1:
 
 .. math::
+    :nowrap:
 
+    \[
     \mathcal{L}_k\left(\mathcal{A}^{(k)}, C_k\right) = \mathcal{L}\left(\mathcal{A}^{(k)}\right) + S \log\left(\frac{S}{S_k}\right) + \ell_k \tag{1}
+    \]
 
 .. _equation2:
-.. math::
 
+.. math::
+    :nowrap:
+
+    \[
     \mathcal{L}(\mathcal{D}) = \sum_{k=1}^{K} \mathcal{L}_k\left(\mathcal{A}^{(k)}, C_k\right). \tag{2}
+    \]
+
+This method optimizes the Minimum Description Length (MDL) objective for clustering network populations.
 
 Equation :eq:`(2)` gives the total description length of the data :math:`\mathcal{D}` under our multi-part transmission scheme. By minimizing this objective function we identify the best configurations of modes :math:`\mathcal{A}` and clusters :math:`\mathcal{C}`. A good configuration :math:`\{\mathcal{A}, \mathcal{C}\}` will allow us to transmit a large portion of the information in :math:`\mathcal{D}` through the modes alone. If we use too many modes, the description length will increase as these are costly to communicate in full. And if we use too few, the description length will also increase because we will have to send lengthy messages describing how mismatched networks and modes differ. Hence, through the principle of parsimony, Eq. :eq:`(2)` favors descriptions with the number of clusters :math:`K` as small as possible but not smaller.
 
@@ -515,115 +542,147 @@ Demo
 =======
 Example Code
 ------------
-.. code:: python
 
-  import numpy as np
-  import matplotlib.pyplot as plt
-  import time
-  import ScholarCodeCollective as SCC
-  from ScholarCodeCollective.MDL_network_population_clustering_main import generate_synthetic, MDL_populations
-  import networkx as nx
-  import random
+**Step 1: Import necessary libraries**
 
-  def visualize_synthetic_clusters(nets, cluster_labels, N):
-      num_plots = len(nets)
-      cols = 3
-      rows = (num_plots // cols) + (num_plots % cols > 0)
-      fig, axes = plt.subplots(rows, cols, figsize=(15, 10))
+.. code-block:: python
 
-      for i, (net, cluster_label) in enumerate(zip(nets, cluster_labels)):
-          row, col = divmod(i, cols)
-          ax = axes[row, col] if rows > 1 else axes[col]
-          G = nx.DiGraph()
-          G.add_nodes_from(range(N))
-          G.add_edges_from(net)
-          
-          pos = nx.circular_layout(G)  # Layout for visualization
-          nx.draw(G, pos, with_labels=True, ax=ax, node_size=300, node_color='skyblue', font_weight='bold', arrows=True)
-          ax.set_title(f'Network {i+1} (Mode {cluster_label})')
-      
-      for j in range(i + 1, rows * cols):
-          fig.delaxes(axes.flatten()[j])
+    import numpy as np
+    import matplotlib.pyplot as plt
+    import time
+    import ScholarCodeCollective as SCC
+    from ScholarCodeCollective.MDL_network_population_clustering_main import generate_synthetic, MDL_populations
+    import networkx as nx
+    import random
 
-      plt.tight_layout()
-      plt.show()
+**Step 2: Function to visualize synthetic clusters**
 
-  mode_example = [{(1,2), (1,3), (1,4), (2,3), (2,4), (3,4), (3,5), (6,8), (7,8)}, 
-          {(1,2), (1,3), (3,4), (3,5), (3,6), (4,5), (4,6), (5,6), (5,7)}, 
-          {(2,4), (3,4), (4,6), (5,6), (5,7), (5,8), (6,7), (6,8), (7,8)}]
+.. code-block:: python
 
-  node_num = 8
-  nets, cluster_labels = generate_synthetic(
-      S=9, 
-      N=node_num, 
-      modes=mode_example,
-      alphas=[1, 1, 1], 
-      betas=[0.1, 0.1, 0.1], 
-      pis=[0.33, 0.33, 0.34]
-  )
+    def visualize_synthetic_clusters(nets, cluster_labels, node_num):
+        num_plots = len(nets)
+        cols = 3
+        rows = (num_plots // cols) + (num_plots % cols > 0)
+        fig, axes = plt.subplots(rows, cols, figsize=(15, 10))
+        pos_rectangular = {}
+        half_N = (node_num + 1) // 2
+        for i in range(node_num):
+            if i < half_N:
+                pos_rectangular[i] = (i, 1)  
+            else:
+                pos_rectangular[i] = (i - half_N, 0) 
 
-  # Visualize the synthetic networks
-  visualize_synthetic_clusters(nets, cluster_labels, N=8)
+        for i, (net, cluster_label) in enumerate(zip(nets, cluster_labels)):
+            row, col = divmod(i, cols)
+            ax = axes[row, col] if rows > 1 else axes[col]
+            G = nx.Graph()
+            G.add_nodes_from(range(node_num))
+            G.add_edges_from(net)
+            
+            nx.draw(G, pos_rectangular, with_labels=True, ax=ax, node_size=300, node_color='skyblue', font_weight='bold')
+            ax.set_title(f'Network {i+1} (Mode {cluster_label})')
+        
+        for j in range(i + 1, rows * cols):
+            fig.delaxes(axes.flatten()[j])
+            
+        plt.tight_layout()
+        plt.savefig('synthetic_network_clusters.png', bbox_inches='tight', dpi=200)
+        plt.show()
 
-  mdl_pop = MDL_populations(edgesets=nets, N=node_num, K0=1, n_fails=100, directed=False, max_runs=100)
-  mdl_pop.initialize_clusters()
-  clusters, modes, L = mdl_pop.run_sims()
+**Step 3: Generate synthetic data**
 
-  def visualize_clusters(nets, clusters, modes, L, N, filename='MDL_population_clusters.png'):
-      num_clusters = len(clusters)
-      fig, ax = plt.subplots(1, num_clusters, figsize=(15, 8))  
+.. code-block:: python
 
-      if num_clusters == 1:
-          ax = [ax]
+    mode_example = [{(0, 1), (0, 4), (0, 5), (1, 4), (1, 5), (1, 2), (3, 7), (6, 7)}, 
+        {(0, 1), (0, 4), (1, 2), (1, 5), (1, 6), (2, 5), (2, 6), (2, 3), (5, 6)}, 
+        {(1, 5), (4, 5), (5, 6), (2, 3), (2, 6), (3, 6), (3, 7), (2, 7), (6, 7)}]
 
-      for i, (k, v) in enumerate(clusters.items()):
-          G = nx.Graph()
-          G.add_nodes_from(range(N))
-          for idx in v:
-              G.add_edges_from(nets[idx])
-          
-          degrees = dict(G.degree())
-          max_degree = max(degrees.values()) if degrees else 1
-          node_sizes = [100 + 400 * degrees[node] / max_degree for node in G.nodes()]
-          
-          pos = nx.circular_layout(G)  
-          
-          edge_colors = []
-          for node in G.nodes():
-              node_color = "#{:06x}".format(random.randint(0, 0xFFFFFF))
-              for edge in G.edges(node):
-                  edge_colors.append(node_color)
-          
-          nx.draw(G, pos, ax=ax[i], with_labels=True, node_size=node_sizes, node_color='lightblue', font_size=8, font_weight='bold', edge_color=edge_colors)
-          
-          num_networks = len(v)
-          mode_size = len(modes[k])
-          ax[i].set_title(f'Cluster {k}: {num_networks} networks, Mode size: {mode_size}, Inverse compression ratio: {L:.3f}', fontsize=10)
-          ax[i].axis('off') 
+    node_num = 8
+    network_num = 2000
+    nets, cluster_labels = generate_synthetic(
+        S=network_num, 
+        N=node_num, 
+        modes=mode_example,
+        alphas=[1, 1, 1], 
+        betas=[0.1, 0.1, 0.1], 
+        pis=[0.33, 0.33, 0.34]
+    )
 
-      plt.tight_layout()
-      plt.subplots_adjust(top=0.85, wspace=0.5)  
-      plt.savefig(filename, bbox_inches='tight', dpi=200)
-      plt.show()
+**Step 4: Visualize the synthetic networks**
 
-  # Visualize the unconstrained description length optimization networks
-  visualize_clusters(nets, clusters, modes, L, node_num)
+.. code-block:: python
 
+    visualize_synthetic_clusters(nets, cluster_labels, node_num)
+
+**Step 5: Run the MDL populations algorithm**
+
+.. code-block:: python
+
+    mdl_pop = MDL_populations(edgesets=nets, N=node_num, K0=1, n_fails=100, directed=False, max_runs=np.inf)
+    mdl_pop.initialize_clusters()
+    clusters, modes, L = mdl_pop.run_sims()
+
+**Step 6: Function to visualize clustered networks**
+
+.. code-block:: python
+
+    def visualize_clusters(nets, clusters, L, N, network_num, filename='MDL_population_clusters.png'):
+        num_clusters = len(clusters)
+        fig, ax = plt.subplots(1, num_clusters, figsize=(15, 8))  
+
+        if num_clusters == 1:
+            ax = [ax]
+
+        pos_rectangular = {}
+        half_N = (N + 1) // 2
+        for i in range(N):
+            if i < half_N:
+                pos_rectangular[i] = (i, 1) 
+            else:
+                pos_rectangular[i] = (i - half_N, 0)  
+
+        for i, (k, v) in enumerate(clusters.items()):
+            G = nx.Graph()
+            G.add_nodes_from(range(N))
+            for idx in v:
+                G.add_edges_from(nets[idx])
+            
+            degrees = dict(G.degree())
+            max_degree = max(degrees.values()) if degrees else 1
+            node_sizes = [100 + 400 * degrees[node] / max_degree for node in G.nodes()]
+            nx.draw(G, pos_rectangular, ax=ax[i], with_labels=True, node_size=node_sizes, node_color='skyblue', font_size=8, font_weight='bold', edge_color='black', width=1.5)
+            num_networks = len(v)
+            ax[i].set_title(f'Cluster {k}: {num_networks} networks, modes', fontsize=10)
+            ax[i].axis('off') 
+
+        plt.suptitle(f'{network_num} Sythetic Networks, Inverse Compression Ratio: {L:.3f}', fontsize=12)
+        plt.tight_layout(rect=[0, 0.03, 1, 0.95])
+        plt.savefig(filename, bbox_inches='tight', dpi=200)
+        plt.show()
+
+**Step 7: Visualize the clustered networks**
+
+.. code-block:: python
+
+    visualize_clusters(nets, clusters, L, node_num, network_num)
 
 Example Output
 --------------
-.. image:: synthetic_networks_population_example.png
+
+.. figure:: synthetic_networks_population_example.png
     :alt: Example output showing the synthetic networks structure.
-Example output showing the synthetic networks structure.
 
-.. image:: MDL_population_clusters_example.png
+    Part of 2,000 Synthetic Networks with Cluster Labels. Each network is plotted with nodes colored light blue and labeled. The networks are arranged in a rectangular layout, with the title indicating the network number and its mode.
+
+.. figure:: MDL_population_clusters_example.png
     :alt: Example output showing the MDL population clustering results for synthetic networks.
-Example output showing the MDL population clustering results for synthetic networks.
 
-Link 
-====
+    MDL Population Clustering Results for Synthetic Networks. Each cluster is represented by a subplot, with nodes colored light blue. The title of each subplot includes the cluster number and the number of networks in that cluster. The overall title indicates the total number of synthetic networks and the inverse compression ratio (L).
 
 Paper source
-------------
+====
 
-https://arxiv.org/abs/2209.13827
+If you use this algorithm in your work, please cite:
+
+A. Kirkley*, A. Rojas, M. Rosvall, and J-G. Young, Compressing network populations with modal networks reveals structural diversity. Communications Physics 6, 148 (2023). 
+Paper: https://arxiv.org/abs/2209.13827

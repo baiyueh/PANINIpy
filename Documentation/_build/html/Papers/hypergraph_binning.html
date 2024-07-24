@@ -4,10 +4,10 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Hypergraph Binning &mdash; Scholar Code Collective  documentation</title>
+  <title>Binning Temporal Hypergraphs &mdash; Scholar Code Collective  documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
-      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=8209f5a7" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=1fa8549b" />
 
   
   <!--[if lt IE 9]>
@@ -19,11 +19,10 @@
         <script src="../_static/documentation_options.js?v=5929fcd5"></script>
         <script src="../_static/doctools.js?v=9a2dae69"></script>
         <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
-        <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="MDL network population clustering" href="MDL_network_population_clustering.html" />
+    <link rel="next" title="Clustering Network Populations" href="MDL_network_population_clustering.html" />
     <link rel="prev" title="Welcome to ScholarCodeCollective’s documentation!" href="../index.html" /> 
 </head>
 
@@ -46,9 +45,9 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Papers:</span></p>
+              <p class="caption" role="heading"><span class="caption-text">Methods:</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Hypergraph Binning</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Binning Temporal Hypergraphs</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#tutorial">Tutorial</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#mdl-hypergraph-binning">MDL Hypergraph Binning</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#functions">Functions</a></li>
@@ -60,16 +59,13 @@
 <li class="toctree-l3"><a class="reference internal" href="#example-output">Example Output</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#link">Link</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#paper-source">Paper source</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#paper-source">Paper source</a></li>
 </ul>
 </li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="MDL_network_population_clustering.html">MDL network population clustering</a></li>
-<li class="toctree-l1"><a class="reference internal" href="MDL_regionalization.html">MDL Regionalization</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Network_hubs.html">Network Hubs</a></li>
-<li class="toctree-l1"><a class="reference internal" href="urban_boundary_delineation.html">Urban Boundary Delineation from Commuting Data with Bayesian Stochastic Blockmodeling: Scale, Contiguity, and Hierarchy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="MDL_network_population_clustering.html">Clustering Network Populations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="MDL_regionalization.html">Regionalization with Distributional Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Network_hubs.html">Identifying Network Hubs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="urban_boundary_delineation.html">Regionalization with Community Detection</a></li>
 </ul>
 
         </div>
@@ -86,7 +82,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">Hypergraph Binning</li>
+      <li class="breadcrumb-item active">Binning Temporal Hypergraphs</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/Papers/hypergraph_binning.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -96,22 +92,37 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="hypergraph-binning">
-<h1>Hypergraph Binning<a class="headerlink" href="#hypergraph-binning" title="Link to this heading"></a></h1>
+  <section id="binning-temporal-hypergraphs">
+<h1>Binning Temporal Hypergraphs<a class="headerlink" href="#binning-temporal-hypergraphs" title="Link to this heading"></a></h1>
 <section id="tutorial">
 <h2>Tutorial<a class="headerlink" href="#tutorial" title="Link to this heading"></a></h2>
+<p>Code to perform hypergraph binning method derived in ‘Inference of dynamic hypergraph representations in temporal interaction data’. Inputs an event dataset of the form [(source, destination, weight, time)], where:</p>
+<ul class="simple">
+<li><p><strong>source:</strong> The source node of the event.</p></li>
+<li><p><strong>destination:</strong> The destination node of the event.</p></li>
+<li><p><strong>weight:</strong> The weight of the event, representing its significance or frequency.</p></li>
+<li><p><strong>time:</strong> The time at which the event occurs.</p></li>
+</ul>
+<p>Outputs a temporal partition of the form [(compression ratio, event clusters, number of time steps)], where:</p>
+<ul class="simple">
+<li><p><strong>compression ratio:</strong> The ratio of the description length after clustering to the description length of naive transmission.</p></li>
+<li><p><strong>event clusters:</strong> A list representing the partition of the event data into clusters.</p></li>
+<li><p><strong>number of time steps:</strong> The number of time steps corresponding to the specified width (dt).</p></li>
+</ul>
+<p>using the following clustering objective:</p>
+<div class="math" id="equation1">
+<p><img src="../_images/math/dc2ee1cd54efa29e48f814ec0d30c88d045fa271.png" alt="\[
+\mathcal{L}_{\text{total}}(\mathcal{X}, \tau) = \sum_{k=1}^{K} \mathcal{L}_{\text{cluster}}^{(k)} \tag{1}
+\]"/></p>
+</div><p>where</p>
+<div class="math" id="equation2">
+<p><img src="../_images/math/fc56a3dd851625041ffd5a4ff0e460a0d3991667.png" alt="\[
+\mathcal{L}_{\text{cluster}}^{(k)} = \log(N - 1)(T - 1) + \log\left(\binom{S}{m_k}\binom{D}{m_k}\binom{\tau_k}{m_k}\right) + \left[\log \Omega(s^{(k)}, d^{(k)}) + \log \Omega(G^{(k)}, n^{(k)}) \right] \tag{2}
+\]"/></p>
+</div><p>This method optimizes the Minimum Description Length (MDL) objective for temporal clustering of event data.</p>
+<p>We can now minimize our MDL objective in Eq. <code class="xref eq docutils literal notranslate"><span class="pre">1</span></code> using a dynamic program. The key intuition behind this is that since the objective in Eq. <code class="xref eq docutils literal notranslate"><span class="pre">1</span></code> is a sum of independent terms over clusters in one dimension, its minimum over the first <img class="math" src="../_images/math/027c303e9f184742310cc02b05e714082c6c1355.png" alt="j" style="vertical-align: -4px"/> time steps—i.e., the optimal binning <img class="math" src="../_images/math/0f09e65da7b4cf5a122a1923b520bbdf5cca7700.png" alt="\tau" style="vertical-align: 0px"/> restricted to these first <img class="math" src="../_images/math/027c303e9f184742310cc02b05e714082c6c1355.png" alt="j" style="vertical-align: -4px"/> time steps—must consist of the optimal binning up to some time step <img class="math" src="../_images/math/e2f3da5b892b69e0791532686e9e6cdba2a00bc5.png" alt="i \in \{1, ..., j\}" style="vertical-align: -5px"/> (excluding the <img class="math" src="../_images/math/0a6fd4097836e81202e1394f03a2d94b94186000.png" alt="i" style="vertical-align: 0px"/>-th time step) plus a final cluster of time steps <img class="math" src="../_images/math/ad2d9431760068fdcf9c6dd7561172fcd688d37b.png" alt="i, ..., j" style="vertical-align: -4px"/>.</p>
 <p>Code to perform hypergraph binning methods derived in “Constructing hypergraphs from temporal data”, with example ipython notebook.</p>
 <p>The New York City FourSquare checkins dataset used in the paper can be downloaded from [Kaggle](<a class="reference external" href="https://www.kaggle.com/datasets/chetanism/foursquare-nyc-and-tokyo-checkin-dataset?resource=download">https://www.kaggle.com/datasets/chetanism/foursquare-nyc-and-tokyo-checkin-dataset?resource=download</a>).</p>
-<p>If you use this algorithm in your work, please cite:</p>
-<ol class="upperalpha simple">
-<li><p>Kirkley, Inference of dynamic hypergraph representations in temporal interaction data. Preprint arXiv:2308.16546 (2023).</p></li>
-</ol>
-<div class="math notranslate nohighlight" id="equation1">
-\[\mathcal{L}_{\text{total}}(\mathcal{X}, \tau) = \sum_{k=1}^{K} \mathcal{L}_{\text{cluster}}^{(k)} \tag{1}\]</div>
-<p>where</p>
-<div class="math notranslate nohighlight" id="equation2">
-\[\mathcal{L}_{\text{cluster}}^{(k)} = \log(N - 1)(T - 1) + \log\left(\binom{S}{m_k}\binom{D}{m_k}\binom{\tau_k}{m_k}\right) + \left[\log \Omega(s^{(k)}, d^{(k)}) + \log \Omega(G^{(k)}, n^{(k)}) \right] \tag{2}\]</div>
-<p>We can now minimize our MDL objective in Eq. <code class="xref eq docutils literal notranslate"><span class="pre">1</span></code> using a dynamic program. The key intuition behind this is that since the objective in Eq. <code class="xref eq docutils literal notranslate"><span class="pre">1</span></code> is a sum of independent terms over clusters in one dimension, its minimum over the first <span class="math notranslate nohighlight">\(j\)</span> time steps—i.e., the optimal binning <span class="math notranslate nohighlight">\(\tau\)</span> restricted to these first <span class="math notranslate nohighlight">\(j\)</span> time steps—must consist of the optimal binning up to some time step <span class="math notranslate nohighlight">\(i \in \{1, ..., j\}\)</span> (excluding the <span class="math notranslate nohighlight">\(i\)</span>-th time step) plus a final cluster of time steps <span class="math notranslate nohighlight">\(i, ..., j\)</span>.</p>
 </section>
 <section id="mdl-hypergraph-binning">
 <h2>MDL Hypergraph Binning<a class="headerlink" href="#mdl-hypergraph-binning" title="Link to this heading"></a></h2>
@@ -247,6 +258,7 @@ Compute the cluster-level description length.</p>
 <p>The following example demonstrates how to use the <code class="docutils literal notranslate"><span class="pre">MDL_hypergraph_binning</span></code> function on an event dataset <code class="docutils literal notranslate"><span class="pre">X</span></code> with a time step width <code class="docutils literal notranslate"><span class="pre">dt</span></code>.</p>
 <section id="example-code">
 <h3>Example Code<a class="headerlink" href="#example-code" title="Link to this heading"></a></h3>
+<p><strong>Step 1: Import necessary libraries</strong></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">time</span>
 <span class="kn">import</span> <span class="nn">ScholarCodeCollective</span> <span class="k">as</span> <span class="nn">SCC</span>
 <span class="kn">from</span> <span class="nn">ScholarCodeCollective.hypergraph_binning_main</span> <span class="kn">import</span> <span class="n">MDL_hypergraph_binning</span><span class="p">,</span> <span class="n">logOmega</span><span class="p">,</span> <span class="n">logchoose</span>
@@ -254,119 +266,111 @@ Compute the cluster-level description length.</p>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">networkx</span> <span class="k">as</span> <span class="nn">nx</span>
-<span class="kn">import</span> <span class="nn">matplotlib</span>
 <span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">Counter</span><span class="p">,</span> <span class="n">defaultdict</span>
-
-
-<span class="n">X</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">&#39;a1&#39;</span><span class="p">,</span><span class="s1">&#39;b2&#39;</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mf">1.1</span><span class="p">),(</span><span class="s1">&#39;a1&#39;</span><span class="p">,</span><span class="s1">&#39;b3&#39;</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mf">1.5</span><span class="p">),(</span><span class="s1">&#39;a1&#39;</span><span class="p">,</span><span class="s1">&#39;b2&#39;</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mf">1.6</span><span class="p">),(</span><span class="s1">&#39;a2&#39;</span><span class="p">,</span><span class="s1">&#39;b2&#39;</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mf">1.7</span><span class="p">),(</span><span class="s1">&#39;a2&#39;</span><span class="p">,</span><span class="s1">&#39;b3&#39;</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mf">1.9</span><span class="p">),</span>\
-    <span class="p">(</span><span class="s1">&#39;a4&#39;</span><span class="p">,</span><span class="s1">&#39;b5&#39;</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mf">5.5</span><span class="p">),(</span><span class="s1">&#39;a1&#39;</span><span class="p">,</span><span class="s1">&#39;b3&#39;</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">150</span><span class="p">),(</span><span class="s1">&#39;a1&#39;</span><span class="p">,</span><span class="s1">&#39;b3&#39;</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">160</span><span class="p">),(</span><span class="s1">&#39;a4&#39;</span><span class="p">,</span><span class="s1">&#39;b6&#39;</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">170</span><span class="p">),(</span><span class="s1">&#39;a2&#39;</span><span class="p">,</span><span class="s1">&#39;b3&#39;</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">190</span><span class="p">)]</span>
-<span class="n">dt</span> <span class="o">=</span> <span class="mi">1</span>
-
-<span class="n">start_exact</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
-<span class="n">results_exact</span> <span class="o">=</span> <span class="n">MDL_hypergraph_binning</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">dt</span><span class="p">,</span><span class="n">exact</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Step 2: Generate synthetic data</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">X</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">&#39;A&#39;</span><span class="p">,</span><span class="s1">&#39;1&#39;</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mf">0.1</span><span class="p">),(</span><span class="s1">&#39;B&#39;</span><span class="p">,</span><span class="s1">&#39;1&#39;</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mf">0.2</span><span class="p">),(</span><span class="s1">&#39;B&#39;</span><span class="p">,</span><span class="s1">&#39;1&#39;</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mf">0.3</span><span class="p">),(</span><span class="s1">&#39;A&#39;</span><span class="p">,</span><span class="s1">&#39;1&#39;</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mf">0.4</span><span class="p">),(</span><span class="s1">&#39;B&#39;</span><span class="p">,</span><span class="s1">&#39;1&#39;</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mf">0.5</span><span class="p">),</span>
+     <span class="p">(</span><span class="s1">&#39;B&#39;</span><span class="p">,</span><span class="s1">&#39;1&#39;</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">),(</span><span class="s1">&#39;C&#39;</span><span class="p">,</span><span class="s1">&#39;2&#39;</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">),(</span><span class="s1">&#39;A&#39;</span><span class="p">,</span><span class="s1">&#39;2&#39;</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">),(</span><span class="s1">&#39;B&#39;</span><span class="p">,</span><span class="s1">&#39;2&#39;</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">4</span><span class="p">),(</span><span class="s1">&#39;C&#39;</span><span class="p">,</span><span class="s1">&#39;2&#39;</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">5</span><span class="p">)]</span>
+<span class="n">dt</span> <span class="o">=</span> <span class="mf">0.1</span>
+</pre></div>
+</div>
+<p><strong>Step 3: Run the exact dynamic program algorithm</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">start_exact</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="n">results_exact</span> <span class="o">=</span> <span class="n">MDL_hypergraph_binning</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">dt</span><span class="p">,</span> <span class="n">exact</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">runtime_exact</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start_exact</span>
-
-<span class="n">start_greedy</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
-<span class="n">results_greedy</span> <span class="o">=</span> <span class="n">MDL_hypergraph_binning</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">dt</span><span class="p">,</span><span class="n">exact</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Step 4: Run the greedy algorithm</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">start_greedy</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="n">results_greedy</span> <span class="o">=</span> <span class="n">MDL_hypergraph_binning</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">dt</span><span class="p">,</span> <span class="n">exact</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 <span class="n">runtime_greedy</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start_greedy</span>
-
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Exact Dynamic Program Results: &#39;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;     compression ratio =&#39;</span><span class="p">,</span><span class="nb">round</span><span class="p">(</span><span class="n">results_exact</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="mi">4</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;     MDL-optimal event partition =&#39;</span><span class="p">,</span><span class="n">results_exact</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;     number of time steps =&#39;</span><span class="p">,</span><span class="n">results_exact</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;     runtime =&#39;</span><span class="p">,</span><span class="nb">round</span><span class="p">(</span><span class="n">runtime_exact</span><span class="p">,</span><span class="mi">4</span><span class="p">))</span>
+</pre></div>
+</div>
+<p><strong>Step 5: Display results</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Exact Dynamic Program Results: &#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;     compression ratio =&#39;</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">results_exact</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">4</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;     MDL-optimal event partition =&#39;</span><span class="p">,</span> <span class="n">results_exact</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;     number of time steps =&#39;</span><span class="p">,</span> <span class="n">results_exact</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;     runtime =&#39;</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">runtime_exact</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Greedy Algorithm Results: &#39;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;     compression ratio =&#39;</span><span class="p">,</span><span class="nb">round</span><span class="p">(</span><span class="n">results_greedy</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="mi">4</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;     MDL-optimal event partition =&#39;</span><span class="p">,</span><span class="n">results_greedy</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;     number of time steps =&#39;</span><span class="p">,</span><span class="n">results_greedy</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;     runtime =&#39;</span><span class="p">,</span><span class="nb">round</span><span class="p">(</span><span class="n">runtime_greedy</span><span class="p">,</span><span class="mi">4</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;     compression ratio =&#39;</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">results_greedy</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">4</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;     MDL-optimal event partition =&#39;</span><span class="p">,</span> <span class="n">results_greedy</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;     number of time steps =&#39;</span><span class="p">,</span> <span class="n">results_greedy</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;     runtime =&#39;</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">runtime_greedy</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+</pre></div>
+</div>
+<p><strong>Step 6: Function to visualize the binning results</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">visualize_binning</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">result</span><span class="p">,</span> <span class="n">method</span><span class="p">):</span>
+    <span class="n">labels</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">times</span> <span class="o">=</span> <span class="p">[</span><span class="n">t</span> <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">X</span><span class="p">]</span>
+    <span class="n">pairs</span> <span class="o">=</span> <span class="p">[(</span><span class="n">src</span><span class="p">,</span> <span class="n">dest</span><span class="p">)</span> <span class="k">for</span> <span class="n">src</span><span class="p">,</span> <span class="n">dest</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">X</span><span class="p">]</span>
+    <span class="n">times_transformed</span> <span class="o">=</span> <span class="n">times</span>
+    <span class="n">unique_nodes</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">([</span><span class="n">src</span> <span class="k">for</span> <span class="n">src</span><span class="p">,</span> <span class="n">dest</span> <span class="ow">in</span> <span class="n">pairs</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="n">dest</span> <span class="k">for</span> <span class="n">src</span><span class="p">,</span> <span class="n">dest</span> <span class="ow">in</span> <span class="n">pairs</span><span class="p">])))</span>
+    <span class="n">node_pos</span> <span class="o">=</span> <span class="p">{</span><span class="n">node</span><span class="p">:</span> <span class="n">i</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">node</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">unique_nodes</span><span class="p">)}</span>
 
+    <span class="n">colors</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;skyblue&#39;</span> <span class="k">if</span> <span class="n">label</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="s1">&#39;lightcoral&#39;</span> <span class="k">for</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">labels</span><span class="p">]</span>
 
-<span class="k">def</span> <span class="nf">visualize_nework</span><span class="p">(</span><span class="n">X</span><span class="p">):</span>
-    <span class="n">edge_freq</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">((</span><span class="n">orig</span><span class="p">,</span> <span class="n">dest</span><span class="p">)</span> <span class="k">for</span> <span class="n">orig</span><span class="p">,</span> <span class="n">dest</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">X</span><span class="p">)</span>
-    <span class="n">edge_weight_sum</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
-    <span class="k">for</span> <span class="n">orig</span><span class="p">,</span> <span class="n">dest</span><span class="p">,</span> <span class="n">weight</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">X</span><span class="p">:</span>
-        <span class="n">edge_weight_sum</span><span class="p">[(</span><span class="n">orig</span><span class="p">,</span> <span class="n">dest</span><span class="p">)]</span> <span class="o">+=</span> <span class="n">weight</span>
-    <span class="n">G</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">DiGraph</span><span class="p">()</span>
-    <span class="k">for</span> <span class="p">(</span><span class="n">orig</span><span class="p">,</span> <span class="n">dest</span><span class="p">),</span> <span class="n">freq</span> <span class="ow">in</span> <span class="n">edge_freq</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-        <span class="n">G</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="n">orig</span><span class="p">,</span> <span class="n">dest</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="n">edge_weight_sum</span><span class="p">[(</span><span class="n">orig</span><span class="p">,</span> <span class="n">dest</span><span class="p">)],</span> <span class="n">freq</span><span class="o">=</span><span class="n">freq</span><span class="p">)</span>
-    <span class="n">node_sizes</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1000</span> <span class="o">*</span> <span class="n">G</span><span class="o">.</span><span class="n">degree</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">G</span><span class="o">.</span><span class="n">nodes</span><span class="p">()]</span>
-    <span class="n">pos</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">shell_layout</span> <span class="p">(</span><span class="n">G</span><span class="p">)</span>
+    <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="n">dest</span><span class="p">),</span> <span class="n">time</span><span class="p">,</span> <span class="n">color</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">pairs</span><span class="p">,</span> <span class="n">times_transformed</span><span class="p">,</span> <span class="n">colors</span><span class="p">):</span>
+        <span class="n">src_pos</span> <span class="o">=</span> <span class="n">node_pos</span><span class="p">[</span><span class="n">src</span><span class="p">]</span>
+        <span class="n">dest_pos</span> <span class="o">=</span> <span class="n">node_pos</span><span class="p">[</span><span class="n">dest</span><span class="p">]</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">time</span><span class="p">,</span> <span class="n">time</span><span class="p">],</span> <span class="p">[</span><span class="n">src_pos</span><span class="p">,</span> <span class="n">dest_pos</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mi">11</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">src_pos</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">src</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">,</span> <span class="n">va</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">9</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s1">&#39;bold&#39;</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">dest_pos</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">dest</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">,</span> <span class="n">va</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">9</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s1">&#39;bold&#39;</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
 
-    <span class="n">edge_labels</span> <span class="o">=</span> <span class="p">{(</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">d</span><span class="p">[</span><span class="s1">&#39;freq&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">d</span><span class="p">[</span><span class="s1">&#39;weight&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">)&quot;</span> <span class="k">for</span> <span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">G</span><span class="o">.</span><span class="n">edges</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">)}</span>
-    <span class="n">edge_weights</span> <span class="o">=</span> <span class="p">[</span><span class="n">d</span><span class="p">[</span><span class="s1">&#39;weight&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">G</span><span class="o">.</span><span class="n">edges</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">)]</span>
-
-    <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
-    <span class="n">nx</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">with_labels</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">node_size</span><span class="o">=</span><span class="n">node_sizes</span><span class="p">,</span> <span class="n">node_color</span><span class="o">=</span><span class="s2">&quot;lightblue&quot;</span><span class="p">,</span> <span class="n">font_weight</span><span class="o">=</span><span class="s2">&quot;bold&quot;</span><span class="p">,</span> <span class="n">arrows</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="n">edge_weights</span><span class="p">)</span>
-    <span class="n">nx</span><span class="o">.</span><span class="n">draw_networkx_edge_labels</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">edge_labels</span><span class="o">=</span><span class="n">edge_labels</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Graph Representation of the Dataset with Edge Frequency and Weight&quot;</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s2">&quot;graph.png&quot;</span><span class="p">,</span> <span class="n">bbox_inches</span><span class="o">=</span><span class="s1">&#39;tight&#39;</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">times_transformed</span><span class="p">)</span> <span class="o">-</span> <span class="mf">0.5</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="n">times_transformed</span><span class="p">)</span> <span class="o">+</span> <span class="mf">0.5</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">node_pos</span><span class="o">.</span><span class="n">values</span><span class="p">())</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="n">node_pos</span><span class="o">.</span><span class="n">values</span><span class="p">())</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">([])</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Time&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Event Partition in Time Scale with </span><span class="si">{</span><span class="n">method</span><span class="si">}</span><span class="s1"> Dynamic Solution&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;timeline_plot_with_log_transform_</span><span class="si">{</span><span class="n">method</span><span class="si">}</span><span class="s2">.png&quot;</span><span class="p">,</span> <span class="n">bbox_inches</span><span class="o">=</span><span class="s1">&#39;tight&#39;</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-
-<span class="n">visualize_nework</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
-
-  <span class="k">def</span> <span class="nf">visualize_binning</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">result</span><span class="p">,</span> <span class="n">method</span><span class="p">):</span>
-      <span class="n">labels</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-      <span class="n">times</span> <span class="o">=</span> <span class="p">[</span><span class="n">t</span> <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">X</span><span class="p">]</span>
-      <span class="n">pairs</span> <span class="o">=</span> <span class="p">[(</span><span class="n">src</span><span class="p">,</span> <span class="n">dest</span><span class="p">)</span> <span class="k">for</span> <span class="n">src</span><span class="p">,</span> <span class="n">dest</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">X</span><span class="p">]</span>
-      <span class="n">times_transformed</span><span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="n">times</span><span class="p">)</span>
-
-      <span class="n">jitter</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">times</span><span class="p">))</span>
-      <span class="n">times_jittered</span> <span class="o">=</span> <span class="p">[</span><span class="n">t</span>  <span class="k">for</span> <span class="n">t</span><span class="p">,</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">times_transformed</span><span class="p">,</span> <span class="n">jitter</span><span class="p">)]</span>
-      <span class="n">colors</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;skyblue&#39;</span> <span class="k">if</span> <span class="n">label</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="s1">&#39;lightcoral&#39;</span> <span class="k">for</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">labels</span><span class="p">]</span>
-
-      <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
-      <span class="n">nodes</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">([</span><span class="n">src</span> <span class="k">for</span> <span class="n">src</span><span class="p">,</span> <span class="n">dest</span> <span class="ow">in</span> <span class="n">pairs</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="n">dest</span> <span class="k">for</span> <span class="n">src</span><span class="p">,</span> <span class="n">dest</span> <span class="ow">in</span> <span class="n">pairs</span><span class="p">]))</span>
-      <span class="n">node_pos</span> <span class="o">=</span> <span class="p">{</span><span class="n">node</span><span class="p">:</span> <span class="n">i</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">node</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">nodes</span><span class="p">)}</span>
-      <span class="n">node_pos</span> <span class="o">=</span> <span class="p">{</span><span class="n">node</span><span class="p">:</span> <span class="n">pos</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">pos</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">node_pos</span><span class="o">.</span><span class="n">items</span><span class="p">())}</span>
-      <span class="k">for</span> <span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="n">dest</span><span class="p">),</span> <span class="n">time</span><span class="p">,</span> <span class="n">color</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">pairs</span><span class="p">,</span> <span class="n">times_jittered</span><span class="p">,</span> <span class="n">colors</span><span class="p">):</span>
-          <span class="n">src_pos</span> <span class="o">=</span> <span class="n">node_pos</span><span class="p">[</span><span class="n">src</span><span class="p">]</span>
-          <span class="n">dest_pos</span> <span class="o">=</span> <span class="n">node_pos</span><span class="p">[</span><span class="n">dest</span><span class="p">]</span>
-          <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">time</span><span class="p">,</span> <span class="n">time</span><span class="p">],</span> <span class="p">[</span><span class="n">src_pos</span><span class="p">,</span> <span class="n">dest_pos</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mi">11</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-          <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">src_pos</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">src</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">,</span> <span class="n">va</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">9</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s1">&#39;bold&#39;</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
-          <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">dest_pos</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">dest</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">,</span> <span class="n">va</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">9</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s1">&#39;bold&#39;</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
-
-      <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">times_jittered</span><span class="p">)</span> <span class="o">-</span> <span class="mf">0.5</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="n">times_jittered</span><span class="p">)</span> <span class="o">+</span> <span class="mf">0.5</span><span class="p">)</span>
-      <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">node_pos</span><span class="o">.</span><span class="n">values</span><span class="p">())</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="n">node_pos</span><span class="o">.</span><span class="n">values</span><span class="p">())</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
-      <span class="n">ax</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">([])</span>
-      <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Transformed Time&#39;</span><span class="p">)</span>
-      <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Event Partitionin Time Scale with </span><span class="si">{</span><span class="n">method</span><span class="si">}</span><span class="s1"> Dynamic Solution&#39;</span><span class="p">)</span>
-      <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;timeline_plot_with_log_transform_</span><span class="si">{</span><span class="n">method</span><span class="si">}</span><span class="s2">.png&quot;</span><span class="p">,</span> <span class="n">bbox_inches</span><span class="o">=</span><span class="s1">&#39;tight&#39;</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span>
-      <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-  <span class="n">visualize_binning</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">results_exact</span><span class="p">,</span> <span class="s1">&#39;exact&#39;</span><span class="p">)</span>
-  <span class="n">visualize_binning</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">results_greedy</span><span class="p">,</span> <span class="s1">&#39;greedy&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Step 7: Visualize the binning results for the exact dynamic program solution</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">visualize_binning</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">results_exact</span><span class="p">,</span> <span class="s1">&#39;exact&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Step 8: Visualize the binning results for the greedy algorithm solution</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">visualize_binning</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">results_greedy</span><span class="p">,</span> <span class="s1">&#39;greedy&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </section>
 <section id="example-output">
 <h3>Example Output<a class="headerlink" href="#example-output" title="Link to this heading"></a></h3>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Exact Dynamic Program Results:
-     compression ratio = 0.8502
-     MDL-optimal event partition = [0 0 0 0 0 1 1 1 1 1]
-     number of time steps = 189
-     runtime = 0.0711
+    compression ratio = 0.9842
+    MDL-optimal event partition = [0 0 0 0 0 0 1 1 1 1]
+    number of time steps = 50
+    runtime = 0.006
 Greedy Algorithm Results:
-     compression ratio = 0.8581
-     MDL-optimal event partition = [0 0 0 0 0 0 1 1 1 1]
-     number of time steps = 189
-     runtime = 0.0213
+    compression ratio = 0.9913
+    MDL-optimal event partition = [0 0 0 0 0 1 1 1 1 1]
+    number of time steps = 50
+    runtime = 0.0036
 </pre></div>
 </div>
-<img alt="Example output showing the example graph structure." src="../_images/graph_binning_example.png" />
-<p>Example output showing the example graph structure.</p>
+<figure class="align-default" id="id3">
 <img alt="Example output showing the hypergraph binning results for the example graph with the exact dynamic programming solution." src="../_images/timeline_plot_with_log_transform_exact.png" />
-<p>Example output showing the hypergraph binning results for the example graph with the exact dynamic programming solution.</p>
+<figcaption>
+<p><span class="caption-text">Hypergraph Binning Results for the Example Graph with the Exact Dynamic Programming Solution. The x-axis represents time, and the events are plotted with color-coded partitions. Events labeled with “0” are partitioned into the first group (light blue), and events labeled with “1” are partitioned into the second group (light red).</span><a class="headerlink" href="#id3" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<figure class="align-default" id="id4">
 <img alt="Example output showing the hypergraph binning results for the example graph with the greedy dynamic programming solution." src="../_images/timeline_plot_with_log_transform_greedy.png" />
-<p>Example output showing the hypergraph binning results for the example graph with the greedy dynamic programming solution.</p>
+<figcaption>
+<p><span class="caption-text">Hypergraph Binning Results for the Example Graph with the Greedy Dynamic Programming Solution. The x-axis represents time, and the events are plotted with color-coded partitions. Events labeled with “0” are partitioned into the first group (light blue), and events labeled with “1” are partitioned into the second group (light red).</span><a class="headerlink" href="#id4" title="Link to this image"></a></p>
+</figcaption>
+</figure>
 </section>
 </section>
-<section id="link">
-<h2>Link<a class="headerlink" href="#link" title="Link to this heading"></a></h2>
 <section id="paper-source">
-<h3>Paper source<a class="headerlink" href="#paper-source" title="Link to this heading"></a></h3>
-<p><a class="reference external" href="https://arxiv.org/abs/2308.16546">https://arxiv.org/abs/2308.16546</a></p>
-</section>
+<h2>Paper source<a class="headerlink" href="#paper-source" title="Link to this heading"></a></h2>
+<p>If you use this algorithm in your work, please cite:</p>
+<p>A. Kirkley, Inference of dynamic hypergraph representations in temporal interaction data. Physical Review E 109, 054306 (2024).
+Paper: <a class="reference external" href="https://arxiv.org/abs/2308.16546">https://arxiv.org/abs/2308.16546</a></p>
 </section>
 </section>
 
@@ -375,7 +379,7 @@ Greedy Algorithm Results:
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="../index.html" class="btn btn-neutral float-left" title="Welcome to ScholarCodeCollective’s documentation!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="MDL_network_population_clustering.html" class="btn btn-neutral float-right" title="MDL network population clustering" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="MDL_network_population_clustering.html" class="btn btn-neutral float-right" title="Clustering Network Populations" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

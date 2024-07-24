@@ -1,24 +1,39 @@
-MDL Regionalization
+Regionalization with Distributional Data
 +++++++++
 
 Tutorial 
 ===============
-# Spatial regionalization based on optimal information compression: code and data
-Ipython Notebook with code for regionalization algorithm in 'Spatial regionalization as optimal data compression', along with metropolitan area census tract networks used in the analysis.
 
-Ethnoracial distributions for each decade are ordered: ['Non-Hispanic White', 'Non-Hispanic Black', 'Asian', 'Hispanic', and 'Other'], and all census metadata are obtained from the Longitudinal Tract Database [here](https://s4.ad.brown.edu/projects/diversity/researcher/bridging.htm) 
+Code to perform spatial regionalization based on optimal information compression derived in ‘Spatial regionalization as optimal data compression’. Inputs an event dataset of the form \[(adjlist, dists, pops)\], where:
 
-If you use this algorithm or the accompanying data, please cite:
+- **adjlist:** List of lists, representing the adjacency list of integer node indices for each unit.
+- **dists:** 2D numpy array with normalized probability mass function for each unit, representing the distribution of different categories.
+- **pops:** Array representing the populations of the units.
 
-A. Kirkley, Spatial regionalization based on optimal information compression. Communications Physics 5, 249 (2022).
+Outputs a regionalization result of the form \[(inverse compression ratio, cluster labels, distributions)\], where:
+
+- **inverse compression ratio:** The ratio of the description length after clustering to the description length of naive transmission.
+- **cluster labels:** List of cluster labels for all units.
+- **distributions:** The distributions input to the algorithm.
+
+using the following clustering objective:
 
 .. _equation1:
 
 .. math::
 
-    \mathcal{L}(\mathcal{D}, \mathcal{P}) = \log \left(\frac{b(V) - 1}{K - 1}\right) + \log \left(\frac{n(V) - 1}{K - 1}\right) + \sum_{k=1}^{K} \log \left(\frac{b(V_k) - 1}{R - 1}\right) + \sum_{k=1}^{K} \log \left(\frac{b(V_k) - 1}{n(V_k) - 1}\right) + \sum_{k=1}^{K} \log \Omega(a_k, c_k). \tag{1}
+    \mathcal{L}(\mathcal{D}, \mathcal{P}) &= \log \left(\frac{b(V) - 1}{K - 1}\right) + \log \left(\frac{n(V) - 1}{K - 1}\right) \\
+    &+ \sum_{k=1}^{K} \log \left(\frac{b(V_k) - 1}{R - 1}\right) + \sum_{k=1}^{K} \log \left(\frac{b(V_k) - 1}{n(V_k) - 1}\right) \\
+    &+ \sum_{k=1}^{K} \log \Omega(a_k, c_k)
 
 We can see that the first three terms in Eq. :eq:`1` penalize us for having a greater number of clusters :math:`K`, as they will tend to contribute greater description lengths as :math:`K` increases, and the fourth term will not depend on the number of clusters to first order in a Stirling approximation of the binomial coefficients. For the last term in Eq. :eq:`1`, in the extreme case where there is only one category :math:`r^*` that is represented in the population of the units :math:`u \in V_k` (i.e. :math:`c_k[r] = 0` for :math:`r \neq r^*`), then we have :math:`\Omega(a_k, c_k) = 1` and the contribution from this term vanishes. More generally, there are fewer ways the categories can be distributed among the populations in :math:`V_k`'s constituent tracts if :math:`c_k` is more concentrated on a single category, so the last term in Eq. :eq:`1` will penalize for having a high level of diversity within the clusters. (Or, conversely, this penalty encourages partitions :math:`\mathcal{P}` that have homogeneous clusters.)
+
+This method optimizes the Minimum Description Length (MDL) objective for spatial regionalization of distributional data.
+
+# Spatial regionalization based on optimal information compression: code and data
+Ipython Notebook with code for regionalization algorithm in 'Spatial regionalization as optimal data compression', along with metropolitan area census tract networks used in the analysis.
+
+Ethnoracial distributions for each decade are ordered: ['Non-Hispanic White', 'Non-Hispanic Black', 'Asian', 'Hispanic', and 'Other'], and all census metadata are obtained from the Longitudinal Tract Database [here](https://s4.ad.brown.edu/projects/diversity/researcher/bridging.htm) 
 
 
 MDL Regionalization
@@ -331,111 +346,137 @@ Demo
 =======
 Example Code
 ------------
+
+Step 1: Import necessary libraries
+
 .. code:: python
 
-  data_dir = r"D:\Research HKU\PYPI_lib\ScholarCodeCollective\MDL_regionalization_main"
-  sys.path.append(data_dir)
-  nodelist = pd.read_csv(os.path.join(data_dir, 'metro_tract_metadata.csv'))
-  edgelist = pd.read_csv(os.path.join(data_dir, 'metro_network_edgelists.csv'))
-  nodelist = nodelist[nodelist['metro'] == 'New_Haven-Milford--CT']
-  nodelist['tract_index'] = range(nodelist.shape[0])
-  edgelist = edgelist[edgelist['tract1'].isin(nodelist['tractID'].values) \
-                      & edgelist['tract2'].isin(nodelist['tractID'].values)]
-  tract2index = dict(zip(nodelist['tractID'].values,nodelist['tract_index'].values))
-  edgelist['tract1_index'] = [tract2index[t] for t in edgelist['tract1'].values]
-  edgelist['tract2_index'] = [tract2index[t] for t in edgelist['tract2'].values]
+    import ScholarCodeCollective as SCC
+    from ScholarCodeCollective.distributional_regionalization import MDL_regionalization
+    import matplotlib.pyplot as plt
+    import sys
+    import os
+    import pandas as pd
+    import numpy as np
+    import geopandas as gpd
+    from shapely.geometry import Point
+    from matplotlib.colors import ListedColormap
 
-  dists = np.array([eval(s) for s in nodelist['races2010'].values])
-  pops = nodelist['pop2010'].values
+Step 2: Load and prepare the data
 
-  adjlist = [[] for _ in range(nodelist.shape[0])]
-  for e in edgelist[['tract1_index','tract2_index']].values.tolist():
-      i,j = e
-      adjlist[i].append(j)
-      adjlist[j].append(i)
-      
-  mdl_instance = MDL_regionalization("example")
-  inverse_compression_ratio, cluster_labels, dists = mdl_instance.MDL_regionalization(adjlist, dists, pops)
+.. code:: python
 
-  print(inverse_compression_ratio)
-  print(cluster_labels)
+    data_dir = r"D:\Research HKU\PYPI_lib\ScholarCodeCollective\distributional_regionalization"
+    sys.path.append(data_dir)
+    nodelist = pd.read_csv(os.path.join(data_dir, 'metro_tract_metadata.csv'))
+    edgelist = pd.read_csv(os.path.join(data_dir, 'metro_network_edgelists.csv'))
+    nodelist = nodelist[nodelist['metro'] == 'New_Haven-Milford--CT']
+    nodelist['tract_index'] = range(nodelist.shape[0])
+    edgelist = edgelist[edgelist['tract1'].isin(nodelist['tractID'].values) & edgelist['tract2'].isin(nodelist['tractID'].values)]
+    tract2index = dict(zip(nodelist['tractID'].values, nodelist['tract_index'].values))
+    edgelist['tract1_index'] = [tract2index[t] for t in edgelist['tract1'].values]
+    edgelist['tract2_index'] = [tract2index[t] for t in edgelist['tract2'].values]
 
-  geometry_data_dir = 'D:\Research HKU\mobility\geometry_trct'
-  print("Loading geometries...")
-  geometries_us = gpd.read_file(os.path.join(geometry_data_dir, 'Tract_2010Census_DP1_ct.shp'))
-  geometries_us['tractID'] = geometries_us['GEOID10'].astype(str).str[1:]
+    dists = np.array([eval(s) for s in nodelist['races2010'].values])
+    pops = nodelist['pop2010'].values
 
+    adjlist = [[] for _ in range(nodelist.shape[0])]
+    for e in edgelist[['tract1_index', 'tract2_index']].values.tolist():
+        i, j = e
+        adjlist[i].append(j)
+        adjlist[j].append(i)
 
-  required_columns = ['tractID', 'geometry']
-  for col in required_columns:
-      if col not in geometries_us.columns:
-          raise ValueError(f"Missing required column in geometries_us: {col}")
+Step 3: Run the MDL regionalization algorithm
 
-  nodelist['tractID'] = nodelist['tractID'].astype(str)
+.. code:: python
 
-  cluster_df = pd.DataFrame({
-      'tractID': nodelist['tractID'],
-      'cluster': cluster_labels
-  })
+    mdl_instance = MDL_regionalization("example")
+    inverse_compression_ratio, cluster_labels, dists = mdl_instance.MDL_regionalization(adjlist, dists, pops)
 
-  gdf_clusters = geometries_us.merge(cluster_df, on='tractID', how='right')
+    print(inverse_compression_ratio)
+    print(cluster_labels)
 
-  cluster_centroids = gdf_clusters.dissolve(by='cluster').centroid
+Step 4: Load geometries and map clusters
 
-  unique_clusters = gdf_clusters['cluster'].dropna().unique()
-  unique_clusters.sort()
+.. code:: python
 
-  colors = plt.cm.tab20(np.linspace(0, 1, 20))
-  custom_cmap = ListedColormap(colors[:len(unique_clusters)])
+    geometry_data_dir = 'D:\Research HKU\mobility\geometry_trct'
+    print("Loading geometries...")
+    geometries_us = gpd.read_file(os.path.join(geometry_data_dir, 'Tract_2010Census_DP1_ct.shp'))
+    geometries_us['tractID'] = geometries_us['GEOID10'].astype(str).str[1:]
 
-  fig, ax = plt.subplots(1, 1, figsize=(12, 8))
-  gdf_clusters.plot(column='cluster', cmap=custom_cmap, legend=False, ax=ax, edgecolor='black', linewidth=0.5)
-  ax.set_title(f'Clustering Results for New Haven-Milford, CT\nInverse Compression Ratio: {inverse_compression_ratio:.2f}')
-  ax.set_xlabel('Longitude')
-  ax.set_ylabel('Latitude')
-  ax.grid(False)  
+    required_columns = ['tractID', 'geometry']
+    for col in required_columns:
+        if col not in geometries_us.columns:
+            raise ValueError(f"Missing required column in geometries_us: {col}")
 
-  handles = [plt.Line2D([0], [0], marker='o', color='w', markerfacecolor=custom_cmap(i), markersize=10, label=f'Cluster {int(cluster)}')
-            for i, cluster in enumerate(unique_clusters)]
-  ax.legend(handles=handles, title='Clusters', loc='best')
+    nodelist['tractID'] = nodelist['tractID'].astype(str)
 
-  def plot_cluster_bars(ax, centroid, data, category_labels, cluster_id):
-      bar_width = 0.3
-      num_bars = len(data)
-      index = np.arange(num_bars)
-      
-      trans = ax.transData.transform((centroid.x, centroid.y))
-      trans = fig.transFigure.inverted().transform(trans)
-      inset_ax = fig.add_axes([trans[0] - 0.03, trans[1] - 0.03, 0.06, 0.06], anchor='C', zorder=3)
-      
-      inset_ax.patch.set_alpha(0)  
-      inset_ax.bar(index, data, bar_width, color='black')  
-      inset_ax.set_xticks(index)
-      inset_ax.set_xticklabels(category_labels, rotation=45, fontsize=5, ha='right') 
-      inset_ax.set_yticklabels(inset_ax.get_yticks(), rotation=45, fontsize=4) 
-      inset_ax.set_title(f'Cluster {cluster_id}', fontsize=6)
-      inset_ax.set_ylim(0, max(data) * 1.1)
+    cluster_df = pd.DataFrame({
+        'tractID': nodelist['tractID'],
+        'cluster': cluster_labels
+    })
 
-  race_groups = ['Non-Hispanic White', 'Non-Hispanic Black', 'Asian', 'Hispanic', 'Other']
+    gdf_clusters = geometries_us.merge(cluster_df, on='tractID', how='right')
+    cluster_centroids = gdf_clusters.dissolve(by='cluster').centroid
+    unique_clusters = gdf_clusters['cluster'].dropna().unique()
+    unique_clusters.sort()
 
-  for cluster_id in gdf_clusters['cluster'].unique():
-      cluster_data = gdf_clusters[gdf_clusters['cluster'] == cluster_id]
-      if cluster_data.shape[0] > 0:
-          average_distribution = dists[cluster_data.index].mean(axis=0)
-          centroid = cluster_centroids.loc[cluster_id]
-          plot_cluster_bars(ax, centroid, average_distribution, race_groups, cluster_id)
+    colors = plt.cm.tab20(np.linspace(0, 1, 20))
+    custom_cmap = ListedColormap(colors[:len(unique_clusters)])
 
+Step 5: Define the visualization function and plot the results
+
+.. code:: python
+
+    def plot_combined_visualization(gdf_clusters, cluster_centroids, inverse_compression_ratio, dists, unique_clusters):
+        fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(14, 18), gridspec_kw={'height_ratios': [2, 1]})
+
+        gdf_clusters.plot(column='cluster', cmap=custom_cmap, legend=False, ax=ax1, edgecolor='black', linewidth=0.5)
+        ax1.set_title(f'Clustering Results for New Haven-Milford, CT\nInverse Compression Ratio: {inverse_compression_ratio:.2f}')
+        ax1.set_xlabel('Longitude')
+        ax1.set_ylabel('Latitude')
+        ax1.grid(False)
+
+        handles = [plt.Line2D([0], [0], marker='o', color='w', markerfacecolor=custom_cmap(i), markersize=10, label=f'Cluster {int(cluster)}')
+                  for i, cluster in enumerate(unique_clusters)]
+        ax1.legend(handles=handles, title='Clusters', loc='best')
+
+        race_groups = ['Non-Hispanic White', 'Non-Hispanic Black', 'Asian', 'Hispanic', 'Other']
+        bar_width = 0.1
+
+        for i, cluster_id in enumerate(unique_clusters):
+            cluster_data = gdf_clusters[gdf_clusters['cluster'] == cluster_id]
+            if cluster_data.shape[0] > 0:
+                average_distribution = dists[cluster_data.index].mean(axis=0)
+                positions = np.arange(len(race_groups)) + i * bar_width
+                ax2.bar(positions, average_distribution, bar_width, color=custom_cmap(i), label=f'Cluster {int(cluster_id)}')
+
+        ax2.set_xlabel('Race Groups')
+        ax2.set_ylabel('Average Distribution')
+        ax2.set_xticks(np.arange(len(race_groups)) + bar_width * len(unique_clusters) / 2)
+        ax2.set_xticklabels(race_groups, ha='center')
+        ax2.legend(title='Clusters', loc='best')
+        ax2.set_title('Combined Histogram for All Clusters')
+
+        plt.tight_layout()
+        plt.savefig('MDL_regionalization_demo.png', bbox_inches='tight', dpi=200)
+        plt.show()
+
+    plot_combined_visualization(gdf_clusters, cluster_centroids, inverse_compression_ratio, dists, unique_clusters)
 
 Example Output
 --------------
-.. image:: MDL_regionalization_demo.png
+
+.. figure:: MDL_regionalization_demo.png
     :alt: Example output showing the MDL regionalization clustering results for New Haven-Milford, CT.
-Example output showing the MDL regionalization clustering results for New Haven-Milford, CT.
 
-
-Link 
-====
+    Example output showing the MDL regionalization clustering results for New Haven-Milford, CT. The top plot shows the geographical clustering results with different colors indicating different clusters. The bottom plot shows the average racial distribution of ['Non-Hispanic White', 'Non-Hispanic Black', 'Asian', 'Hispanic', 'Other'] within each cluster.
 
 Paper source
-------------
-https://www.nature.com/articles/s42005-022-01029-4
+====
+
+If you use this algorithm in your work, please cite:
+
+A. Kirkley, Spatial regionalization based on optimal information compression. Communications Physics 5, 249 (2022).
+Paper: https://arxiv.org/abs/2111.01813

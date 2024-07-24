@@ -4,10 +4,10 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MDL network population clustering &mdash; Scholar Code Collective  documentation</title>
+  <title>Clustering Network Populations &mdash; Scholar Code Collective  documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
-      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=8209f5a7" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=1fa8549b" />
 
   
   <!--[if lt IE 9]>
@@ -19,12 +19,11 @@
         <script src="../_static/documentation_options.js?v=5929fcd5"></script>
         <script src="../_static/doctools.js?v=9a2dae69"></script>
         <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
-        <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="MDL Regionalization" href="MDL_regionalization.html" />
-    <link rel="prev" title="Hypergraph Binning" href="hypergraph_binning.html" /> 
+    <link rel="next" title="Regionalization with Distributional Data" href="MDL_regionalization.html" />
+    <link rel="prev" title="Binning Temporal Hypergraphs" href="hypergraph_binning.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -46,10 +45,10 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Papers:</span></p>
+              <p class="caption" role="heading"><span class="caption-text">Methods:</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="hypergraph_binning.html">Hypergraph Binning</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">MDL network population clustering</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="hypergraph_binning.html">Binning Temporal Hypergraphs</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Clustering Network Populations</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#tutorial">Tutorial</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#mdl-population-clustering">MDL Population Clustering</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#functions">Functions</a></li>
@@ -61,15 +60,12 @@
 <li class="toctree-l3"><a class="reference internal" href="#example-output">Example Output</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#link">Link</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#paper-source">Paper source</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#paper-source">Paper source</a></li>
 </ul>
 </li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="MDL_regionalization.html">MDL Regionalization</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Network_hubs.html">Network Hubs</a></li>
-<li class="toctree-l1"><a class="reference internal" href="urban_boundary_delineation.html">Urban Boundary Delineation from Commuting Data with Bayesian Stochastic Blockmodeling: Scale, Contiguity, and Hierarchy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="MDL_regionalization.html">Regionalization with Distributional Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Network_hubs.html">Identifying Network Hubs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="urban_boundary_delineation.html">Regionalization with Community Detection</a></li>
 </ul>
 
         </div>
@@ -86,7 +82,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">MDL network population clustering</li>
+      <li class="breadcrumb-item active">Clustering Network Populations</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/Papers/MDL_network_population_clustering.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -96,15 +92,37 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="mdl-network-population-clustering">
-<h1>MDL network population clustering<a class="headerlink" href="#mdl-network-population-clustering" title="Link to this heading"></a></h1>
+  <section id="clustering-network-populations">
+<h1>Clustering Network Populations<a class="headerlink" href="#clustering-network-populations" title="Link to this heading"></a></h1>
 <section id="tutorial">
 <h2>Tutorial<a class="headerlink" href="#tutorial" title="Link to this heading"></a></h2>
-<div class="math notranslate nohighlight" id="equation1">
-\[\mathcal{L}_k\left(\mathcal{A}^{(k)}, C_k\right) = \mathcal{L}\left(\mathcal{A}^{(k)}\right) + S \log\left(\frac{S}{S_k}\right) + \ell_k \tag{1}\]</div>
-<div class="math notranslate nohighlight" id="equation2">
-\[\mathcal{L}(\mathcal{D}) = \sum_{k=1}^{K} \mathcal{L}_k\left(\mathcal{A}^{(k)}, C_k\right). \tag{2}\]</div>
-<p>Equation <code class="xref eq docutils literal notranslate"><span class="pre">(2)</span></code> gives the total description length of the data <span class="math notranslate nohighlight">\(\mathcal{D}\)</span> under our multi-part transmission scheme. By minimizing this objective function we identify the best configurations of modes <span class="math notranslate nohighlight">\(\mathcal{A}\)</span> and clusters <span class="math notranslate nohighlight">\(\mathcal{C}\)</span>. A good configuration <span class="math notranslate nohighlight">\(\{\mathcal{A}, \mathcal{C}\}\)</span> will allow us to transmit a large portion of the information in <span class="math notranslate nohighlight">\(\mathcal{D}\)</span> through the modes alone. If we use too many modes, the description length will increase as these are costly to communicate in full. And if we use too few, the description length will also increase because we will have to send lengthy messages describing how mismatched networks and modes differ. Hence, through the principle of parsimony, Eq. <code class="xref eq docutils literal notranslate"><span class="pre">(2)</span></code> favors descriptions with the number of clusters <span class="math notranslate nohighlight">\(K\)</span> as small as possible but not smaller.</p>
+<p>Code to perform clustering network populations derived in ‘Compressing network populations with modal networks reveals structural diversity’. Inputs an event dataset of the form [(edgesets, N, K0, n_fails, bipartite, directed, max_runs)], where:</p>
+<ul class="simple">
+<li><p><strong>edgesets:</strong> List of sets. The s-th set contains all the edges (i, j) in the s-th network in the sample (do not include the other direction (j, i) if the network is undirected). The order of edgesets within the dataset only matters for contiguous clustering, where we want the edgesets to be in the order of the samples in time.</p></li>
+<li><p><strong>N:</strong> Number of nodes in each network.</p></li>
+<li><p><strong>K0:</strong> Initial number of clusters (for discontiguous clustering, usually K0 = 1 works well; for contiguous clustering, it does not matter).</p></li>
+<li><p><strong>n_fails:</strong> Number of failed reassign/merge/split/merge-split moves before terminating the algorithm.</p></li>
+<li><p><strong>bipartite:</strong> ‘None’ for unipartite network populations, array [(# of nodes of type 1, # of nodes of type 2)] otherwise.</p></li>
+<li><p><strong>directed:</strong> Set to True when sets of edges input are directed.</p></li>
+<li><p><strong>max_runs:</strong> Maximum number of allowed moves, independent of the number of failed moves.</p></li>
+</ul>
+<p>Outputs a clustering result of the form [(C, A, L)], where:</p>
+<ul class="simple">
+<li><p><strong>C:</strong> Dictionary with items (cluster label):(set of indices corresponding to networks in the cluster).</p></li>
+<li><p><strong>A:</strong> Dictionary with items (cluster label):(set of edges corresponding to the mode of the cluster).</p></li>
+<li><p><strong>L:</strong> Inverse compression ratio, which is the description length after clustering divided by the description length of naive transmission.</p></li>
+</ul>
+<p>using the following clustering objective:</p>
+<div class="math" id="equation1">
+<p><img src="../_images/math/f1cdd45ce0702123f18e46b80361e37a2c6513e6.png" alt="\[
+\mathcal{L}_k\left(\mathcal{A}^{(k)}, C_k\right) = \mathcal{L}\left(\mathcal{A}^{(k)}\right) + S \log\left(\frac{S}{S_k}\right) + \ell_k \tag{1}
+\]"/></p>
+</div><div class="math" id="equation2">
+<p><img src="../_images/math/efd8b5a918f4086226a5f118ba10ccb060752a75.png" alt="\[
+\mathcal{L}(\mathcal{D}) = \sum_{k=1}^{K} \mathcal{L}_k\left(\mathcal{A}^{(k)}, C_k\right). \tag{2}
+\]"/></p>
+</div><p>This method optimizes the Minimum Description Length (MDL) objective for clustering network populations.</p>
+<p>Equation <code class="xref eq docutils literal notranslate"><span class="pre">(2)</span></code> gives the total description length of the data <img class="math" src="../_images/math/04e020245e4cf50b3ca4838c0a38291969ad8966.png" alt="\mathcal{D}" style="vertical-align: 0px"/> under our multi-part transmission scheme. By minimizing this objective function we identify the best configurations of modes <img class="math" src="../_images/math/815195624116638e92c59685bd44f81ea86a112f.png" alt="\mathcal{A}" style="vertical-align: -1px"/> and clusters <img class="math" src="../_images/math/ea54a95e10ff190b2dab5d985e1d2687b87e942c.png" alt="\mathcal{C}" style="vertical-align: 0px"/>. A good configuration <img class="math" src="../_images/math/2fe94f8b96e26d3b95a6b6976b392c6d0ce827b4.png" alt="\{\mathcal{A}, \mathcal{C}\}" style="vertical-align: -5px"/> will allow us to transmit a large portion of the information in <img class="math" src="../_images/math/04e020245e4cf50b3ca4838c0a38291969ad8966.png" alt="\mathcal{D}" style="vertical-align: 0px"/> through the modes alone. If we use too many modes, the description length will increase as these are costly to communicate in full. And if we use too few, the description length will also increase because we will have to send lengthy messages describing how mismatched networks and modes differ. Hence, through the principle of parsimony, Eq. <code class="xref eq docutils literal notranslate"><span class="pre">(2)</span></code> favors descriptions with the number of clusters <img class="math" src="../_images/math/88585571da689d8413e899ee1f1e349e1172b9c8.png" alt="K" style="vertical-align: 0px"/> as small as possible but not smaller.</p>
 <p><strong>Inputs:</strong></p>
 <ul class="simple">
 <li><p><strong>edgesets:</strong> list of sets. The s-th set contains all the edges (i, j) in the s-th network in the sample (do not include the other direction (j, i) if the network is undirected). The order of edgesets within D only matters for contiguous clustering, where we want the edgesets to be in order of the samples in time.</p></li>
@@ -481,6 +499,7 @@ Evaluate description length of partition. Contiguous option removes cluster labe
 <h2>Demo<a class="headerlink" href="#demo" title="Link to this heading"></a></h2>
 <section id="example-code">
 <h3>Example Code<a class="headerlink" href="#example-code" title="Link to this heading"></a></h3>
+<p><strong>Step 1: Import necessary libraries</strong></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">time</span>
@@ -488,57 +507,82 @@ Evaluate description length of partition. Contiguous option removes cluster labe
 <span class="kn">from</span> <span class="nn">ScholarCodeCollective.MDL_network_population_clustering_main</span> <span class="kn">import</span> <span class="n">generate_synthetic</span><span class="p">,</span> <span class="n">MDL_populations</span>
 <span class="kn">import</span> <span class="nn">networkx</span> <span class="k">as</span> <span class="nn">nx</span>
 <span class="kn">import</span> <span class="nn">random</span>
-
-<span class="k">def</span> <span class="nf">visualize_synthetic_clusters</span><span class="p">(</span><span class="n">nets</span><span class="p">,</span> <span class="n">cluster_labels</span><span class="p">,</span> <span class="n">N</span><span class="p">):</span>
+</pre></div>
+</div>
+<p><strong>Step 2: Function to visualize synthetic clusters</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">visualize_synthetic_clusters</span><span class="p">(</span><span class="n">nets</span><span class="p">,</span> <span class="n">cluster_labels</span><span class="p">,</span> <span class="n">node_num</span><span class="p">):</span>
     <span class="n">num_plots</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">nets</span><span class="p">)</span>
     <span class="n">cols</span> <span class="o">=</span> <span class="mi">3</span>
     <span class="n">rows</span> <span class="o">=</span> <span class="p">(</span><span class="n">num_plots</span> <span class="o">//</span> <span class="n">cols</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">num_plots</span> <span class="o">%</span> <span class="n">cols</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
     <span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">rows</span><span class="p">,</span> <span class="n">cols</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+    <span class="n">pos_rectangular</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">half_N</span> <span class="o">=</span> <span class="p">(</span><span class="n">node_num</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">node_num</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">half_N</span><span class="p">:</span>
+            <span class="n">pos_rectangular</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">pos_rectangular</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">i</span> <span class="o">-</span> <span class="n">half_N</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
 
     <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">net</span><span class="p">,</span> <span class="n">cluster_label</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">nets</span><span class="p">,</span> <span class="n">cluster_labels</span><span class="p">)):</span>
         <span class="n">row</span><span class="p">,</span> <span class="n">col</span> <span class="o">=</span> <span class="nb">divmod</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">cols</span><span class="p">)</span>
         <span class="n">ax</span> <span class="o">=</span> <span class="n">axes</span><span class="p">[</span><span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">]</span> <span class="k">if</span> <span class="n">rows</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="k">else</span> <span class="n">axes</span><span class="p">[</span><span class="n">col</span><span class="p">]</span>
-        <span class="n">G</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">DiGraph</span><span class="p">()</span>
-        <span class="n">G</span><span class="o">.</span><span class="n">add_nodes_from</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">))</span>
+        <span class="n">G</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">Graph</span><span class="p">()</span>
+        <span class="n">G</span><span class="o">.</span><span class="n">add_nodes_from</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">node_num</span><span class="p">))</span>
         <span class="n">G</span><span class="o">.</span><span class="n">add_edges_from</span><span class="p">(</span><span class="n">net</span><span class="p">)</span>
 
-        <span class="n">pos</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">circular_layout</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>  <span class="c1"># Layout for visualization</span>
-        <span class="n">nx</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">with_labels</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">node_size</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">node_color</span><span class="o">=</span><span class="s1">&#39;skyblue&#39;</span><span class="p">,</span> <span class="n">font_weight</span><span class="o">=</span><span class="s1">&#39;bold&#39;</span><span class="p">,</span> <span class="n">arrows</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">nx</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">pos_rectangular</span><span class="p">,</span> <span class="n">with_labels</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">node_size</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">node_color</span><span class="o">=</span><span class="s1">&#39;skyblue&#39;</span><span class="p">,</span> <span class="n">font_weight</span><span class="o">=</span><span class="s1">&#39;bold&#39;</span><span class="p">)</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Network </span><span class="si">{</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s1"> (Mode </span><span class="si">{</span><span class="n">cluster_label</span><span class="si">}</span><span class="s1">)&#39;</span><span class="p">)</span>
 
     <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">rows</span> <span class="o">*</span> <span class="n">cols</span><span class="p">):</span>
         <span class="n">fig</span><span class="o">.</span><span class="n">delaxes</span><span class="p">(</span><span class="n">axes</span><span class="o">.</span><span class="n">flatten</span><span class="p">()[</span><span class="n">j</span><span class="p">])</span>
 
     <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;synthetic_network_clusters.png&#39;</span><span class="p">,</span> <span class="n">bbox_inches</span><span class="o">=</span><span class="s1">&#39;tight&#39;</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-
-<span class="n">mode_example</span> <span class="o">=</span> <span class="p">[{(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">4</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">),</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">),</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">),</span> <span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">8</span><span class="p">),</span> <span class="p">(</span><span class="mi">7</span><span class="p">,</span><span class="mi">8</span><span class="p">)},</span>
-        <span class="p">{(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">),</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">),</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">),</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">6</span><span class="p">),</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">),</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">6</span><span class="p">),</span> <span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">),</span> <span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">7</span><span class="p">)},</span>
-        <span class="p">{(</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">),</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">),</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">6</span><span class="p">),</span> <span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">),</span> <span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">7</span><span class="p">),</span> <span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">8</span><span class="p">),</span> <span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">),</span> <span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">8</span><span class="p">),</span> <span class="p">(</span><span class="mi">7</span><span class="p">,</span><span class="mi">8</span><span class="p">)}]</span>
+</pre></div>
+</div>
+<p><strong>Step 3: Generate synthetic data</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">mode_example</span> <span class="o">=</span> <span class="p">[{(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">7</span><span class="p">),</span> <span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">)},</span>
+    <span class="p">{(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">)},</span>
+    <span class="p">{(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">7</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">7</span><span class="p">),</span> <span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">)}]</span>
 
 <span class="n">node_num</span> <span class="o">=</span> <span class="mi">8</span>
+<span class="n">network_num</span> <span class="o">=</span> <span class="mi">2000</span>
 <span class="n">nets</span><span class="p">,</span> <span class="n">cluster_labels</span> <span class="o">=</span> <span class="n">generate_synthetic</span><span class="p">(</span>
-    <span class="n">S</span><span class="o">=</span><span class="mi">9</span><span class="p">,</span>
+    <span class="n">S</span><span class="o">=</span><span class="n">network_num</span><span class="p">,</span>
     <span class="n">N</span><span class="o">=</span><span class="n">node_num</span><span class="p">,</span>
     <span class="n">modes</span><span class="o">=</span><span class="n">mode_example</span><span class="p">,</span>
     <span class="n">alphas</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
     <span class="n">betas</span><span class="o">=</span><span class="p">[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">],</span>
     <span class="n">pis</span><span class="o">=</span><span class="p">[</span><span class="mf">0.33</span><span class="p">,</span> <span class="mf">0.33</span><span class="p">,</span> <span class="mf">0.34</span><span class="p">]</span>
 <span class="p">)</span>
-
-<span class="c1"># Visualize the synthetic networks</span>
-<span class="n">visualize_synthetic_clusters</span><span class="p">(</span><span class="n">nets</span><span class="p">,</span> <span class="n">cluster_labels</span><span class="p">,</span> <span class="n">N</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
-
-<span class="n">mdl_pop</span> <span class="o">=</span> <span class="n">MDL_populations</span><span class="p">(</span><span class="n">edgesets</span><span class="o">=</span><span class="n">nets</span><span class="p">,</span> <span class="n">N</span><span class="o">=</span><span class="n">node_num</span><span class="p">,</span> <span class="n">K0</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">n_fails</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">directed</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">max_runs</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Step 4: Visualize the synthetic networks</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">visualize_synthetic_clusters</span><span class="p">(</span><span class="n">nets</span><span class="p">,</span> <span class="n">cluster_labels</span><span class="p">,</span> <span class="n">node_num</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Step 5: Run the MDL populations algorithm</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">mdl_pop</span> <span class="o">=</span> <span class="n">MDL_populations</span><span class="p">(</span><span class="n">edgesets</span><span class="o">=</span><span class="n">nets</span><span class="p">,</span> <span class="n">N</span><span class="o">=</span><span class="n">node_num</span><span class="p">,</span> <span class="n">K0</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">n_fails</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">directed</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">max_runs</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">)</span>
 <span class="n">mdl_pop</span><span class="o">.</span><span class="n">initialize_clusters</span><span class="p">()</span>
 <span class="n">clusters</span><span class="p">,</span> <span class="n">modes</span><span class="p">,</span> <span class="n">L</span> <span class="o">=</span> <span class="n">mdl_pop</span><span class="o">.</span><span class="n">run_sims</span><span class="p">()</span>
-
-<span class="k">def</span> <span class="nf">visualize_clusters</span><span class="p">(</span><span class="n">nets</span><span class="p">,</span> <span class="n">clusters</span><span class="p">,</span> <span class="n">modes</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="s1">&#39;MDL_population_clusters.png&#39;</span><span class="p">):</span>
+</pre></div>
+</div>
+<p><strong>Step 6: Function to visualize clustered networks</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">visualize_clusters</span><span class="p">(</span><span class="n">nets</span><span class="p">,</span> <span class="n">clusters</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">network_num</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="s1">&#39;MDL_population_clusters.png&#39;</span><span class="p">):</span>
     <span class="n">num_clusters</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">clusters</span><span class="p">)</span>
     <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">num_clusters</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
 
     <span class="k">if</span> <span class="n">num_clusters</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
         <span class="n">ax</span> <span class="o">=</span> <span class="p">[</span><span class="n">ax</span><span class="p">]</span>
+
+    <span class="n">pos_rectangular</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">half_N</span> <span class="o">=</span> <span class="p">(</span><span class="n">N</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">half_N</span><span class="p">:</span>
+            <span class="n">pos_rectangular</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">pos_rectangular</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">i</span> <span class="o">-</span> <span class="n">half_N</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
 
     <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">clusters</span><span class="o">.</span><span class="n">items</span><span class="p">()):</span>
         <span class="n">G</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">Graph</span><span class="p">()</span>
@@ -549,46 +593,43 @@ Evaluate description length of partition. Contiguous option removes cluster labe
         <span class="n">degrees</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">G</span><span class="o">.</span><span class="n">degree</span><span class="p">())</span>
         <span class="n">max_degree</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">degrees</span><span class="o">.</span><span class="n">values</span><span class="p">())</span> <span class="k">if</span> <span class="n">degrees</span> <span class="k">else</span> <span class="mi">1</span>
         <span class="n">node_sizes</span> <span class="o">=</span> <span class="p">[</span><span class="mi">100</span> <span class="o">+</span> <span class="mi">400</span> <span class="o">*</span> <span class="n">degrees</span><span class="p">[</span><span class="n">node</span><span class="p">]</span> <span class="o">/</span> <span class="n">max_degree</span> <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">G</span><span class="o">.</span><span class="n">nodes</span><span class="p">()]</span>
-
-        <span class="n">pos</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">circular_layout</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
-
-        <span class="n">edge_colors</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">G</span><span class="o">.</span><span class="n">nodes</span><span class="p">():</span>
-            <span class="n">node_color</span> <span class="o">=</span> <span class="s2">&quot;#</span><span class="si">{:06x}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mh">0xFFFFFF</span><span class="p">))</span>
-            <span class="k">for</span> <span class="n">edge</span> <span class="ow">in</span> <span class="n">G</span><span class="o">.</span><span class="n">edges</span><span class="p">(</span><span class="n">node</span><span class="p">):</span>
-                <span class="n">edge_colors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">node_color</span><span class="p">)</span>
-
-        <span class="n">nx</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">with_labels</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">node_size</span><span class="o">=</span><span class="n">node_sizes</span><span class="p">,</span> <span class="n">node_color</span><span class="o">=</span><span class="s1">&#39;lightblue&#39;</span><span class="p">,</span> <span class="n">font_size</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">font_weight</span><span class="o">=</span><span class="s1">&#39;bold&#39;</span><span class="p">,</span> <span class="n">edge_color</span><span class="o">=</span><span class="n">edge_colors</span><span class="p">)</span>
-
+        <span class="n">nx</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">pos_rectangular</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">with_labels</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">node_size</span><span class="o">=</span><span class="n">node_sizes</span><span class="p">,</span> <span class="n">node_color</span><span class="o">=</span><span class="s1">&#39;skyblue&#39;</span><span class="p">,</span> <span class="n">font_size</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">font_weight</span><span class="o">=</span><span class="s1">&#39;bold&#39;</span><span class="p">,</span> <span class="n">edge_color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mf">1.5</span><span class="p">)</span>
         <span class="n">num_networks</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
-        <span class="n">mode_size</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">modes</span><span class="p">[</span><span class="n">k</span><span class="p">])</span>
-        <span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Cluster </span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s1">: </span><span class="si">{</span><span class="n">num_networks</span><span class="si">}</span><span class="s1"> networks, Mode size: </span><span class="si">{</span><span class="n">mode_size</span><span class="si">}</span><span class="s1">, Inverse compression ratio: </span><span class="si">{</span><span class="n">L</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+        <span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Cluster </span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s1">: </span><span class="si">{</span><span class="n">num_networks</span><span class="si">}</span><span class="s1"> networks, modes&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
         <span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;off&#39;</span><span class="p">)</span>
 
-    <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">subplots_adjust</span><span class="p">(</span><span class="n">top</span><span class="o">=</span><span class="mf">0.85</span><span class="p">,</span> <span class="n">wspace</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">network_num</span><span class="si">}</span><span class="s1"> Sythetic Networks, Inverse Compression Ratio: </span><span class="si">{</span><span class="n">L</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">(</span><span class="n">rect</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.03</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.95</span><span class="p">])</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">bbox_inches</span><span class="o">=</span><span class="s1">&#39;tight&#39;</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-
-<span class="c1"># Visualize the unconstrained description length optimization networks</span>
-<span class="n">visualize_clusters</span><span class="p">(</span><span class="n">nets</span><span class="p">,</span> <span class="n">clusters</span><span class="p">,</span> <span class="n">modes</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="n">node_num</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Step 7: Visualize the clustered networks</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">visualize_clusters</span><span class="p">(</span><span class="n">nets</span><span class="p">,</span> <span class="n">clusters</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="n">node_num</span><span class="p">,</span> <span class="n">network_num</span><span class="p">)</span>
 </pre></div>
 </div>
 </section>
 <section id="example-output">
 <h3>Example Output<a class="headerlink" href="#example-output" title="Link to this heading"></a></h3>
+<figure class="align-default" id="id9">
 <img alt="Example output showing the synthetic networks structure." src="../_images/synthetic_networks_population_example.png" />
-<p>Example output showing the synthetic networks structure.</p>
+<figcaption>
+<p><span class="caption-text">Part of 2,000 Synthetic Networks with Cluster Labels. Each network is plotted with nodes colored light blue and labeled. The networks are arranged in a rectangular layout, with the title indicating the network number and its mode.</span><a class="headerlink" href="#id9" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<figure class="align-default" id="id10">
 <img alt="Example output showing the MDL population clustering results for synthetic networks." src="../_images/MDL_population_clusters_example.png" />
-<p>Example output showing the MDL population clustering results for synthetic networks.</p>
+<figcaption>
+<p><span class="caption-text">MDL Population Clustering Results for Synthetic Networks. Each cluster is represented by a subplot, with nodes colored light blue. The title of each subplot includes the cluster number and the number of networks in that cluster. The overall title indicates the total number of synthetic networks and the inverse compression ratio (L).</span><a class="headerlink" href="#id10" title="Link to this image"></a></p>
+</figcaption>
+</figure>
 </section>
 </section>
-<section id="link">
-<h2>Link<a class="headerlink" href="#link" title="Link to this heading"></a></h2>
 <section id="paper-source">
-<h3>Paper source<a class="headerlink" href="#paper-source" title="Link to this heading"></a></h3>
-<p><a class="reference external" href="https://arxiv.org/abs/2209.13827">https://arxiv.org/abs/2209.13827</a></p>
-</section>
+<h2>Paper source<a class="headerlink" href="#paper-source" title="Link to this heading"></a></h2>
+<p>If you use this algorithm in your work, please cite:</p>
+<p>A. Kirkley*, A. Rojas, M. Rosvall, and J-G. Young, Compressing network populations with modal networks reveals structural diversity. Communications Physics 6, 148 (2023).
+Paper: <a class="reference external" href="https://arxiv.org/abs/2209.13827">https://arxiv.org/abs/2209.13827</a></p>
 </section>
 </section>
 
@@ -596,8 +637,8 @@ Evaluate description length of partition. Contiguous option removes cluster labe
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="hypergraph_binning.html" class="btn btn-neutral float-left" title="Hypergraph Binning" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="MDL_regionalization.html" class="btn btn-neutral float-right" title="MDL Regionalization" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="hypergraph_binning.html" class="btn btn-neutral float-left" title="Binning Temporal Hypergraphs" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="MDL_regionalization.html" class="btn btn-neutral float-right" title="Regionalization with Distributional Data" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
