@@ -551,7 +551,7 @@ Example Code
     import matplotlib.pyplot as plt
     import time
     import ScholarCodeCollective as SCC
-    from ScholarCodeCollective.MDL_network_population_clustering_main import generate_synthetic, MDL_populations
+    from ScholarCodeCollective.population_clustering import generate_synthetic, MDL_populations
     import networkx as nx
     import random
 

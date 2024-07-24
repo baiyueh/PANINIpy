@@ -205,7 +205,7 @@ Example Code
     import matplotlib.pyplot as plt
     import time
     import ScholarCodeCollective as SCC
-    from ScholarCodeCollective.Network_hubs_main import Network_hubs
+    from ScholarCodeCollective.hub_identification import Network_hubs
     import networkx as nx
     import random
 

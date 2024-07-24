@@ -229,7 +229,7 @@ Example Code
 
     import time
     import ScholarCodeCollective as SCC
-    from ScholarCodeCollective.hypergraph_binning_main import MDL_hypergraph_binning, logOmega, logchoose
+    from ScholarCodeCollective.hypergraph_binning import MDL_hypergraph_binning, logOmega, logchoose
     import matplotlib
     import matplotlib.pyplot as plt
     import numpy as np

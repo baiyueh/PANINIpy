@@ -352,7 +352,7 @@ Step 1: Import necessary libraries
 .. code:: python
 
     import ScholarCodeCollective as SCC
-    from ScholarCodeCollective.MDL_regionalization_main import MDL_regionalization
+    from ScholarCodeCollective.distributional_regionalization import MDL_regionalization
     import matplotlib.pyplot as plt
     import sys
     import os
