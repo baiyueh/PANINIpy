@@ -3,23 +3,25 @@ Clustering Network Populations
 
 Tutorial 
 ===============
-Code to perform clustering network populations derived in ‘Compressing network populations with modal networks reveals structural diversity’. Inputs an event dataset of the form \[(edgesets, N, K0, n_fails, bipartite, directed, max_runs)\], where:
+Code to perform clustering network populations derived in "Compressing network populations with modal networks reveals structural diversity" (Kirkley et al., 2023, https://arxiv.org/pdf/2209.13827). 
 
-- **edgesets:** List of sets. The s-th set contains all the edges (i, j) in the s-th network in the sample (do not include the other direction (j, i) if the network is undirected). The order of edgesets within the dataset only matters for contiguous clustering, where we want the edgesets to be in the order of the samples in time.
-- **N:** Number of nodes in each network.
+Inputs a list of edge sets corresponding to a population of node-aligned graphs, and requires input parameters:
+
+- **edgesets:** List of edge sets. The s-th set contains all the edges (i, j) in the s-th network in the sample (do not include the other direction (j, i) if the network is undirected). The order of edgesets within the dataset only matters for contiguous clustering, where we want the edgesets to be in the order of the samples in time.
+- **N:** Number of nodes in each network (including isolated nodes not showing up in the edge sets).
 - **K0:** Initial number of clusters (for discontiguous clustering, usually K0 = 1 works well; for contiguous clustering, it does not matter).
 - **n_fails:** Number of failed reassign/merge/split/merge-split moves before terminating the algorithm.
-- **bipartite:** 'None' for unipartite network populations, array \[(# of nodes of type 1, # of nodes of type 2)\] otherwise.
+- **bipartite:** 'None' for unipartite network populations, list containing \[# of nodes of type 1, # of nodes of type 2\] otherwise.
 - **directed:** Set to True when sets of edges input are directed.
-- **max_runs:** Maximum number of allowed moves, independent of the number of failed moves.
+- **max_runs:** Maximum number of allowed moves in the MCMC method, independent of the number of failed moves.
 
-Outputs a clustering result of the form \[(C, A, L)\], where:
+Outputs a clustering result of the form C, A, L where:
 
-- **C:** Dictionary with items (cluster label):(set of indices corresponding to networks in the cluster).
+- **C:** Dictionary with items (cluster label):(set of list indices corresponding to edge sets in the cluster).
 - **A:** Dictionary with items (cluster label):(set of edges corresponding to the mode of the cluster).
 - **L:** Inverse compression ratio, which is the description length after clustering divided by the description length of naive transmission.
 
-using the following clustering objective:
+Algorithm minimizes the following Minimum Description Length (MDL) clustering objective over mode edge sets \{\mathcal{A}^{(k)}\} and cluster assignments \{C_k\} for the input edge sets:
 
 .. _equation1:
 
@@ -27,8 +29,10 @@ using the following clustering objective:
     :nowrap:
 
     \[
-    \mathcal{L}_k\left(\mathcal{A}^{(k)}, C_k\right) = \mathcal{L}\left(\mathcal{A}^{(k)}\right) + S \log\left(\frac{S}{S_k}\right) + \ell_k \tag{1}
+    \mathcal{L}(\mathcal{D}) = \sum_{k=1}^{K} \mathcal{L}_k\left(\mathcal{A}^{(k)}, C_k\right), 
     \]
+
+where
 
 .. _equation2:
 
@@ -36,29 +40,26 @@ using the following clustering objective:
     :nowrap:
 
     \[
-    \mathcal{L}(\mathcal{D}) = \sum_{k=1}^{K} \mathcal{L}_k\left(\mathcal{A}^{(k)}, C_k\right). \tag{2}
+    \mathcal{L}_k\left(\mathcal{A}^{(k)}, C_k\right) = \mathcal{L}\left(\mathcal{A}^{(k)}\right) + S \log\left(\frac{S}{S_k}\right) + \ell_k 
     \]
 
-This method optimizes the Minimum Description Length (MDL) objective for clustering network populations.
-
-Equation :eq:`(2)` gives the total description length of the data :math:`\mathcal{D}` under our multi-part transmission scheme. By minimizing this objective function we identify the best configurations of modes :math:`\mathcal{A}` and clusters :math:`\mathcal{C}`. A good configuration :math:`\{\mathcal{A}, \mathcal{C}\}` will allow us to transmit a large portion of the information in :math:`\mathcal{D}` through the modes alone. If we use too many modes, the description length will increase as these are costly to communicate in full. And if we use too few, the description length will also increase because we will have to send lengthy messages describing how mismatched networks and modes differ. Hence, through the principle of parsimony, Eq. :eq:`(2)` favors descriptions with the number of clusters :math:`K` as small as possible but not smaller.
-
+is the cluster-level description length of Eq. 14 in https://arxiv.org/pdf/2209.13827.
 
 **Inputs:**
 
-- **edgesets:** list of sets. The s-th set contains all the edges (i, j) in the s-th network in the sample (do not include the other direction (j, i) if the network is undirected). The order of edgesets within D only matters for contiguous clustering, where we want the edgesets to be in order of the samples in time.
-- **N:** number of nodes in each network
-- **K0:** initial number of clusters (for discontiguous clustering, usually K0 = 1 works well; for contiguous clustering it does not matter)
-- **n_fails:** number of failed reassign/merge/split/merge-split moves before terminating the algorithm
-- **bipartite:** 'None' for unipartite network populations, array [# of nodes of type 1, # of nodes of type 2] otherwise
-- **directed:** Set to True when sets of edges input are directed
-- **max_runs:** Maximum number of allowed moves, independent of number of failed moves
+- **edgesets:** List of edge sets. The s-th set contains all the edges (i, j) in the s-th network in the sample (do not include the other direction (j, i) if the network is undirected). The order of edgesets within the dataset only matters for contiguous clustering, where we want the edgesets to be in the order of the samples in time.
+- **N:** Number of nodes in each network (including isolated nodes not showing up in the edge sets).
+- **K0:** Initial number of clusters (for discontiguous clustering, usually K0 = 1 works well; for contiguous clustering, it does not matter).
+- **n_fails:** Number of failed reassign/merge/split/merge-split moves before terminating the algorithm.
+- **bipartite:** 'None' for unipartite network populations, list containing \[# of nodes of type 1, # of nodes of type 2\] otherwise.
+- **directed:** Set to True when sets of edges input are directed.
+- **max_runs:** Maximum number of allowed moves in the MCMC method, independent of the number of failed moves.
 
-**Outputs of 'run_sims' (unconstrained description length optimization) and 'dynamic_contiguous' (restriction to contiguous clusters):**
+**Outputs of class methods 'run_sims' (unconstrained description length optimization) and 'dynamic_contiguous' (optimization restricted to contiguous clusters):**
 
-- **C:** dictionary with items (cluster label):(set of indices corresponding to networks in cluster)
-- **A:** dictionary with items (cluster label):(set of edges corresponding to mode of cluster)
-- **L:** inverse compression ratio (description length after clustering)/(description length of naive transmission)
+- **C:** Dictionary with items (cluster label):(set of list indices corresponding to edge sets in the cluster).
+- **A:** Dictionary with items (cluster label):(set of edges corresponding to the mode of the cluster).
+- **L:** Inverse compression ratio, which is the description length after clustering divided by the description length of naive transmission.
 
 **For discontiguous clustering, use:**
 
@@ -75,15 +76,11 @@ Equation :eq:`(2)` gives the total description length of the data :math:`\mathca
     MDLobj = MDL_populations(edgesets, N, K0=(anything), n_fails=(anything), bipartite, directed)
     C, A, L = MDLobj.dynamic_contiguous()
 
-If you use this algorithm, please cite:
-
-A. Kirkley, A. Rojas, M. Rosvall, and J-G. Young, Compressing network populations with modal networks reveals structural diversity. Communications Physics 6, 148 (2023).
-
 
 MDL Population Clustering
 ==========================
 
-This module contains the code for the MDL (Minimum Description Length) population clustering algorithm.
+This module contains the code for the MDL (Minimum Description Length) network population clustering algorithm.
 
 Functions
 ---------
@@ -96,7 +93,7 @@ All of the following functions are provided in this module and have the same gen
    * - Function
      - Description
    * - `generate_synthetic(S, N, modes, alphas, betas, pis) <#generate_synthetic>`_
-     - Generate synthetic networks from the heterogeneous population model.
+     - Generate synthetic networks from the heterogeneous network population generative model in https://arxiv.org/abs/2107.07489.
    * - `generate_synthetic.ind2ij(ind, N) <#ind2ij>`_
      - Convert index to edge indices.
    * - `remap_keys(Dict) <#remap_keys>`_
@@ -130,7 +127,7 @@ All of the following functions are provided in this module and have the same gen
    * - `MDL_populations.dynamic_contiguous() <#MDL_populations_dynamic_contiguous>`_
      - Minimize description length while constraining clusters to be contiguous in time.
    * - `MDL_populations.evaluate_partition(partition, contiguous=False) <#MDL_populations_evaluate_partition>`_
-     - Evaluate description length of partition.
+     - Evaluate description length of an arbitrary input partition.
 
 Reference
 ---------
@@ -160,7 +157,7 @@ Generate synthetic networks from the heterogeneous population model.
        <li><span class="param-name">modes</span>: List of modes for the population model.</li>
        <li><span class="param-name">alphas</span>: List of probabilities for true positive edges in each mode.</li>
        <li><span class="param-name">betas</span>: List of probabilities for false positive edges in each mode.</li>
-       <li><span class="param-name">pis</span>: List of probabilities for each mode.</li>
+       <li><span class="param-name">pis</span>: List of mixture weights for each mode.</li>
    </ul>
 
 **Returns**:
@@ -518,7 +515,7 @@ Minimize description length while constraining clusters to be contiguous in time
    </div>
 
 **Description**:
-Evaluate description length of partition. Contiguous option removes cluster label entropy term from description length.
+Evaluate description length of partition. 'Contiguous=True' removes the cluster label entropy term from description length.
 
 **Parameters**:
 
@@ -614,7 +611,7 @@ Example Code
 
     visualize_synthetic_clusters(nets, cluster_labels, node_num)
 
-**Step 5: Run the MDL populations algorithm**
+**Step 5: Run the MDL network population clustering algorithm**
 
 .. code-block:: python
 
@@ -670,14 +667,14 @@ Example Output
 --------------
 
 .. figure:: synthetic_networks_population_example.png
-    :alt: Example output showing the synthetic networks structure.
+    :alt: Nine sample networks from the specified synthetic population, with cluster labels.
 
-    Part of 2,000 Synthetic Networks with Cluster Labels. Each network is plotted with nodes colored light blue and labeled. The networks are arranged in a rectangular layout, with the title indicating the network number and its mode.
+    Nine sample networks from the specified synthetic population, with cluster labels. The index of the network sample and the mode it was generated from are indicated along with each sample.
 
 .. figure:: MDL_population_clusters_example.png
-    :alt: Example output showing the MDL population clustering results for synthetic networks.
+    :alt: MDL population clustering result.
 
-    MDL Population Clustering Results for Synthetic Networks. Each cluster is represented by a subplot, with nodes colored light blue. The title of each subplot includes the cluster number and the number of networks in that cluster. The overall title indicates the total number of synthetic networks and the inverse compression ratio (L).
+MDL population clustering result. The optimal mode configuration inferred by the run_sims() method for discontiguous network population clustering is shown along with the number of clusters in each network. The inverse compression ratio of this clustering is displayed above the figure.
 
 Paper source
 ====
