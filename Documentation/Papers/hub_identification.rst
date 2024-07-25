@@ -3,13 +3,15 @@ Identifying Network Hubs
 
 Tutorial 
 ===============
-Code to perform hub node classification in networks derived in ‘Identifying hubs in directed networks’. Inputs an event dataset of the form \[(data, N, degree_list, out_degrees, weighted)\], where:
+Code to perform hub node classification derived in "Identifying hubs in directed networks" (Kirkley, 2024, https://arxiv.org/pdf/2312.03347). 
+
+Inputs are:
 
 - **data:** List of tuples representing the edgelist or a list of degrees for a network.
 - **N:** Number of nodes in the network.
-- **degree_list:** Boolean indicating if the data is a list of degrees.
-- **out_degrees:** Boolean indicating if hubs should be computed using out-degree values.
-- **weighted:** Boolean indicating if multigraph encoding should be used.
+- **degree_list:** Boolean indicating if 'data' is a list of degrees.
+- **out_degrees:** Boolean indicating if hubs should be computed using out-degree values (defaults to in-degree values).
+- **weighted:** Boolean indicating if multigraph encoding should be used (for integer-weighted graphs).
 
 Outputs a classification result of the form \[(hub nodes, their degrees, description length, compression ratio)\], where:
 
