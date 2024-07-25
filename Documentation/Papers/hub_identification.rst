@@ -11,18 +11,18 @@ Inputs are:
 - **N:** Number of nodes in the network.
 - **degree_list:** Boolean indicating if 'data' is a list of degrees.
 - **out_degrees:** Boolean indicating if hubs should be computed using out-degree values (defaults to in-degree values).
-- **weighted:** Boolean indicating if multigraph encoding should be used (for integer-weighted graphs).
+- **weighted:** Boolean indicating if multigraph encoding should be used (applies to integer-weighted graphs as well).
 
-Outputs a classification result of the form \[(hub nodes, their degrees, description length, compression ratio)\], where:
+Outputs:
 
-- **hub nodes:** List of identified hub nodes.
-- **degrees:** Degrees of the identified hub nodes.
-- **description length:** The corresponding description length for the identified hub nodes.
-- **compression ratio:** The compression ratio for the identified hub nodes.
+- **hub nodes:** List of identified hub nodes for the ER and CM encodings corresponding to the 'weighted' argument. The Loubar and Average baseline method results (described in https://arxiv.org/pdf/2312.03347) are also included for reference.
+- **degrees:** Degrees of the identified hub nodes, for hub encodings and baselines.
+- **description length:** The description length for the optimal encoding that uses these hubs. Not available for baselines.
+- **compression ratio:** The descriptio length of the hub encoding divided by the description length of the corresponding naive encoding. Not available for baselines.
 
-using the following clustering objectives:
+Algorithm minimizes the following Minimum Description Length (MDL) hub identification objectives over the set of possible hub nodes V_h:
 
-Simple ER encoding: 
+Simple ER (Erdos-Renyi) encoding (Eq. 3): 
 
 .. _equation1:
 
@@ -33,6 +33,8 @@ Simple ER encoding:
     \mathcal{L}^{(\text{ERs})}(V_h) = \log NM + \log \binom{N}{h} + \log \binom{h(N - 1)}{M_h} + \log \binom{(N - h)(N - 1)}{M - M_h} \tag{1}
     \]
 
+Simple CM (configuration model) encoding (Eq. 4): 
+
 .. _equation2:
 
 .. math::
@@ -42,7 +44,7 @@ Simple ER encoding:
     \mathcal{L}^{(\text{CMs})}(V_h) = \log NM + \log \binom{N}{h} + \log \binom{M_h + h - 1}{h - 1} + \sum_{i \in V_h} \log \binom{N - 1}{k_i} + \log \binom{(N - h)(N - 1)}{M - M_h} \tag{2}
     \]
 
-Multigraph ER encoding:
+Multigraph ER encoding (Eq. 8):
 
 .. _equation3:
 
@@ -53,6 +55,8 @@ Multigraph ER encoding:
     \mathcal{L}^{(\text{ERm})}(V_h) = \log NM + \log \binom{N}{h} + \log \left(\frac{hN}{M_h}\right) + \log \left(\frac{(N - h)N}{M - M_h}\right) \tag{3}
     \]
 
+Multigraph CM encoding (Eq. 9):
+
 .. _equation4:
 
 .. math::
@@ -62,16 +66,6 @@ Multigraph ER encoding:
     \mathcal{L}^{(\text{CMm})}(V_h) = \log NM + \log \binom{N}{h} + \log \binom{M_h + h - 1}{h - 1} + \sum_{i \in V_h} \log \binom{N}{k_i} + \log \left(\frac{(N - h)N}{M - M_h}\right) \tag{4}
     \]
 
-This method optimizes the Minimum Description Length (MDL) objective for identifying hub nodes in networks.
-
-# Network-hubs
-MDL algorithm for classifying hub nodes in networks. 
-
-The "hubs" function in functions.py inputs either an edgelist or a degree list for a network and returns the hub nodes, their degrees, and the corresponding description length/compression ratio for the methods described in the paper below.
-
-If you use this algorithm in your work please cite:
-
-A. Kirkley, Identifying hubs in directed networks. Physical Review E 109, 034310 (2024).
 
 
 Network Hubs
@@ -191,7 +185,7 @@ Identify hub nodes in the network.
    </ul>
 
 **Returns**:
-  - **dict**: Dictionary of results for the ER and CM encodings.
+  - **dict**: Dictionary of results for the ER and CM encodings along with Loubar and Average baselines.
 
 
 Demo 
