@@ -30,7 +30,7 @@ Simple ER (Erdos-Renyi) encoding (Eq. 3):
     :nowrap:
 
     \[
-    \mathcal{L}^{(\text{ERs})}(V_h) = \log NM + \log \binom{N}{h} + \log \binom{h(N - 1)}{M_h} + \log \binom{(N - h)(N - 1)}{M - M_h} \tag{1}
+    \mathcal{L}^{(\text{ERs})}(V_h) = \log NM + \log \binom{N}{h} + \log \binom{h(N - 1)}{M_h} + \log \binom{(N - h)(N - 1)}{M - M_h} 
     \]
 
 Simple CM (configuration model) encoding (Eq. 4): 
@@ -41,7 +41,7 @@ Simple CM (configuration model) encoding (Eq. 4):
     :nowrap:
 
     \[
-    \mathcal{L}^{(\text{CMs})}(V_h) = \log NM + \log \binom{N}{h} + \log \binom{M_h + h - 1}{h - 1} + \sum_{i \in V_h} \log \binom{N - 1}{k_i} + \log \binom{(N - h)(N - 1)}{M - M_h} \tag{2}
+    \mathcal{L}^{(\text{CMs})}(V_h) = \log NM + \log \binom{N}{h} + \log \binom{M_h + h - 1}{h - 1} + \sum_{i \in V_h} \log \binom{N - 1}{k_i} + \log \binom{(N - h)(N - 1)}{M - M_h} 
     \]
 
 Multigraph ER encoding (Eq. 8):
@@ -52,7 +52,7 @@ Multigraph ER encoding (Eq. 8):
     :nowrap:
 
     \[
-    \mathcal{L}^{(\text{ERm})}(V_h) = \log NM + \log \binom{N}{h} + \log \left(\frac{hN}{M_h}\right) + \log \left(\frac{(N - h)N}{M - M_h}\right) \tag{3}
+    \mathcal{L}^{(\text{ERm})}(V_h) = \log NM + \log \binom{N}{h} + \log \left(\frac{hN}{M_h}\right) + \log \left(\frac{(N - h)N}{M - M_h}\right) 
     \]
 
 Multigraph CM encoding (Eq. 9):
@@ -63,7 +63,7 @@ Multigraph CM encoding (Eq. 9):
     :nowrap:
 
     \[
-    \mathcal{L}^{(\text{CMm})}(V_h) = \log NM + \log \binom{N}{h} + \log \binom{M_h + h - 1}{h - 1} + \sum_{i \in V_h} \log \binom{N}{k_i} + \log \left(\frac{(N - h)N}{M - M_h}\right) \tag{4}
+    \mathcal{L}^{(\text{CMm})}(V_h) = \log NM + \log \binom{N}{h} + \log \binom{M_h + h - 1}{h - 1} + \sum_{i \in V_h} \log \binom{N}{k_i} + \log \left(\frac{(N - h)N}{M - M_h}\right) 
     \]
 
 
@@ -302,14 +302,14 @@ Example Output
 --------------
 
 .. figure:: kidnappings_Network_ERs_hubs.png
-    :alt: Example output showing the kidnappings network hubs identifying through ER encoding.
+    :alt: Kidnappings network with hubs identified with the ERs encoding.
 
-    Graph Representation of the Kidnappings Network (Giant Component Only) with Simple Version of ER (ERs) Encoding Hubs. Nodes are colored light blue, with hub nodes in red. The nodes are labelled with in-degree values, the edges are directed with arrows. The size of each node corresponds to its degree. The title includes the description length (DL) and compression ratio (CR).
+Kidnappings network (giant component only, for simpler visualization) with hubs identified with the ERs encoding. Non-hub nodes are colored light blue, while hub nodes are in red. The nodes are labelled with their in-degree values, and the optimal description length (DL) and compression ratio (CR) of the encoding are specified at the top of the figure.
 
 .. figure:: kidnappings_Network_CMs_hubs.png
     :alt: Example output showing the kidnappings network hubs identifying through CM encoding.
 
-    Graph Representation of the Kidnappings Network (Giant Component Only) with Simple Version of CM (CMs) Encoding Hubs. Nodes are colored light blue, with hub nodes in green. The nodes are labelled with in-degree values, the edges are directed with arrows. The size of each node corresponds to its degree. The title includes the description length (DL) and compression ratio (CR).
+Kidnappings network with hubs identified with the ERs encoding. Non-hub nodes are colored light blue, while hub nodes are in green.
 
 Paper source
 ====
