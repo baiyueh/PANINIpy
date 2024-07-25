@@ -595,7 +595,7 @@ Example Code
         {(1, 5), (4, 5), (5, 6), (2, 3), (2, 6), (3, 6), (3, 7), (2, 7), (6, 7)}]
 
     node_num = 8
-    network_num = 2000
+    network_num = 100
     nets, cluster_labels = generate_synthetic(
         S=network_num, 
         N=node_num, 
