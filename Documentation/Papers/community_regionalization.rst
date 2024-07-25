@@ -4,26 +4,28 @@ Regionalization with Community Detection
 Tutorial 
 ===============
 
-Code to perform spatial regionalization based on the greedy agglomerative algorithm derived in ‘Urban Boundary Delineation from Commuting Data with Bayesian Stochastic Blockmodeling: Scale, Contiguity, and Hierarchy’. Inputs an event dataset of the form \[(N, spatial_elist, flow_elist)\], where:
+Code to perform spatial regionalization based on the greedy agglomerative algorithm derived in "Urban Boundary Delineation from Commuting Data with Bayesian Stochastic Blockmodeling: Scale, Contiguity, and Hierarchy" (Morel-Balbi and Kirkley, 2024, https://arxiv.org/pdf/2405.04911). 
+
+Inputs are:
 
 - **N:** The number of nodes in the network.
-- **spatial_elist:** A list of tuples \((i, j)\) encoding the spatial adjacencies of the fundamental spatial units, where a tuple \((i, j)\) indicates that unit \(i\) and unit \(j\) are spatially adjacent.
-- **flow_elist:** A list of tuples \((i, j, w)\) encoding the flows between the fundamental spatial units, where a tuple \((i, j, w)\) indicates a flow of \(w\) going from unit \(i\) to unit \(j\).
+- **spatial_elist:** A list of tuples (i, j) encoding the spatial adjacencies of the fundamental spatial units, where a tuple (i, j) indicates that unit i and unit j are spatially adjacent.
+- **flow_elist:** A list of tuples (i, j, w) encoding the flows between the fundamental spatial units, where a tuple (i, j, w) indicates a flow of w going from unit i to unit j.
 
-Outputs a regionalization result of the form \[(DLs, partitions)\], where:
+Outputs a regionalization result DLs, partitions, where:
 
 - **DLs:** A list of description length values (in nats) at each iteration of the algorithm.
 - **partitions:** A list of partitions at each iteration of the algorithm, where each partition is described by a list containing the node identifiers of the nodes belonging to the partition.
 
-using the following clustering objective:
+Algorithm minimizes the following clustering objective over contiguous partitions of the input spatial network:
 
 .. math::
 
-    C(B) + \sum_r g(r) + \sum_{r,s} f(r, s).
+    C(B) + \sum_r g(r) + \sum_{r,s} f(r, s)
 
-The code implementation provided here uses an objective function corresponding to the description length of a weighted stochastic block model, as described in the paper ‘Urban Boundary Delineation from Commuting Data with Bayesian Stochastic Blockmodeling: Scale, Contiguity, and Hierarchy’, but can be modified at will.
+as specified in Eq. 9 of https://arxiv.org/pdf/2405.04911. The function C(B) only depends on the number of clusters B and other network-level constants, while g(r) only depends on the r-th cluster and f(r,s) only depends on the r-th and s-th clusters. This general functional form can accommodate most stochastic block model variants as well as modularity or infomap. 
 
-This method optimizes the Minimum Description Length (MDL) objective for spatial regionalization of community detection.
+The current code implementation provided here uses an objective function corresponding to the description length of a weighted stochastic block model, as described in the paper, but this can be easily modified for other objective functions as described above.
 
 
 Input parameters:
@@ -57,6 +59,7 @@ Notes
 -----
 
 The algorithm is set up by default to stop and return when no merge further decreases the description length, but this behavior can be overridden by commenting out/modifying the appropriate sections of the code.
+
 
 Greedy Regionalization Algorithm
 ================================
@@ -209,7 +212,7 @@ Compute the logarithm of the multiset coefficient.
    </div>
 
 **Description**:
-Perform fast greedy regionalization for objective functions.
+Perform fast greedy agglomerative regionalization.
 
 **Parameters**:
 
@@ -482,7 +485,7 @@ Example Output
 .. figure:: output.png
     :alt: Example output showing the spatial regionalization results for Baton Rouge, LA.
 
-    Spatial Regionalization Results for Baton Rouge, LA. The x-axis and y-axis represent the geographical coordinates. Different colors indicate different inferred partitions, and the black lines show the underlying tract subdivisions. The title includes the description length in nats and the number of clusters B.
+Spatial regionalization Rrsults for Baton Rouge, LA. Colors indicate the inferred clusters, while the black lines show the underlying tract subdivisions. The optimal description length in nats and the optimal number of clusters B are shown above the figure.
 
 Paper source
 ====
