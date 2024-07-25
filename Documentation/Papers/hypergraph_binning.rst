@@ -194,7 +194,7 @@ Identify the MDL-optimal temporally contiguous partition of event data X at reso
    </div>
 
 **Description**:
-Compute the cluster-level description length.
+Compute the description length for cluster corresponding to the time interval [i,j].
 
 **Parameters**:
 
