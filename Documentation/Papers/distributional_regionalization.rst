@@ -4,19 +4,21 @@ Regionalization with Distributional Data
 Tutorial 
 ===============
 
-Code to perform spatial regionalization based on optimal information compression derived in ‘Spatial regionalization as optimal data compression’. Inputs an event dataset of the form \[(adjlist, dists, pops)\], where:
+Code to perform spatial regionalization of distributional data using method derived in "Spatial regionalization as optimal data compression" (Kirkley, 2022, https://arxiv.org/pdf/2111.01813). 
+
+Inputs adjlist, dists, pops, where:
 
 - **adjlist:** List of lists, representing the adjacency list of integer node indices for each unit.
 - **dists:** 2D numpy array with normalized probability mass function for each unit, representing the distribution of different categories.
 - **pops:** Array representing the populations of the units.
 
-Outputs a regionalization result of the form \[(inverse compression ratio, cluster labels, distributions)\], where:
+Outputs a regionalization result of the form inverse compression ratio, cluster labels, distributions, where:
 
 - **inverse compression ratio:** The ratio of the description length after clustering to the description length of naive transmission.
-- **cluster labels:** List of cluster labels for all units.
+- **cluster labels:** List of cluster labels for all units, ordered by their index in the input adjlist.
 - **distributions:** The distributions input to the algorithm.
 
-using the following clustering objective:
+Algorithm minimizes the following Minimum Description Length (MDL) clustering objective over spatial partitions \mathcal{P} (Eq. 8 in https://arxiv.org/pdf/2111.01813):
 
 .. _equation1:
 
@@ -24,22 +26,14 @@ using the following clustering objective:
 
     \mathcal{L}(\mathcal{D}, \mathcal{P}) &= \log \left(\frac{b(V) - 1}{K - 1}\right) + \log \left(\frac{n(V) - 1}{K - 1}\right) \\
     &+ \sum_{k=1}^{K} \log \left(\frac{b(V_k) - 1}{R - 1}\right) + \sum_{k=1}^{K} \log \left(\frac{b(V_k) - 1}{n(V_k) - 1}\right) \\
-    &+ \sum_{k=1}^{K} \log \Omega(a_k, c_k)
+    &+ \sum_{k=1}^{K} \log \Omega(a_k, c_k).
 
-We can see that the first three terms in Eq. :eq:`1` penalize us for having a greater number of clusters :math:`K`, as they will tend to contribute greater description lengths as :math:`K` increases, and the fourth term will not depend on the number of clusters to first order in a Stirling approximation of the binomial coefficients. For the last term in Eq. :eq:`1`, in the extreme case where there is only one category :math:`r^*` that is represented in the population of the units :math:`u \in V_k` (i.e. :math:`c_k[r] = 0` for :math:`r \neq r^*`), then we have :math:`\Omega(a_k, c_k) = 1` and the contribution from this term vanishes. More generally, there are fewer ways the categories can be distributed among the populations in :math:`V_k`'s constituent tracts if :math:`c_k` is more concentrated on a single category, so the last term in Eq. :eq:`1` will penalize for having a high level of diversity within the clusters. (Or, conversely, this penalty encourages partitions :math:`\mathcal{P}` that have homogeneous clusters.)
-
-This method optimizes the Minimum Description Length (MDL) objective for spatial regionalization of distributional data.
-
-# Spatial regionalization based on optimal information compression: code and data
-Ipython Notebook with code for regionalization algorithm in 'Spatial regionalization as optimal data compression', along with metropolitan area census tract networks used in the analysis.
-
-Ethnoracial distributions for each decade are ordered: ['Non-Hispanic White', 'Non-Hispanic Black', 'Asian', 'Hispanic', and 'Other'], and all census metadata are obtained from the Longitudinal Tract Database [here](https://s4.ad.brown.edu/projects/diversity/researcher/bridging.htm) 
 
 
 MDL Regionalization
 ===================
 
-This module provides a class and functions for performing MDL (Minimum Description Length) regionalization on networks.
+This module provides a class and functions for performing MDL (Minimum Description Length) regionalization with distributional data.
 
 .. list-table:: Functions
    :header-rows: 1
@@ -49,7 +43,7 @@ This module provides a class and functions for performing MDL (Minimum Descripti
    * - `MDL_regionalization.__init__(name) <#init>`_
      - Initialize the MDL_regionalization class.
    * - `MDL_regionalization.MDL_regionalization(adjlist, dists, pops) <#MDL_regionalization>`_
-     - Perform MDL-based regionalization.
+     - Perform MDL regionalization.
    * - `MDL_regionalization.MDL_regionalization.str2int(l) <#str2int>`_
      - Convert a list of strings to a list of integers.
    * - `MDL_regionalization.MDL_regionalization.logNcK(n, K) <#logNcK>`_
@@ -57,13 +51,13 @@ This module provides a class and functions for performing MDL (Minimum Descripti
    * - `MDL_regionalization.MDL_regionalization.logMult(ns) <#logMult>`_
      - Compute the logarithm of the multinomial coefficient.
    * - `MDL_regionalization.MDL_regionalization.log_num_bin_sizes(n, K) <#log_num_bin_sizes>`_
-     - Compute the logarithm of the number of bin sizes.
+     - Compute the logarithm of the number of ways to partition integer n into k non-negative integers.
    * - `MDL_regionalization.MDL_regionalization.log_omega(row_sums, col_sums) <#log_omega>`_
-     - Compute the logarithm of the number of non-negative integer matrices.
+     - Compute the logarithm of the number of non-negative integer matrices with specified row and column sums.
    * - `MDL_regionalization.MDL_regionalization.cluster_DL(cluster) <#cluster_DL>`_
-     - Compute the description length of a cluster.
+     - Compute the description length of a cluster of spatial units.
    * - `MDL_regionalization.MDL_regionalization.global_DL(clusters) <#global_DL>`_
-     - Compute the global description length for all clusters.
+     - Compute the global description length for all clusters of spatial units.
    * - `MDL_regionalization.MDL_regionalization.random_key() <#random_key>`_
      - Generate a random key for a new cluster.
    * - `MDL_regionalization.MDL_regionalization.cluster_merge(key1, key2, update=False) <#cluster_merge>`_
@@ -92,7 +86,7 @@ Initialize the MDL_regionalization class.
    </div>
 
 **Description**:
-Perform MDL-based regionalization.
+Perform MDL spatial regionalization.
 
 **Parameters**:
 
@@ -228,7 +222,7 @@ Compute the logarithm of the number of bin sizes.
    </div>
 
 **Description**:
-Compute the logarithm of the number of non-negative integer matrices.
+Compute the logarithm of the number of non-negative integer matrices with specified row and column sums.
 
 **Parameters**:
 
@@ -255,7 +249,7 @@ Compute the logarithm of the number of non-negative integer matrices.
    </div>
 
 **Description**:
-Compute the description length of a cluster.
+Compute the description length of a cluster of spatial units.
 
 **Parameters**:
 
@@ -266,7 +260,7 @@ Compute the description length of a cluster.
    </div>
 
    <ul class="parameter-list">
-       <li><span class="param-name">cluster</span>: Set of cluster indices.</li>
+       <li><span class="param-name">cluster</span>: Set of spatial unit indices corresponding to the cluster.</li>
    </ul>
 
 **Returns**:
@@ -471,7 +465,7 @@ Example Output
 .. figure:: MDL_regionalization_demo.png
     :alt: Example output showing the MDL regionalization clustering results for New Haven-Milford, CT.
 
-    Example output showing the MDL regionalization clustering results for New Haven-Milford, CT. The top plot shows the geographical clustering results with different colors indicating different clusters. The bottom plot shows the average racial distribution of ['Non-Hispanic White', 'Non-Hispanic Black', 'Asian', 'Hispanic', 'Other'] within each cluster.
+Example output showing the MDL regionalization results for New Haven-Milford, CT using 2010 census data indicating the ethnoracial distribution within each spatial unit's (census tract's) population. The top plot shows the spatial distribution of the clusters of spatial units, indicated by different colors. The bottom plot shows the fraction of the population within each cluster falling into the categories ['Non-Hispanic White', 'Non-Hispanic Black', 'Asian', 'Hispanic', 'Other'].
 
 Paper source
 ====
