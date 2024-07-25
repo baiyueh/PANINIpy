@@ -233,7 +233,7 @@ Example Code
     import networkx as nx
     from collections import Counter, defaultdict
 
-**Step 2: Generate synthetic data**
+**Step 2: Generate synthetic event dataset and choose time discretization**
 
 .. code-block:: python
 
@@ -241,7 +241,7 @@ Example Code
          ('B','1',1,1),('C','2',1,2),('A','2',1,3),('B','2',1,4),('C','2',1,5)]
     dt = 0.1
 
-**Step 3: Run the exact dynamic program algorithm**
+**Step 3: Run the exact dynamic programming algorithm**
 
 .. code-block:: python
 
@@ -249,7 +249,7 @@ Example Code
     results_exact = MDL_hypergraph_binning(X, dt, exact=True)
     runtime_exact = time.time() - start_exact
 
-**Step 4: Run the greedy algorithm**
+**Step 4: Run the fast greedy agglomerative algorithm**
 
 .. code-block:: python
 
@@ -333,14 +333,14 @@ Example Output
         runtime = 0.0036
 
 .. figure:: timeline_plot_with_log_transform_exact.png
-    :alt: Example output showing the hypergraph binning results for the example graph with the exact dynamic programming solution.
+    :alt: Hypergraph binning results for synthetic dataset with exact dynamic programming solution.
     
-    Hypergraph Binning Results for the Example Graph with the Exact Dynamic Programming Solution. The x-axis represents time, and the events are plotted with color-coded partitions. Events labeled with "0" are partitioned into the first group (light blue), and events labeled with "1" are partitioned into the second group (light red).
+    Hypergraph binning results for synthetic dataset with exact dynamic programming solution. The x-axis represents time and the events are plotted with colors indicating event clusters. Events labeled with "0" are partitioned into the first group (light blue), and events labeled with "1" are partitioned into the second group (light red). Each group forms a cohesive hypergraph structure involving the two sets of nodes.
 
 .. figure:: timeline_plot_with_log_transform_greedy.png
-    :alt: Example output showing the hypergraph binning results for the example graph with the greedy dynamic programming solution.
+    :alt: Hypergraph binning results for synthetic dataset with greedy agglomerative solution.
     
-    Hypergraph Binning Results for the Example Graph with the Greedy Dynamic Programming Solution. The x-axis represents time, and the events are plotted with color-coded partitions. Events labeled with "0" are partitioned into the first group (light blue), and events labeled with "1" are partitioned into the second group (light red).
+    Hypergraph binning results for synthetic dataset with greedy agglomerative solution. 
 
 Paper source
 ====
