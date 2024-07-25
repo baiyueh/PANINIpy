@@ -4,20 +4,24 @@ Binning Temporal Hypergraphs
 Tutorial 
 ===============
 
-Code to perform hypergraph binning method derived in ‘Inference of dynamic hypergraph representations in temporal interaction data’. Inputs an event dataset of the form \[(source, destination, weight, time)\], where:
+Code to perform hypergraph binning method derived in "Inference of dynamic hypergraph representations in temporal interaction data" (Kirkley, 2024, https://arxiv.org/abs/2308.16546). 
 
-- **source:** The source node of the event.
-- **destination:** The destination node of the event.
-- **weight:** The weight of the event, representing its significance or frequency.
+Inputs a list containing events between two disjoint node sets, with entries of the form (source node, destination node, weight, time), where:
+
+- **source node:** Node from first set (i.e. a user).
+- **destination:** Node from second set (i.e. an item purchased by the user).
+- **weight:** The weight of the event, representing its significance or frequency (i.e. the cost of the item).
 - **time:** The time at which the event occurs.
 
-Outputs a temporal partition of the form \[(compression ratio, event clusters, number of time steps)\], where:
+Also inputs a desired resolution dt for time discretzation, and whether to use exact dynamic programming or an approximate greedy method for the inference.
 
-- **compression ratio:** The ratio of the description length after clustering to the description length of naive transmission.
-- **event clusters:** A list representing the partition of the event data into clusters.
+Outputs compression ratio, event clusters, and number of time steps, where:
+
+- **compression ratio:** The ratio of the description length after event binning to the description length of naive transmission.
+- **event clusters:** A list assigning each event to a temporal cluster label where the events can be aggregated into a weighted hypergraph or bipartite graph.
 - **number of time steps:** The number of time steps corresponding to the specified width (dt).
 
-using the following clustering objective:
+The method minimizes the following nonparametric Minimum Description Length (MDL) clustering objective over 1D segmentations \tau of the time interval:
 
 .. _equation1:
 
@@ -25,7 +29,7 @@ using the following clustering objective:
     :nowrap:
 
     \[
-    \mathcal{L}_{\text{total}}(\mathcal{X}, \tau) = \sum_{k=1}^{K} \mathcal{L}_{\text{cluster}}^{(k)} \tag{1}
+    \mathcal{L}_{\text{total}}(\mathcal{X}, \tau) = \sum_{k=1}^{K} \mathcal{L}_{\text{cluster}}^{(k)},
     \]
 
 where
@@ -36,17 +40,10 @@ where
     :nowrap:
 
     \[
-    \mathcal{L}_{\text{cluster}}^{(k)} = \log(N - 1)(T - 1) + \log\left(\binom{S}{m_k}\binom{D}{m_k}\binom{\tau_k}{m_k}\right) + \left[\log \Omega(s^{(k)}, d^{(k)}) + \log \Omega(G^{(k)}, n^{(k)}) \right] \tag{2}
+    \mathcal{L}_{\text{cluster}}^{(k)} = \log(N - 1)(T - 1) + \log\left(\binom{S}{m_k}\binom{D}{m_k}\binom{\tau_k}{m_k}\right) + \left[\log \Omega(s^{(k)}, d^{(k)}) + \log \Omega(G^{(k)}, n^{(k)}) \right]
     \]
 
-This method optimizes the Minimum Description Length (MDL) objective for temporal clustering of event data.
-
-We can now minimize our MDL objective in Eq. :eq:`1` using a dynamic program. The key intuition behind this is that since the objective in Eq. :eq:`1` is a sum of independent terms over clusters in one dimension, its minimum over the first :math:`j` time steps—i.e., the optimal binning :math:`\tau` restricted to these first :math:`j` time steps—must consist of the optimal binning up to some time step :math:`i \in \{1, ..., j\}` (excluding the :math:`i`-th time step) plus a final cluster of time steps :math:`i, ..., j`.
-
-Code to perform hypergraph binning methods derived in "Constructing hypergraphs from temporal data", with example ipython notebook.
-
-The New York City FourSquare checkins dataset used in the paper can be downloaded from [Kaggle](https://www.kaggle.com/datasets/chetanism/foursquare-nyc-and-tokyo-checkin-dataset?resource=download).
-
+is the description length of the k-th temporal cluster according to Eq. 14 in https://arxiv.org/pdf/2308.16546. 
 
 MDL Hypergraph Binning
 ======================
@@ -167,7 +164,7 @@ Compute the logarithm of the number of non-negative integer matrices with specif
    </div>
 
 **Description**:
-Identify the MDL-optimal temporally contiguous partition of event data.
+Identify the MDL-optimal temporally contiguous partition of event data X at resolution dt.
 
 **Parameters**:
 
@@ -178,9 +175,9 @@ Identify the MDL-optimal temporally contiguous partition of event data.
    </div>
 
    <ul class="parameter-list">
-       <li><span class="param-name">X</span>: List of event data entries, each in the form [s_i, d_i, w_i, t_i].</li>
-       <li><span class="param-name">dt</span>: Time step width, calculated as (t_N - t_1) / T.</li>
-       <li><span class="param-name">exact</span>: Boolean to indicate whether to use the exact dynamic programming solution.</li>
+       <li><span class="param-name">X</span>: List of event data entries, each in the form [source, destination, weight, time].</li>
+       <li><span class="param-name">dt</span>: Time discretization width.</li>
+       <li><span class="param-name">exact</span>: Boolean to indicate whether to use the exact dynamic programming solution or the faster approximate greedy solution.</li>
    </ul>
 
 **Returns**:
