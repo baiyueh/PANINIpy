@@ -22,22 +22,31 @@ pip install ScholarCodeCollective
 ### [Binning Temporal Hypergraphs](https://scholarcodecollective.readthedocs.io/en/latest/Papers/hypergraph_binning.html)
 
 Identify MDL-optimal temporally contiguous partitions of event data.
+Code to perform hypergraph binning method derived in “Inference of dynamic hypergraph representations in temporal interaction data” (Kirkley, 2024, https://arxiv.org/abs/2308.16546).
+
 
 ### [Clustering Network Populations](https://scholarcodecollective.readthedocs.io/en/latest/Papers/population_clustering.html)
 
 Generate synthetic datasets and perform clustering based on population models.
+Code to perform clustering network populations derived in “Compressing network populations with modal networks reveals structural diversity” (Kirkley et al., 2023, https://arxiv.org/pdf/2209.13827).
 
 ### [Regionalization with Distributional Data](https://scholarcodecollective.readthedocs.io/en/latest/Papers/distributional_regionalization.html)
 
 Perform MDL-based regionalization on spatial data.
+Code to perform spatial regionalization of distributional data using method derived in “Spatial regionalization as optimal data compression” (Kirkley, 2022, https://arxiv.org/pdf/2111.01813).
+
+
 
 ### [Identifying Network Hubs](https://scholarcodecollective.readthedocs.io/en/latest/Papers/hub_identification.html)
 
 Identify hub nodes in a network using various criteria and methods.
+Code to perform hub node classification derived in “Identifying hubs in directed networks” (Kirkley, 2024, https://arxiv.org/pdf/2312.03347).
+
 
 ### [Regionalization with Community Detection](https://scholarcodecollective.readthedocs.io/en/latest/Papers/community_regionalization.html)
 
 Perform community detection-based regionalization on network data.
+Code to perform spatial regionalization based on the greedy agglomerative algorithm derived in “Urban Boundary Delineation from Commuting Data with Bayesian Stochastic Blockmodeling: Scale, Contiguity, and Hierarchy” (Morel-Balbi and Kirkley, 2024, https://arxiv.org/pdf/2405.04911).
 
 ## Documentation 
 
