@@ -79,7 +79,8 @@ Reference
 .. raw:: html
 
    <div id="logchoose" class="function-header">
-       <span class="class-name">function</span> <span class="function-name">logchoose(n, k)</span> <a href="#logchoose" class="source-link">[source]</a>
+       <span class="class-name">function</span> <span class="function-name">logchoose(n, k)</span> 
+       <a class="source-link" href="../Code/hypergraph_binning.html#logchoose">[source]</a>
    </div>
 
 **Description**:
@@ -106,7 +107,8 @@ Compute the logarithm of the binomial coefficient.
 .. raw:: html
 
    <div id="logmult" class="function-header">
-       <span class="class-name">function</span> <span class="function-name">logmult(counts)</span> <a href="#logmult" class="source-link">[source]</a>
+       <span class="class-name">function</span> <span class="function-name">logmult(counts)</span> 
+       <a href="../Code/hypergraph_binning.html#logmult" class="source-link">[source]</a>
    </div>
 
 **Description**:
@@ -132,7 +134,8 @@ Compute the logarithm of the multinomial coefficient over count data.
 .. raw:: html
 
    <div id="logOmega" class="function-header">
-       <span class="class-name">function</span> <span class="function-name">logOmega(rs, cs, swap=True)</span> <a href="#logOmega" class="source-link">[source]</a>
+       <span class="class-name">function</span> <span class="function-name">logOmega(rs, cs, swap=True)</span> 
+       <a href="../Code/hypergraph_binning.html#logomega" class="source-link">[source]</a>
    </div>
 
 **Description**:
@@ -160,7 +163,8 @@ Compute the logarithm of the number of non-negative integer matrices with specif
 .. raw:: html
 
    <div id="MDL_hypergraph_binning" class="function-header">
-       <span class="class-name">function</span> <span class="function-name">MDL_hypergraph_binning(X, dt, exact=True)</span> <a href="#MDL_hypergraph_binning" class="source-link">[source]</a>
+       <span class="class-name">function</span> <span class="function-name">MDL_hypergraph_binning(X, dt, exact=True)</span> 
+       <a href="../Code/hypergraph_binning.html#mdl-hypergraph-binning" class="source-link">[source]</a>
    </div>
 
 **Description**:
@@ -190,7 +194,8 @@ Identify the MDL-optimal temporally contiguous partition of event data X at reso
 .. raw:: html
 
    <div id="DL" class="function-header">
-       <span class="class-name">function</span> <span class="function-name">MDL_hypergraph_binning.DL(i, j)</span> <a href="#DL" class="source-link">[source]</a>
+       <span class="class-name">function</span> <span class="function-name">MDL_hypergraph_binning.DL(i, j)</span> 
+       <a href="../Code/hypergraph_binning.html#mdl-hypergraph-binning" class="source-link">[source]</a>
    </div>
 
 **Description**:
@@ -304,17 +309,17 @@ Example Code
         plt.savefig(f"timeline_plot_with_log_transform_{method}.png", bbox_inches='tight', dpi=200)
         plt.show()
 
-**Step 7: Visualize the binning results for the exact dynamic program solution**
+**Step 7: Visualize the binning results for the exact dynamic programming**
 
 .. code-block:: python
 
-    visualize_binning(X, results_exact, 'exact')
+    visualize_binning(X, results_exact, 'exact dynamic programming')
 
-**Step 8: Visualize the binning results for the greedy algorithm solution**
+**Step 8: Visualize the binning results for the fast greedy agglomerative**
 
 .. code-block:: python
 
-    visualize_binning(X, results_greedy, 'greedy')
+    visualize_binning(X, results_greedy, 'fast greedy agglomerative')
 
 Example Output
 --------------
@@ -332,15 +337,15 @@ Example Output
         number of time steps = 50
         runtime = 0.0036
 
-.. figure:: timeline_plot_with_log_transform_exact.png
+.. figure:: timeline_plot_with_exact_dynamic_programming.png
     :alt: Hypergraph binning results for synthetic dataset with exact dynamic programming solution.
     
-    Hypergraph binning results for synthetic dataset with exact dynamic programming solution. The x-axis represents time and the events are plotted with colors indicating event clusters. Events labeled with "0" are partitioned into the first group (light blue), and events labeled with "1" are partitioned into the second group (light red). Each group forms a cohesive hypergraph structure involving the two sets of nodes.
+Hypergraph binning results for synthetic dataset with exact dynamic programming solution. The x-axis represents time and the events are plotted with colors indicating event clusters. Events labeled with "0" are partitioned into the first group (light blue), and events labeled with "1" are partitioned into the second group (light red). Each group forms a cohesive hypergraph structure involving the two sets of nodes.
 
-.. figure:: timeline_plot_with_log_transform_greedy.png
+.. figure:: timeline_plot_with_fast_greedy_agglomerative.png
     :alt: Hypergraph binning results for synthetic dataset with greedy agglomerative solution.
     
-    Hypergraph binning results for synthetic dataset with greedy agglomerative solution. 
+Hypergraph binning results for synthetic dataset with greedy agglomerative solution. 
 
 Paper source
 ====

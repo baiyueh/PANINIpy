@@ -41,6 +41,10 @@
     float: right;
 }
 
+.source-link:hover {
+    text-decoration: underline;
+}
+
 .parameter-block {
     background-color: #f9f9f9;
     border-left: 3px solid #cccccc;

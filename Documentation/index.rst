@@ -15,6 +15,12 @@ Welcome to ScholarCodeCollective's documentation!
    Papers/distributional_regionalization
    Papers/hub_identification
    Papers/community_regionalization
+..
+   Code/hypergraph_binning
+   Code/population_clustering
+   Code/distributional_regionalization
+   Code/hub_identification
+   Code/community_regionalization
  
 
 

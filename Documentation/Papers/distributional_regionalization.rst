@@ -71,7 +71,8 @@ Reference
 .. raw:: html
 
    <div id="init" class="function-header">
-       <span class="class-name">class</span> <span class="function-name">MDL_regionalization.__init__(name)</span> <a href="#__init__" class="source-link">[source]</a>
+       <span class="class-name">class</span> <span class="function-name">MDL_regionalization.__init__(name)</span> 
+       <a href="../Code/distributional_regionalization.html#init" class="source-link">[source]</a>
    </div>
 
 **Description**:
@@ -82,7 +83,8 @@ Initialize the MDL_regionalization class.
 .. raw:: html
 
    <div id="MDL_regionalization" class="function-header">
-       <span class="class-name">function</span> <span class="function-name">MDL_regionalization.MDL_regionalization(adjlist, dists, pops)</span> <a href="#MDL_regionalization" class="source-link">[source]</a>
+       <span class="class-name">function</span> <span class="function-name">MDL_regionalization.MDL_regionalization(adjlist, dists, pops)</span> 
+       <a href="../Code/distributional_regionalization.html#mdl-regionalization" class="source-link">[source]</a>
    </div>
 
 **Description**:
@@ -112,7 +114,8 @@ Perform MDL spatial regionalization.
 .. raw:: html
 
    <div id="str2int" class="function-header">
-       <span class="class-name">function</span> <span class="function-name">MDL_regionalization.MDL_regionalization.str2int(l)</span> <a href="#str2int" class="source-link">[source]</a>
+       <span class="class-name">function</span> <span class="function-name">MDL_regionalization.MDL_regionalization.str2int(l)</span> 
+       <a href="../Code/distributional_regionalization.html#str2int" class="source-link">[source]</a>
    </div>
 
 **Description**:
@@ -138,7 +141,8 @@ Convert a list of strings to a list of integers.
 .. raw:: html
 
    <div id="logNcK" class="function-header">
-       <span class="class-name">function</span> <span class="function-name">MDL_regionalization.MDL_regionalization.logNcK(n, K)</span> <a href="#logNcK" class="source-link">[source]</a>
+       <span class="class-name">function</span> <span class="function-name">MDL_regionalization.MDL_regionalization.logNcK(n, K)</span> 
+       <a href="../Code/distributional_regionalization.html#lognck" class="source-link">[source]</a>
    </div>
 
 **Description**:
@@ -165,7 +169,8 @@ Compute the logarithm of the binomial coefficient.
 .. raw:: html
 
    <div id="logMult" class="function-header">
-       <span class="class-name">function</span> <span class="function-name">MDL_regionalization.MDL_regionalization.logMult(ns)</span> <a href="#logMult" class="source-link">[source]</a>
+       <span class="class-name">function</span> <span class="function-name">MDL_regionalization.MDL_regionalization.logMult(ns)</span> 
+       <a href="../Code/distributional_regionalization.html#logmult" class="source-link">[source]</a>
    </div>
 
 **Description**:
@@ -191,7 +196,8 @@ Compute the logarithm of the multinomial coefficient.
 .. raw:: html
 
    <div id="log_num_bin_sizes" class="function-header">
-       <span class="class-name">function</span> <span class="function-name">MDL_regionalization.MDL_regionalization.log_num_bin_sizes(n, K)</span> <a href="#log_num_bin_sizes" class="source-link">[source]</a>
+       <span class="class-name">function</span> <span class="function-name">MDL_regionalization.MDL_regionalization.log_num_bin_sizes(n, K)</span> 
+       <a href="../Code/distributional_regionalization.html#log-num-bin-sizes" class="source-link">[source]</a>
    </div>
 
 **Description**:
@@ -218,7 +224,8 @@ Compute the logarithm of the number of bin sizes.
 .. raw:: html
 
    <div id="log_omega" class="function-header">
-       <span class="class-name">function</span> <span class="function-name">MDL_regionalization.MDL_regionalization.log_omega(row_sums, col_sums)</span> <a href="#log_omega" class="source-link">[source]</a>
+       <span class="class-name">function</span> <span class="function-name">MDL_regionalization.MDL_regionalization.log_omega(row_sums, col_sums)</span> 
+       <a href="../Code/distributional_regionalization.html#log-omega" class="source-link">[source]</a>
    </div>
 
 **Description**:
@@ -245,7 +252,8 @@ Compute the logarithm of the number of non-negative integer matrices with specif
 .. raw:: html
 
    <div id="cluster_DL" class="function-header">
-       <span class="class-name">function</span> <span class="function-name">MDL_regionalization.MDL_regionalization.cluster_DL(cluster)</span> <a href="#cluster_DL" class="source-link">[source]</a>
+       <span class="class-name">function</span> <span class="function-name">MDL_regionalization.MDL_regionalization.cluster_DL(cluster)</span> 
+       <a href="../Code/distributional_regionalization.html#cluster-dl" class="source-link">[source]</a>
    </div>
 
 **Description**:
@@ -271,7 +279,8 @@ Compute the description length of a cluster of spatial units.
 .. raw:: html
 
    <div id="global_DL" class="function-header">
-       <span class="class-name">function</span> <span class="function-name">MDL_regionalization.MDL_regionalization.global_DL(clusters)</span> <a href="#global_DL" class="source-link">[source]</a>
+       <span class="class-name">function</span> <span class="function-name">MDL_regionalization.MDL_regionalization.global_DL(clusters)</span> 
+       <a href="../Code/distributional_regionalization.html#global-dl" class="source-link">[source]</a>
    </div>
 
 **Description**:
@@ -297,7 +306,8 @@ Compute the global description length for all clusters.
 .. raw:: html
 
    <div id="random_key" class="function-header">
-       <span class="class-name">function</span> <span class="function-name">MDL_regionalization.MDL_regionalization.random_key()</span> <a href="#random_key" class="source-link">[source]</a>
+       <span class="class-name">function</span> <span class="function-name">MDL_regionalization.MDL_regionalization.random_key()</span> 
+       <a href="../Code/distributional_regionalization.html#random-key" class="source-link">[source]</a>
    </div>
 
 **Description**:
@@ -311,7 +321,8 @@ Generate a random key for a new cluster.
 .. raw:: html
 
    <div id="cluster_merge" class="function-header">
-       <span class="class-name">function</span> <span class="function-name">MDL_regionalization.MDL_regionalization.cluster_merge(key1, key2, update=False)</span> <a href="#cluster_merge" class="source-link">[source]</a>
+       <span class="class-name">function</span> <span class="function-name">MDL_regionalization.MDL_regionalization.cluster_merge(key1, key2, update=False)</span> 
+       <a href="../Code/distributional_regionalization.html#cluster-merge" class="source-link">[source]</a>
    </div>
 
 **Description**:
@@ -333,7 +344,6 @@ Merge two clusters and update the description length.
 
 **Returns**:
   - **tuple**: Tuple containing the minimum change in description length and a boolean indicating if the merge was successful.
-
 
 
 Demo 

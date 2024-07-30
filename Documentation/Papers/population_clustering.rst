@@ -130,14 +130,15 @@ All of the following functions are provided in this module and have the same gen
      - Evaluate description length of an arbitrary input partition.
 
 Reference
----------
+=========
 
 .. _generate_synthetic:
 
 .. raw:: html
 
    <div id="generate_synthetic" class="function-header">
-       <span class="class-name">function</span> <span class="function-name">generate_synthetic(S, N, modes, alphas, betas, pis)</span> <a href="#generate_synthetic" class="source-link">[source]</a>
+       <span class="class-name">function</span> <span class="function-name">generate_synthetic(S, N, modes, alphas, betas, pis)</span> 
+       <a href="../Code/population_clustering.html#generate-synthetic" class="source-link">[source]</a>
    </div>
 
 **Description**:
@@ -169,7 +170,8 @@ Generate synthetic networks from the heterogeneous population model.
 .. raw:: html
 
    <div id="ind2ij" class="function-header">
-       <span class="class-name">function</span> <span class="function-name">generate_synthetic.ind2ij(ind, N)</span> <a href="#ind2ij" class="source-link">[source]</a>
+       <span class="class-name">function</span> <span class="function-name">generate_synthetic.ind2ij(ind, N)</span> 
+       <a href="../Code/population_clustering.html#generate-synthetic" class="source-link">[source]</a>
    </div>
 
 **Description**:
@@ -196,7 +198,8 @@ Convert index to edge indices.
 .. raw:: html
 
    <div id="remap_keys" class="function-header">
-       <span class="class-name">function</span> <span class="function-name">remap_keys(Dict)</span> <a href="#remap_keys" class="source-link">[source]</a>
+       <span class="class-name">function</span> <span class="function-name">remap_keys(Dict)</span> 
+       <a href="../Code/population_clustering.html#remap-keys" class="source-link">[source]</a>
    </div>
 
 **Description**:
@@ -222,7 +225,8 @@ Remap dict keys to first K integers.
 .. raw:: html
 
    <div id="MDL_populations_init" class="function-header">
-       <span class="class-name">class</span> <span class="function-name">MDL_populations.__init__(edgesets, N, K0=1, n_fails=100, bipartite=None, directed=False, max_runs=np.inf)</span> <a href="#MDL_populations_init" class="source-link">[source]</a>
+       <span class="class-name">class</span> <span class="function-name">MDL_populations.__init__(edgesets, N, K0=1, n_fails=100, bipartite=None, directed=False, max_runs=np.inf)</span> 
+       <a href="../Code/population_clustering.html#mdl-populations-init" class="source-link">[source]</a>
    </div>
 
 **Description**:
@@ -251,7 +255,8 @@ Initialize the MDL_populations class.
 .. raw:: html
 
    <div id="MDL_populations_initialize_clusters" class="function-header">
-       <span class="class-name">function</span> <span class="function-name">MDL_populations.initialize_clusters()</span> <a href="#MDL_populations_initialize_clusters" class="source-link">[source]</a>
+       <span class="class-name">function</span> <span class="function-name">MDL_populations.initialize_clusters()</span> 
+       <a href="../Code/population_clustering.html#mdl-populations-initialize-clusters" class="source-link">[source]</a>
    </div>
 
 **Description**:
@@ -262,7 +267,8 @@ Initialize K0 random clusters and find their modes as well as the total descript
 .. raw:: html
 
    <div id="MDL_populations_random_key" class="function-header">
-       <span class="class-name">function</span> <span class="function-name">MDL_populations.random_key()</span> <a href="#MDL_populations_random_key" class="source-link">[source]</a>
+       <span class="class-name">function</span> <span class="function-name">MDL_populations.random_key()</span> 
+       <a href="../Code/population_clustering.html#mdl-populations-random-key" class="source-link">[source]</a>
    </div>
 
 **Description**:
@@ -273,7 +279,8 @@ Generate random key for new cluster.
 .. raw:: html
 
    <div id="MDL_populations_logchoose" class="function-header">
-       <span class="class-name">function</span> <span class="function-name">MDL_populations.logchoose(N, K)</span> <a href="#MDL_populations_logchoose" class="source-link">[source]</a>
+       <span class="class-name">function</span> <span class="function-name">MDL_populations.logchoose(N, K)</span> 
+       <a href="../Code/population_clustering.html#mdl-populations-logchoose" class="source-link">[source]</a>
    </div>
 
 **Description**:
@@ -300,7 +307,8 @@ Compute the logarithm of the binomial coefficient.
 .. raw:: html
 
    <div id="MDL_populations_logmult" class="function-header">
-       <span class="class-name">function</span> <span class="function-name">MDL_populations.logmult(Ns)</span> <a href="#MDL_populations_logmult" class="source-link">[source]</a>
+       <span class="class-name">function</span> <span class="function-name">MDL_populations.logmult(Ns)</span> 
+       <a href="../Code/population_clustering.html#mdl-populations-logmult" class="source-link">[source]</a>
    </div>
 
 **Description**:
@@ -326,7 +334,8 @@ Compute the logarithm of the multinomial coefficient with the denominator Ns[0]!
 .. raw:: html
 
    <div id="MDL_populations_generate_Ek" class="function-header">
-       <span class="class-name">function</span> <span class="function-name">MDL_populations.generate_Ek(cluster)</span> <a href="#MDL_populations_generate_Ek" class="source-link">[source]</a>
+       <span class="class-name">function</span> <span class="function-name">MDL_populations.generate_Ek(cluster)</span> 
+       <a href="../Code/population_clustering.html#mdl-populations-generate-ek" class="source-link">[source]</a>
    </div>
 
 **Description**:
@@ -352,7 +361,8 @@ Tally edge counts for networks in the cluster.
 .. raw:: html
 
    <div id="MDL_populations_update_mode" class="function-header">
-       <span class="class-name">function</span> <span class="function-name">MDL_populations.update_mode(Ek, Sk)</span> <a href="#MDL_populations_update_mode" class="source-link">[source]</a>
+       <span class="class-name">function</span> <span class="function-name">MDL_populations.update_mode(Ek, Sk)</span> 
+       <a href="../Code/population_clustering.html#mdl-populations-update-mode" class="source-link">[source]</a>
    </div>
 
 **Description**:
@@ -379,7 +389,8 @@ Generate mode from cluster edge counts by greedily removing least common edges i
 .. raw:: html
 
    <div id="MDL_populations_Lk" class="function-header">
-       <span class="class-name">function</span> <span class="function-name">MDL_populations.Lk(Ak, Ek, Sk)</span> <a href="#MDL_populations_Lk" class="source-link">[source]</a>
+       <span class="class-name">function</span> <span class="function-name">MDL_populations.Lk(Ak, Ek, Sk)</span> 
+       <a href="../Code/population_clustering.html#mdl-populations-lk" class="source-link">[source]</a>
    </div>
 
 **Description**:
@@ -407,7 +418,8 @@ Compute cluster description length as a function of mode, edge counts, and size 
 .. raw:: html
 
    <div id="MDL_populations_move1" class="function-header">
-       <span class="class-name">function</span> <span class="function-name">MDL_populations.move1(k=None)</span> <a href="#MDL_populations_move1" class="source-link">[source]</a>
+       <span class="class-name">function</span> <span class="function-name">MDL_populations.move1(k=None)</span> 
+       <a href="../Code/population_clustering.html#mdl-populations-move1" class="source-link">[source]</a>
    </div>
 
 **Description**:
@@ -434,7 +446,8 @@ Reassign randomly chosen network to the best cluster.
 .. raw:: html
 
    <div id="MDL_populations_move2" class="function-header">
-       <span class="class-name">function</span> <span class="function-name">MDL_populations.move2()</span> <a href="#MDL_populations_move2" class="source-link">[source]</a>
+       <span class="class-name">function</span> <span class="function-name">MDL_populations.move2()</span> 
+       <a href="../Code/population_clustering.html#mdl-populations-move2" class="source-link">[source]</a>
    </div>
 
 **Description**:
@@ -449,7 +462,8 @@ Merge two randomly chosen clusters.
 .. raw:: html
 
    <div id="MDL_populations_move3" class="function-header">
-       <span class="class-name">function</span> <span class="function-name">MDL_populations.move3()</span> <a href="#MDL_populations_move3" class="source-link">[source]</a>
+       <span class="class-name">function</span> <span class="function-name">MDL_populations.move3()</span> 
+       <a href="../Code/population_clustering.html#mdl-populations-move3" class="source-link">[source]</a>
    </div>
 
 **Description**:
@@ -464,7 +478,8 @@ Split randomly chosen cluster in two and perform K-means type algorithm to get t
 .. raw:: html
 
    <div id="MDL_populations_move4" class="function-header">
-       <span class="class-name">function</span> <span class="function-name">MDL_populations.move4()</span> <a href="#MDL_populations_move4" class="source-link">[source]</a>
+       <span class="class-name">function</span> <span class="function-name">MDL_populations.move4()</span> 
+       <a href="../Code/population_clustering.html#mdl-populations-move4" class="source-link">[source]</a>
    </div>
 
 **Description**:
@@ -479,7 +494,8 @@ Merge two randomly chosen clusters then split them.
 .. raw:: html
 
    <div id="MDL_populations_run_sims" class="function-header">
-       <span class="class-name">function</span> <span class="function-name">MDL_populations.run_sims()</span> <a href="#MDL_populations_run_sims" class="source-link">[source]</a>
+       <span class="class-name">function</span> <span class="function-name">MDL_populations.run_sims()</span> 
+       <a href="../Code/population_clustering.html#mdl-populations-run-sims" class="source-link">[source]</a>
    </div>
 
 **Description**:
@@ -495,7 +511,8 @@ Run discontiguous (unconstrained) merge split simulations to identify modes and 
 .. raw:: html
 
    <div id="MDL_populations_dynamic_contiguous" class="function-header">
-       <span class="class-name">function</span> <span class="function-name">MDL_populations.dynamic_contiguous()</span> <a href="#MDL_populations_dynamic_contiguous" class="source-link">[source]</a>
+       <span class="class-name">function</span> <span class="function-name">MDL_populations.dynamic_contiguous()</span> 
+       <a href="../Code/population_clustering.html#mdl-populations-dynamic-contiguous" class="source-link">[source]</a>
    </div>
 
 **Description**:
@@ -511,7 +528,8 @@ Minimize description length while constraining clusters to be contiguous in time
 .. raw:: html
 
    <div id="MDL_populations_evaluate_partition" class="function-header">
-       <span class="class-name">function</span> <span class="function-name">MDL_populations.evaluate_partition(partition, contiguous=False)</span> <a href="#MDL_populations_evaluate_partition" class="source-link">[source]</a>
+       <span class="class-name">function</span> <span class="function-name">MDL_populations.evaluate_partition(partition, contiguous=False)</span> 
+       <a href="../Code/population_clustering.html#mdl-populations-evaluate-partition" class="source-link">[source]</a>
    </div>
 
 **Description**:

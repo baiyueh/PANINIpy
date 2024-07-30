@@ -12,6 +12,10 @@ Source Code
   import random
   import time
 
+.. _generate-synthetic:
+
+.. code-block:: python
+
   def generate_synthetic(S,N,modes,alphas,betas,pis):
       """
       generate synthetic networks from the heterogeneous population model
@@ -46,6 +50,10 @@ Source Code
           
       return nets,cluster_labels 
 
+.. _remap-keys:
+
+.. code-block:: python
+
   def remap_keys(Dict):
       """
       remap dict keys to first K integers
@@ -54,6 +62,10 @@ Source Code
       for i,u in enumerate(sorted_keys):
           Dict[i] = Dict.pop(u)
       return Dict
+
+.. _mdl-populations-init:
+
+.. code-block:: python
 
   class MDL_populations():
       
@@ -96,6 +108,10 @@ Source Code
           self.C,self.E,self.A = {},{},{}
           self.attmerges,self.attsplits,self.attmergesplits = set(),set(),set()
       
+.. _mdl-populations-initialize-clusters:
+
+.. code-block:: python
+
       def initialize_clusters(self):
           """
           initialize K0 random clusters and find their modes as well as the total description length of this configuration
@@ -113,18 +129,34 @@ Source Code
               self.A[k] = self.update_mode(self.E[k],len(self.C[k]))
           self.L = sum([self.Lk(self.A[k],self.E[k],len(self.C[k])) for k in self.C])
               
+.. _mdl-populations-random_key:
+
+.. code-block:: python
+
       def random_key(self): 
           """generate random key for new cluster"""
           return str(np.random.randint(1000000000000))
       
+.. _mdl-populations-logchoose:
+
+.. code-block:: python
+
       def logchoose(self,N,K): 
           """logarithm of binomial coefficient"""
           return loggamma(N+1) - loggamma(N-K+1) - loggamma(K+1)
       
+.. _mdl-populations-logmult:
+
+.. code-block:: python
+
       def logmult(self,Ns): 
           """logarithm of multinomial coefficient with denominator Ns[0]!Ns[1]!..."""
           return loggamma(sum(Ns)+1) - sum(loggamma(i+1) for i in Ns)
       
+.. _mdl-populations-generate-ek:
+
+.. code-block:: python
+
       def generate_Ek(self,cluster): 
           """
           tally edge counts for networks in cluster
@@ -137,6 +169,10 @@ Source Code
                   else:
                       Ek[e] = 1             
           return Ek
+
+.. _mdl-populations-update-mode:
+
+.. code-block:: python
 
       def update_mode(self,Ek,Sk):
           """
@@ -178,6 +214,10 @@ Source Code
           
           return Ak
               
+.. _mdl-populations-lk:
+
+.. code-block:: python
+              
       def Lk(self,Ak,Ek,Sk):
           """
           cluster description length as function of mode, edge counts, and size of cluster
@@ -191,6 +231,10 @@ Source Code
                   fk -= Ek[e]
           return self.logchoose(self.NC2,Mk) + Sk*np.log(self.S/Sk) + self.logchoose(Sk*Mk,tk) + self.logchoose(Sk*(self.NC2-Mk),fk)
               
+.. _mdl-populations-move1:
+
+.. code-block:: python
+
       def move1(self,k=None):
           """
           move type 1: reassign randomly chosen network to best cluster
@@ -249,6 +293,10 @@ Source Code
               
               else:
                   return False, 0
+
+.. _mdl-populations-move2:
+
+.. code-block:: python              
                     
       def move2(self):
           """
@@ -290,6 +338,10 @@ Source Code
               self.attmerges.add((kp,kpp)) #add to attempted merges if move fails
               return False, 0
           
+.. _mdl-populations-move3:
+
+.. code-block:: python
+
       def move3(self):
           """
           move type 3: split randomly chosen cluster in two and perform K-means type algorithm to get these clusters and modes
@@ -397,6 +449,10 @@ Source Code
               self.attsplits.add(k)
               return False, 0
           
+.. _mdl-populations-move4:
+
+.. code-block:: python
+
       def move4(self):
           """
           move type 4: merge two randomly chosen clusters then split them (perform moves 2 and 3 in a row)
@@ -502,6 +558,10 @@ Source Code
               self.attmergesplits.add((k1,k2))
               return False, 0
 
+.. _mdl-populations-run-sims:
+
+.. code-block:: python
+
       def run_sims(self):
           """
           run discontiguous (unconstrained) merge split simulations to identify modes and clusters that minimize the description length
@@ -528,6 +588,10 @@ Source Code
       
           return remap_keys(self.C),remap_keys(self.A),self.L
       
+.. _mdl-populations-dynamic-contiguous:
+
+.. code-block:: python
+
       def dynamic_contiguous(self):
           """
           miimize description length while constraining clusters to be contiguous in time (according to order of networks in 'edgesets')
@@ -585,6 +649,10 @@ Source Code
           
           return remap_keys(self.C),remap_keys(self.A),self.L 
       
+.. _mdl-populations-evaluate-partition:
+
+.. code-block:: python
+
       def evaluate_partition(self,partition,contiguous=False):
           """
           evaluate description length of partition. contiguous option removes cluster label entropy term from description length

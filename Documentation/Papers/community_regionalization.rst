@@ -104,7 +104,8 @@ Reference
 .. raw:: html
 
    <div id="init" class="function-header">
-       <span class="class-name">class</span> <span class="function-name">DefaultDict.__init__(default_factory, **kwargs)</span> <a href="#init" class="source-link">[source]</a>
+       <span class="class-name">class</span> <span class="function-name">DefaultDict.__init__(default_factory, **kwargs)</span> 
+       <a href="../Code/community_regionalization.html#init" class="source-link">[source]</a>
    </div>
 
 **Description**:
@@ -128,7 +129,8 @@ Initialize the DefaultDict class.
 .. raw:: html
 
    <div id="getitem" class="function-header">
-       <span class="class-name">class</span> <span class="function-name">DefaultDict.__getitem__(key)</span> <a href="#getitem" class="source-link">[source]</a>
+       <span class="class-name">class</span> <span class="function-name">DefaultDict.__getitem__(key)</span> 
+       <a href="../Code/community_regionalization.html#init" class="source-link">[source]</a>
    </div>
 
 **Description**:
@@ -154,7 +156,8 @@ Get an item from the DefaultDict.
 .. raw:: html
 
    <div id="logchoose" class="function-header">
-       <span class="class-name">function</span> <span class="function-name">logchoose(N, K)</span> <a href="#logchoose" class="source-link">[source]</a>
+       <span class="class-name">function</span> <span class="function-name">logchoose(N, K)</span> 
+       <a href="../Code/community_regionalization.html#logchoose" class="source-link">[source]</a>
    </div>
 
 **Description**:
@@ -181,7 +184,8 @@ Compute the logarithm of the binomial coefficient.
 .. raw:: html
 
    <div id="logmultiset" class="function-header">
-       <span class="class-name">function</span> <span class="function-name">logmultiset(N, K)</span> <a href="#logmultiset" class="source-link">[source]</a>
+       <span class="class-name">function</span> <span class="function-name">logmultiset(N, K)</span> 
+       <a href="../Code/community_regionalization.html#logmultiset" class="source-link">[source]</a>
    </div>
 
 **Description**:
@@ -208,7 +212,8 @@ Compute the logarithm of the multiset coefficient.
 .. raw:: html
 
    <div id="greedy_opt" class="function-header">
-       <span class="class-name">function</span> <span class="function-name">greedy_opt(N, spatial_elist, flow_elist)</span> <a href="#greedy_opt" class="source-link">[source]</a>
+       <span class="class-name">function</span> <span class="function-name">greedy_opt(N, spatial_elist, flow_elist)</span> 
+       <a href="../Code/community_regionalization.html#greedy-opt" class="source-link">[source]</a>
    </div>
 
 **Description**:
@@ -240,7 +245,8 @@ Make sure nodes are indexed as 0,....,N-1 so as to handle nodes with no flows.
 .. raw:: html
 
    <div id="C" class="function-header">
-       <span class="class-name">function</span> <span class="function-name">greedy_opt.C(B)</span> <a href="#C" class="source-link">[source]</a>
+       <span class="class-name">function</span> <span class="function-name">greedy_opt.C(B)</span> 
+       <a href="../Code/community_regionalization.html#c" class="source-link">[source]</a>
    </div>
 
 **Description**:
@@ -266,7 +272,8 @@ Compute the global contribution to the description length.
 .. raw:: html
 
    <div id="g" class="function-header">
-       <span class="class-name">function</span> <span class="function-name">greedy_opt.g(r)</span> <a href="#g" class="source-link">[source]</a>
+       <span class="class-name">function</span> <span class="function-name">greedy_opt.g(r)</span> 
+       <a href="../Code/community_regionalization.html#g" class="source-link">[source]</a>
    </div>
 
 **Description**:
@@ -292,7 +299,8 @@ Compute the cluster-level contribution to the description length.
 .. raw:: html
 
    <div id="f" class="function-header">
-       <span class="class-name">function</span> <span class="function-name">greedy_opt.f(r, s)</span> <a href="#f" class="source-link">[source]</a>
+       <span class="class-name">function</span> <span class="function-name">greedy_opt.f(r, s)</span> 
+       <a href="../Code/community_regionalization.html#f" class="source-link">[source]</a>
    </div>
 
 **Description**:
@@ -319,7 +327,8 @@ Compute the cluster-to-cluster contribution to the description length.
 .. raw:: html
 
    <div id="total_dl" class="function-header">
-       <span class="class-name">function</span> <span class="function-name">greedy_opt.total_dl()</span> <a href="#total_dl" class="source-link">[source]</a>
+       <span class="class-name">function</span> <span class="function-name">greedy_opt.total_dl()</span> 
+       <a href="../Code/community_regionalization.html#total-dl" class="source-link">[source]</a>
    </div>
 
 **Description**:
@@ -333,7 +342,8 @@ Compute the total description length.
 .. raw:: html
 
    <div id="delta_dl" class="function-header">
-       <span class="class-name">function</span> <span class="function-name">greedy_opt.delta_dl(r, s)</span> <a href="#delta_dl" class="source-link">[source]</a>
+       <span class="class-name">function</span> <span class="function-name">greedy_opt.delta_dl(r, s)</span> 
+       <a href="../Code/community_regionalization.html#delta-dl" class="source-link">[source]</a>
    </div>
 
 **Description**:
@@ -360,7 +370,8 @@ Compute the change in description length after merging clusters.
 .. raw:: html
 
    <div id="merge_updates" class="function-header">
-       <span class="class-name">function</span> <span class="function-name">greedy_opt.merge_updates(r, s, DL)</span> <a href="#merge_updates" class="source-link">[source]</a>
+       <span class="class-name">function</span> <span class="function-name">greedy_opt.merge_updates(r, s, DL)</span> 
+       <a href="../Code/community_regionalization.html#merge-updates" class="source-link">[source]</a>
    </div>
 
 **Description**:
@@ -382,7 +393,6 @@ Merge clusters and update the description length.
 
 **Returns**:
   - **float**: Updated description length.
-
 
 
 Demo 

@@ -10,9 +10,17 @@ Source Code
   from scipy.special import loggamma
   from collections import Counter
 
+.. _init:
+
+.. code-block:: python
+
   class Network_hubs:
       def __init__(self,name):
           self.name = name
+
+.. _logchoose:
+
+.. code-block:: python
 
       def logchoose(self,N,K):
           """
@@ -22,11 +30,19 @@ Source Code
               return 0
           return loggamma(N+1) - loggamma(K+1) - loggamma(N-K+1) 
 
+.. _logmultiset:
+
+.. code-block:: python
+
       def logmultiset(self,N,K):
           """
           computes log of multiset coefficient
           """
           return self.logchoose(N+K-1,K)
+
+.. _hubs:
+
+.. code-block:: python
 
       def hubs(self,data, N, degree_list = False, out_degrees = False, weighted = False):
           """

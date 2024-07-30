@@ -9,12 +9,19 @@ Source Code
   import numpy as np
   from math import lgamma
 
+.. _logchoose:
+
+.. code-block:: python
 
   def logchoose(n, k):
       """
       logarithm of binomial coefficient
       """
       return lgamma(n + 1) - lgamma(k + 1) - lgamma(n - k + 1)
+
+.. _logmult:
+
+.. code-block:: python
 
   def logmult(counts):
       """
@@ -27,6 +34,10 @@ Source Code
       for count in counts:
           result -= lgamma(count + 1)
       return result
+
+.. _logomega:
+
+.. code-block:: python
 
   def logOmega(rs, cs, swap=True):
       
@@ -62,6 +73,10 @@ Source Code
           result += logchoose(c + m - 1, m - 1)
           
       return result
+
+.. _mdl-hypergraph-binning:
+
+.. code-block:: python
 
   def MDL_hypergraph_binning(X,dt,exact=True):
       """
@@ -228,5 +243,4 @@ Source Code
       best_MDL -= np.log((N-1)*(T-1))
           
       return best_MDL/L0,labels,T
-
 

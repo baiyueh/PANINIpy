@@ -14,7 +14,10 @@ author = 'Baiyue'
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
 extensions = [
-    'sphinx.ext.imgmath'
+    'sphinx.ext.imgmath',
+    'sphinx.ext.autosectionlabel',
+    'sphinx.ext.autodoc',
+    'sphinx.ext.viewcode'
 ]
 
 templates_path = ['_templates']
@@ -31,11 +34,11 @@ html_css_files = [
     'custom.css',
 ]
 
-# -- Options for imgmath extension -------------------------------------------
+autosectionlabel_prefix_document = True
 iimgmath_image_format = 'svg'  
 imgmath_use_preview = True  
 imgmath_add_tooltips = True  
-imgmath_font_size = 12  # Font size for the rendered math
+imgmath_font_size = 12  
 imgmath_latex = 'latex'
 imgmath_latex_preamble = r'''
 \usepackage{amsmath}

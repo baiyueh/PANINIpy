@@ -13,6 +13,9 @@ Source Code
     import numpy as np
     from scipy.special import loggamma
 
+.. _init:
+
+.. code-block:: python
 
     class DefaultDict(dict):
         """
@@ -29,6 +32,10 @@ Source Code
                 return super().__getitem__(key)
             except KeyError:
                 return self.default_factory()
+
+.. _logchoose:
+
+.. code-block:: python
 
 
     def logchoose(N, K):
@@ -51,6 +58,9 @@ Source Code
             return 0
         return loggamma(N + 1) - loggamma(K + 1) - loggamma(N - K + 1)
 
+.. _logmultiset:
+
+.. code-block:: python
 
     def logmultiset(N, K):
         """
@@ -70,6 +80,9 @@ Source Code
         """
         return logchoose(N + K - 1, K)
 
+.. _greedy-opt:
+
+.. code-block:: python
 
     def greedy_opt(N, spatial_elist, flow_elist):
         """
@@ -137,6 +150,10 @@ Source Code
             ein_c[j][i] = 1
             win_c[j][i] = w
 
+.. _c:
+
+.. code-block:: python
+
         # function definitions for C, g, and f. Can be changed depending on the clustering objective of interest
         def C(B):
             """
@@ -159,6 +176,10 @@ Source Code
                 + np.log(N)
                 + loggamma(N + 1)
             )
+
+.. _g:
+
+.. code-block:: python
 
         def g(r):
             """
@@ -184,6 +205,10 @@ Source Code
 
             # return -N*np.log(n_r/N) #use stirling approximation of log binomial
             return -loggamma(n_r + 1)
+
+.. _f:
+
+.. code-block:: python
 
         def f(r, s):
             """
@@ -240,6 +265,10 @@ Source Code
 
             return logchoose(n_r * n_s, e_rs) + logchoose(w_rs - 1, e_rs - 1)
 
+.. _total-dl:
+
+.. code-block:: python
+
         def total_dl():
             """
             Computes the total description length or objective value of interest
@@ -255,6 +284,10 @@ Source Code
                     dl += f(r, s)
 
             return dl
+
+.. _delta-dl:
+
+.. code-block:: python
 
         def delta_dl(r, s):
             """
@@ -315,6 +348,10 @@ Source Code
             ddl_c[s][r] = total_change
 
             return total_change
+
+.. _merge-updates:
+
+.. code-block:: python
 
         def merge_updates(r, s, DL):
             """

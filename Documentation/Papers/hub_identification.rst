@@ -97,7 +97,8 @@ Reference
 .. raw:: html
 
    <div id="init" class="function-header">
-       <span class="class-name">class</span> <span class="function-name">Network_hubs.__init__(name)</span> <a href="#__init__" class="source-link">[source]</a>
+       <span class="class-name">class</span> <span class="function-name">Network_hubs.__init__(name)</span> 
+       <a href="../Code/hub_identification.html#init" class="source-link">[source]</a>
    </div>
 
 **Description**:
@@ -108,7 +109,8 @@ Initialize the Network_hubs class.
 .. raw:: html
 
    <div id="logchoose" class="function-header">
-       <span class="class-name">function</span> <span class="function-name">Network_hubs.logchoose(N, K)</span> <a href="#logchoose" class="source-link">[source]</a>
+       <span class="class-name">function</span> <span class="function-name">Network_hubs.logchoose(N, K)</span> 
+       <a href="../Code/hub_identification.html#logchoose" class="source-link">[source]</a>
    </div>
 
 **Description**:
@@ -135,7 +137,8 @@ Compute the logarithm of the binomial coefficient.
 .. raw:: html
 
    <div id="logmultiset" class="function-header">
-       <span class="class-name">function</span> <span class="function-name">Network_hubs.logmultiset(N, K)</span> <a href="#logmultiset" class="source-link">[source]</a>
+       <span class="class-name">function</span> <span class="function-name">Network_hubs.logmultiset(N, K)</span> 
+       <a href="../Code/hub_identification.html#logmultiset" class="source-link">[source]</a>
    </div>
 
 **Description**:
@@ -162,7 +165,8 @@ Compute the logarithm of the multiset coefficient.
 .. raw:: html
 
    <div id="hubs" class="function-header">
-       <span class="class-name">function</span> <span class="function-name">Network_hubs.hubs(data, N, degree_list=False, out_degrees=False, weighted=False)</span> <a href="#hubs" class="source-link">[source]</a>
+       <span class="class-name">function</span> <span class="function-name">Network_hubs.hubs(data, N, degree_list=False, out_degrees=False, weighted=False)</span> 
+       <a href="../Code/hub_identification.html#hubs" class="source-link">[source]</a>
    </div>
 
 **Description**:
@@ -186,7 +190,6 @@ Identify hub nodes in the network.
 
 **Returns**:
   - **dict**: Dictionary of results for the ER and CM encodings along with Loubar and Average baselines.
-
 
 Demo 
 =======
@@ -317,4 +320,4 @@ Paper source
 If you use this algorithm in your work, please cite:
 
 A. Kirkley, Identifying hubs in directed networks. Physical Review E [Editor’s Suggestion] 109, 034310 (2024). 
-Paper: https://journals.aps.org/pre/abstract/10.1103/PhysRevE.109.034310/
+Paper: https://arxiv.org/abs/2312.03347
