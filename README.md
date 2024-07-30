@@ -16,7 +16,7 @@ ScholarCodeCollective is a comprehensive Python package designed for various adv
 
 ## Installation
 
-pip install ScholarCodeCollective\
+pip install ScholarCodeCollective
 ### [PyPI] (https://pypi.org/project/ScholarCodeCollective/)
 
 ## Modules
