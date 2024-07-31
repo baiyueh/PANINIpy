@@ -1,0 +1,67 @@
+.wy-nav-content {
+    max-width: 80% !important;
+}
+
+.highlight {
+    background-color: #f7f7f7;
+    border: 1px solid #e1e1e8;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.highlight .k, .highlight .kc, .highlight .kd, .highlight .kn, .highlight .kp, .highlight .kr, .highlight .kt {
+    color: #008000; /* Keywords */
+}
+
+.highlight .nc, .highlight .no, .highlight .nd, .highlight .ni, .highlight .ne, .highlight .nf, .highlight .nl, .highlight .nn, .highlight .nx {
+    color: #0000FF; /* Classes, Types */
+}
+
+.highlight .s, .highlight .s1, .highlight .s2 {
+    color: #BA2121; /* Strings */
+}
+
+.highlight .c, .highlight .cm, .highlight .c1, .highlight .cs {
+    color: #808080; /* Comments */
+}
+.function-header {
+    background-color: #e6f3ff;
+    border-left: 3px solid #0072cf;
+    padding: 0.5em;
+    font-family: monospace;
+    display: inline-block;
+}
+
+.function-name {
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+.source-link {
+    float: right;
+}
+
+.source-link:hover {
+    text-decoration: underline;
+}
+
+.parameter-block {
+    background-color: #f9f9f9;
+    border-left: 3px solid #cccccc;
+    padding: 0.5em;
+    display: inline-block;
+    font-family: monospace;
+    margin-left: 1em;
+}
+
+.parameter-list {
+    margin-left: 2em;
+}
+
+.param-name {
+    font-weight: bold;
+}
+
+.param-type {
+    font-style: italic;
+}

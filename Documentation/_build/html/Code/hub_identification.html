@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Network Hubs &mdash; Scholar Code Collective  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=5a409b2d" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Scholar Code Collective
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Methods:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../Papers/hypergraph_binning.html">Binning Temporal Hypergraphs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Papers/population_clustering.html">Clustering Network Populations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Papers/distributional_regionalization.html">Regionalization with Distributional Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Papers/hub_identification.html">Identifying Network Hubs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Papers/community_regionalization.html">Regionalization with Community Detection</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Scholar Code Collective</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Network Hubs</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/Code/hub_identification.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="network-hubs">
+<h1>Network Hubs<a class="headerlink" href="#network-hubs" title="Link to this heading"></a></h1>
+<section id="source-code">
+<h2>Source Code<a class="headerlink" href="#source-code" title="Link to this heading"></a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">scipy.special</span> <span class="kn">import</span> <span class="n">loggamma</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">Counter</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate" id="init"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Network_hubs</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">name</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate" id="logchoose"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">logchoose</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">N</span><span class="p">,</span><span class="n">K</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    computes log of binomial coefficient</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">K</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">N</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">):</span>
+        <span class="k">return</span> <span class="mi">0</span>
+    <span class="k">return</span> <span class="n">loggamma</span><span class="p">(</span><span class="n">N</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="n">loggamma</span><span class="p">(</span><span class="n">K</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="n">loggamma</span><span class="p">(</span><span class="n">N</span><span class="o">-</span><span class="n">K</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate" id="logmultiset"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">logmultiset</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">N</span><span class="p">,</span><span class="n">K</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    computes log of multiset coefficient</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">logchoose</span><span class="p">(</span><span class="n">N</span><span class="o">+</span><span class="n">K</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="n">K</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate" id="hubs"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">hubs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">data</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">degree_list</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">out_degrees</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">weighted</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    inputs</span>
+<span class="sd">        data: if degree_list is False, input a list of tuples (i,j,weight) for directed edges i --&gt; j; if degree_list is True, input a list of (weighted) degrees; set weights to &#39;1&#39; for unweighted networks</span>
+<span class="sd">            make sure the indices i and j are in the range [0,N-1] for all edges</span>
+<span class="sd">        N: number of nodes in network</span>
+<span class="sd">        degree_list: set to False if data is edge list, set to True if data is list of degrees (can be in- or out-degrees)</span>
+<span class="sd">        out_degrees: set to False if hubs should be computed using in-degree values, and set to True if hubs should be computed using out-degree values</span>
+<span class="sd">        weighted: use multigraph encoding (applicable for integer-weighted networks and multigraphs)</span>
+
+<span class="sd">    outputs &#39;results&#39;, a dictionary of results for the ER and CM encodings</span>
+<span class="sd">        &#39;results&#39; has the keys &#39;ER&#39;, &#39;CM&#39;, &#39;AVERAGE&#39;, and &#39;LOUBAR&#39; for the four methods described in the text</span>
+<span class="sd">        for each model we have the following keys in the results dictionary:</span>
+<span class="sd">            &#39;hub_nodes&#39;: list of node ids corresponding to the hub nodes</span>
+<span class="sd">            &#39;hub_degrees&#39;: list of degrees corresponding to these hub nodes (in same order)</span>
+<span class="sd">            &#39;description_length&#39; (only available for &#39;ER&#39; and &#39;CM&#39;): total final description length</span>
+<span class="sd">            &#39;compression_ratio&#39; (only available for &#39;ER&#39; and &#39;CM&#39;): ratio of description length to description length of corresponding baseline (currently set to max(ER_0,CM_0))</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    initialize degree list and M</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">logmultiset</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">logmultiset</span>
+    <span class="n">logchoose</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">logchoose</span>
+    <span class="k">if</span> <span class="n">degree_list</span><span class="p">:</span>
+        <span class="n">degrees</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        <span class="n">M</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">degrees</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">M</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">degrees</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">N</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+            <span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">,</span><span class="n">w</span> <span class="o">=</span> <span class="n">e</span>
+            <span class="k">if</span> <span class="n">out_degrees</span><span class="p">:</span>
+                <span class="n">degrees</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+=</span> <span class="n">w</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">degrees</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">+=</span> <span class="n">w</span>
+            <span class="n">M</span> <span class="o">+=</span> <span class="n">w</span>
+
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    sort nodes by degree and compute counts of each unique degree value</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">sorted_nodes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">degrees</span><span class="p">)[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">degree_counts</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">degrees</span><span class="p">)</span>
+    <span class="n">unique_degrees</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">degree_counts</span><span class="o">.</span><span class="n">keys</span><span class="p">()))[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    compute baseline compression levels with zero hub nodes</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">weighted</span><span class="p">:</span>
+        <span class="n">ER0</span> <span class="o">=</span> <span class="n">logmultiset</span><span class="p">(</span><span class="n">N</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span><span class="n">M</span><span class="p">)</span>
+        <span class="n">CM0</span> <span class="o">=</span> <span class="n">logmultiset</span><span class="p">(</span><span class="n">N</span><span class="p">,</span><span class="n">M</span><span class="p">)</span> <span class="o">+</span> <span class="nb">sum</span><span class="p">([</span><span class="n">logmultiset</span><span class="p">(</span><span class="n">N</span><span class="p">,</span><span class="n">k</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">degrees</span><span class="p">])</span>
+
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">ER0</span> <span class="o">=</span> <span class="n">logchoose</span><span class="p">(</span><span class="n">N</span><span class="o">*</span><span class="p">(</span><span class="n">N</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span><span class="n">M</span><span class="p">)</span>
+        <span class="n">CM0</span> <span class="o">=</span> <span class="n">logmultiset</span><span class="p">(</span><span class="n">N</span><span class="p">,</span><span class="n">M</span><span class="p">)</span> <span class="o">+</span> <span class="nb">sum</span><span class="p">([</span><span class="n">logchoose</span><span class="p">(</span><span class="n">N</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="n">k</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">degrees</span><span class="p">])</span>
+
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    scan over the unique degree values in decreasing order and consider all nodes of that degree value and above as hubs</span>
+<span class="sd">    update decription length and optimal number of hubs h_opt if description length decreases for the corresponding encoding</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">h_opt_ER</span><span class="p">,</span><span class="n">h_opt_CM</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span><span class="mi">0</span>
+    <span class="n">dl_opt_ER</span><span class="p">,</span><span class="n">dl_opt_CM</span> <span class="o">=</span> <span class="n">ER0</span><span class="p">,</span><span class="n">CM0</span>
+    <span class="n">h</span><span class="p">,</span><span class="n">hub_deg_combs</span><span class="p">,</span><span class="n">Mh</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span>
+    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">unique_degrees</span><span class="p">:</span>
+
+        <span class="n">Nk</span> <span class="o">=</span> <span class="n">degree_counts</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
+        <span class="n">h</span> <span class="o">+=</span> <span class="n">Nk</span>
+        <span class="n">Mh</span> <span class="o">+=</span> <span class="n">Nk</span><span class="o">*</span><span class="n">k</span>
+        <span class="k">if</span> <span class="n">weighted</span><span class="p">:</span>
+            <span class="n">hub_deg_combs</span> <span class="o">+=</span> <span class="n">Nk</span><span class="o">*</span><span class="n">logmultiset</span><span class="p">(</span><span class="n">N</span><span class="p">,</span><span class="n">k</span><span class="p">)</span>
+            <span class="n">dl_ER</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">N</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">M</span><span class="p">)</span> <span class="o">+</span> <span class="n">logchoose</span><span class="p">(</span><span class="n">N</span><span class="p">,</span><span class="n">h</span><span class="p">)</span> <span class="o">+</span> <span class="n">logmultiset</span><span class="p">(</span><span class="n">h</span><span class="o">*</span><span class="n">N</span><span class="p">,</span><span class="n">Mh</span><span class="p">)</span> <span class="o">+</span> <span class="n">logmultiset</span><span class="p">((</span><span class="n">N</span><span class="o">-</span><span class="n">h</span><span class="p">)</span><span class="o">*</span><span class="n">N</span><span class="p">,</span><span class="n">M</span><span class="o">-</span><span class="n">Mh</span><span class="p">)</span>
+            <span class="n">dl_CM</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">N</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">M</span><span class="p">)</span> <span class="o">+</span> <span class="n">logchoose</span><span class="p">(</span><span class="n">N</span><span class="p">,</span><span class="n">h</span><span class="p">)</span> <span class="o">+</span> <span class="n">logmultiset</span><span class="p">(</span><span class="n">h</span><span class="p">,</span><span class="n">Mh</span><span class="p">)</span> <span class="o">+</span> <span class="n">hub_deg_combs</span> <span class="o">+</span> <span class="n">logmultiset</span><span class="p">((</span><span class="n">N</span><span class="o">-</span><span class="n">h</span><span class="p">)</span><span class="o">*</span><span class="n">N</span><span class="p">,</span><span class="n">M</span><span class="o">-</span><span class="n">Mh</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">hub_deg_combs</span> <span class="o">+=</span> <span class="n">Nk</span><span class="o">*</span><span class="n">logchoose</span><span class="p">(</span><span class="n">N</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="n">k</span><span class="p">)</span>
+            <span class="n">dl_ER</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">N</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">M</span><span class="p">)</span> <span class="o">+</span> <span class="n">logchoose</span><span class="p">(</span><span class="n">N</span><span class="p">,</span><span class="n">h</span><span class="p">)</span> <span class="o">+</span> <span class="n">logchoose</span><span class="p">(</span><span class="n">h</span><span class="o">*</span><span class="p">(</span><span class="n">N</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span><span class="n">Mh</span><span class="p">)</span> <span class="o">+</span> <span class="n">logchoose</span><span class="p">((</span><span class="n">N</span><span class="o">-</span><span class="n">h</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">N</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span><span class="n">M</span><span class="o">-</span><span class="n">Mh</span><span class="p">)</span>
+            <span class="n">dl_CM</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">N</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">M</span><span class="p">)</span> <span class="o">+</span> <span class="n">logchoose</span><span class="p">(</span><span class="n">N</span><span class="p">,</span><span class="n">h</span><span class="p">)</span> <span class="o">+</span> <span class="n">logmultiset</span><span class="p">(</span><span class="n">h</span><span class="p">,</span><span class="n">Mh</span><span class="p">)</span> <span class="o">+</span> <span class="n">hub_deg_combs</span> <span class="o">+</span> <span class="n">logchoose</span><span class="p">((</span><span class="n">N</span><span class="o">-</span><span class="n">h</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">N</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span><span class="n">M</span><span class="o">-</span><span class="n">Mh</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">dl_ER</span> <span class="o">&lt;</span> <span class="n">dl_opt_ER</span><span class="p">:</span>
+            <span class="n">dl_opt_ER</span> <span class="o">=</span> <span class="n">dl_ER</span>
+            <span class="n">h_opt_ER</span> <span class="o">=</span> <span class="n">h</span>
+        <span class="k">if</span> <span class="n">dl_CM</span> <span class="o">&lt;</span> <span class="n">dl_opt_CM</span><span class="p">:</span>
+            <span class="n">dl_opt_CM</span> <span class="o">=</span> <span class="n">dl_CM</span>
+            <span class="n">h_opt_CM</span> <span class="o">=</span> <span class="n">h</span>
+
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    create results dict</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;ER&#39;</span><span class="p">:{},</span><span class="s1">&#39;CM&#39;</span><span class="p">:{},</span><span class="s1">&#39;AVG&#39;</span><span class="p">:{},</span><span class="s1">&#39;LOUBAR&#39;</span><span class="p">:{}}</span>
+
+    <span class="n">results</span><span class="p">[</span><span class="s1">&#39;ER&#39;</span><span class="p">][</span><span class="s1">&#39;hub_nodes&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sorted_nodes</span><span class="p">[:</span><span class="n">h_opt_ER</span><span class="p">]</span>
+    <span class="n">results</span><span class="p">[</span><span class="s1">&#39;ER&#39;</span><span class="p">][</span><span class="s1">&#39;hub_degrees&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">degrees</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">results</span><span class="p">[</span><span class="s1">&#39;ER&#39;</span><span class="p">][</span><span class="s1">&#39;hub_nodes&#39;</span><span class="p">]]</span>
+    <span class="n">results</span><span class="p">[</span><span class="s1">&#39;ER&#39;</span><span class="p">][</span><span class="s1">&#39;description_length&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dl_opt_ER</span>
+    <span class="n">results</span><span class="p">[</span><span class="s1">&#39;ER&#39;</span><span class="p">][</span><span class="s1">&#39;compression_ratio&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dl_opt_ER</span><span class="o">/</span><span class="nb">max</span><span class="p">(</span><span class="n">ER0</span><span class="p">,</span><span class="n">CM0</span><span class="p">)</span> <span class="c1">#can change to divide by ER0 if desired</span>
+
+    <span class="n">results</span><span class="p">[</span><span class="s1">&#39;CM&#39;</span><span class="p">][</span><span class="s1">&#39;hub_nodes&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sorted_nodes</span><span class="p">[:</span><span class="n">h_opt_CM</span><span class="p">]</span>
+    <span class="n">results</span><span class="p">[</span><span class="s1">&#39;CM&#39;</span><span class="p">][</span><span class="s1">&#39;hub_degrees&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">degrees</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">results</span><span class="p">[</span><span class="s1">&#39;CM&#39;</span><span class="p">][</span><span class="s1">&#39;hub_nodes&#39;</span><span class="p">]]</span>
+    <span class="n">results</span><span class="p">[</span><span class="s1">&#39;CM&#39;</span><span class="p">][</span><span class="s1">&#39;description_length&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dl_opt_CM</span>
+    <span class="n">results</span><span class="p">[</span><span class="s1">&#39;CM&#39;</span><span class="p">][</span><span class="s1">&#39;compression_ratio&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dl_opt_CM</span><span class="o">/</span><span class="nb">max</span><span class="p">(</span><span class="n">ER0</span><span class="p">,</span><span class="n">CM0</span><span class="p">)</span> <span class="c1">#can change to divide by CM0 if desired</span>
+
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    compute Average and Loubar hubs</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">mean</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">degrees</span><span class="p">)</span>
+    <span class="n">results</span><span class="p">[</span><span class="s1">&#39;AVG&#39;</span><span class="p">][</span><span class="s1">&#39;hub_nodes&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">)</span> <span class="k">if</span> <span class="n">degrees</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">mean</span><span class="p">]</span>
+    <span class="n">results</span><span class="p">[</span><span class="s1">&#39;AVG&#39;</span><span class="p">][</span><span class="s1">&#39;hub_degrees&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">degrees</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">results</span><span class="p">[</span><span class="s1">&#39;AVG&#39;</span><span class="p">][</span><span class="s1">&#39;hub_nodes&#39;</span><span class="p">]]</span>
+
+    <span class="n">maximum</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">degrees</span><span class="p">)</span>
+    <span class="n">percentile</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">mean</span><span class="o">/</span><span class="n">maximum</span><span class="p">)</span><span class="o">*</span><span class="mi">100</span>
+    <span class="n">threshold</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">percentile</span><span class="p">(</span><span class="n">degrees</span><span class="p">,</span><span class="n">percentile</span><span class="p">)</span>
+    <span class="n">results</span><span class="p">[</span><span class="s1">&#39;LOUBAR&#39;</span><span class="p">][</span><span class="s1">&#39;hub_nodes&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">)</span> <span class="k">if</span> <span class="n">degrees</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">threshold</span><span class="p">]</span>
+    <span class="n">results</span><span class="p">[</span><span class="s1">&#39;LOUBAR&#39;</span><span class="p">][</span><span class="s1">&#39;hub_degrees&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">degrees</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">results</span><span class="p">[</span><span class="s1">&#39;AVG&#39;</span><span class="p">][</span><span class="s1">&#39;hub_nodes&#39;</span><span class="p">]]</span>
+
+    <span class="k">return</span> <span class="n">results</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Baiyue.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
