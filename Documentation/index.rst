@@ -21,14 +21,4 @@ Welcome to ScholarCodeCollective's documentation!
    Code/distributional_regionalization
    Code/hub_identification
    Code/community_regionalization
- 
 
-
-
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
