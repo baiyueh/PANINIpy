@@ -4,9 +4,9 @@ import numpy
 
 setup(
     name='ScholarCodeCollective',
-    version='0.1.8.6',
+    version='0.1.8.7',
     description='A collective library for the code behind several academic papers',
-    long_description=open('README.md').read(),
+    long_description=open('README.md', encoding='utf-8').read(),
     long_description_content_type='text/markdown',
     url='https://scholarcodecollective.readthedocs.io/en/latest/index.html',
     author='Author Name',

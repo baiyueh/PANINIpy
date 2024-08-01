@@ -641,8 +641,8 @@ Example Code
 
 .. code-block:: python
 
-    def visualize_clusters(nets, clusters, L, N, network_num, filename='MDL_population_clusters.png'):
-        num_clusters = len(clusters)
+    def visualize_clusters(modes, clusters, L, N, network_num, filename='MDL_population_clusters.png'):
+        num_clusters = len(modes)
         fig, ax = plt.subplots(1, num_clusters, figsize=(15, 8))  
 
         if num_clusters == 1:
@@ -656,21 +656,20 @@ Example Code
             else:
                 pos_rectangular[i] = (i - half_N, 0)  
 
-        for i, (k, v) in enumerate(clusters.items()):
+        for i, (k, edges) in enumerate(modes.items()):
             G = nx.Graph()
             G.add_nodes_from(range(N))
-            for idx in v:
-                G.add_edges_from(nets[idx])
+            G.add_edges_from(edges)
             
             degrees = dict(G.degree())
             max_degree = max(degrees.values()) if degrees else 1
-            node_sizes = [100 + 400 * degrees[node] / max_degree for node in G.nodes()]
-            nx.draw(G, pos_rectangular, ax=ax[i], with_labels=True, node_size=node_sizes, node_color='skyblue', font_size=8, font_weight='bold', edge_color='black', width=1.5)
-            num_networks = len(v)
-            ax[i].set_title(f'Cluster {k}: {num_networks} networks, modes', fontsize=10)
+            nx.draw(G, pos_rectangular, ax=ax[i], with_labels=True, node_size=300, node_color='skyblue', font_size=8, font_weight='bold', edge_color='black', width=1.5)
+            
+            num_networks = len(clusters.get(k, []))
+            ax[i].set_title(f'Cluster {k}: {num_networks} networks', fontsize=10)
             ax[i].axis('off') 
 
-        plt.suptitle(f'{network_num} Sythetic Networks, Inverse Compression Ratio: {L:.3f}', fontsize=12)
+        plt.suptitle(f'{network_num} Synthetic Networks, Inverse Compression Ratio: {L:.3f}', fontsize=12)
         plt.tight_layout(rect=[0, 0.03, 1, 0.95])
         plt.savefig(filename, bbox_inches='tight', dpi=200)
         plt.show()

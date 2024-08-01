@@ -109,7 +109,7 @@ class MDL_populations():
     #     """generate random key for new cluster"""
     #     return str(np.random.randint(1000000000000))
     def random_key(self):
-        return str(random.randint(0, 100000000000)) 
+        return str(random.randint(0, 1000000000000)) 
     
     def logchoose(self,N,K): 
         """logarithm of binomial coefficient"""
