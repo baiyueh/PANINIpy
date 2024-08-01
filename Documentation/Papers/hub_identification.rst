@@ -52,7 +52,7 @@ Multigraph ER encoding (Eq. 8):
     :nowrap:
 
     \[
-    \mathcal{L}^{(\text{ERm})}(V_h) = \log NM + \log \binom{N}{h} + \log \left(\frac{hN}{M_h}\right) + \log \left(\frac{(N - h)N}{M - M_h}\right) 
+    \mathcal{L}^{(\text{ERm})}(V_h) = \log NM + \log \binom{N}{h} + \log \left(\left(\frac{hN}{M_h}\right)\right) + \log \left(\binom{(N - h)N}{M - M_h}\right) 
     \]
 
 Multigraph CM encoding (Eq. 9):
@@ -63,7 +63,7 @@ Multigraph CM encoding (Eq. 9):
     :nowrap:
 
     \[
-    \mathcal{L}^{(\text{CMm})}(V_h) = \log NM + \log \binom{N}{h} + \log \binom{M_h + h - 1}{h - 1} + \sum_{i \in V_h} \log \binom{N}{k_i} + \log \left(\frac{(N - h)N}{M - M_h}\right) 
+    \mathcal{L}^{(\text{CMm})}(V_h) = \log NM + \log \binom{N}{h} + \log \binom{M_h + h - 1}{h - 1} + \sum_{i \in V_h} \log \left(\binom{N}{k_i}\right) + \log \left(\binom{(N - h)N}{M - M_h}\right) 
     \]
 
 
