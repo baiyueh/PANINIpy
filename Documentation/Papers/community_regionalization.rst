@@ -502,5 +502,5 @@ Paper source
 
 If you use this algorithm in your work, please cite:
 
-S. Morel-Balbi and A. Kirkley*, Urban Boundary Delineation from Commuting Data with Bayesian Stochastic Blockmodeling: Scale, Contiguity, and Hierarchy. Preprint arXiv:2405.04911 (2024). 
+S. Morel-Balbi and A. Kirkley, Urban Boundary Delineation from Commuting Data with Bayesian Stochastic Blockmodeling: Scale, Contiguity, and Hierarchy. Preprint arXiv:2405.04911 (2024). 
 Paper: https://arxiv.org/abs/2405.04911 
