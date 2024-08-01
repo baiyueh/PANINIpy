@@ -40,7 +40,7 @@ where
     :nowrap:
 
     \[
-    \mathcal{L}_{\text{cluster}}^{(k)} = \log(N - 1)(T - 1) + \log\left(\binom{S}{m_k}\binom{D}{m_k}\binom{\tau_k}{m_k}\right) + \left[\log \Omega(s^{(k)}, d^{(k)}) + \log \Omega(G^{(k)}, n^{(k)}) \right]
+    \mathcal{L}_{\text{cluster}}^{(k)} = \log(N - 1)(T - 1) + \log\left(\binom{S}{m_k}\right)\left(\binom{D}{m_k}\right)\left (\binom{\tau_k}{m_k}\right) + \left[\log \Omega(s^{(k)}, d^{(k)}) + \log \Omega(G^{(k)}, n^{(k)}) \right]
     \]
 
 is the description length of the k-th temporal cluster according to Eq. 14 in https://arxiv.org/pdf/2308.16546. 
