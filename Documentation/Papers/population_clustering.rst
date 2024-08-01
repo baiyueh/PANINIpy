@@ -699,5 +699,5 @@ Paper source
 
 If you use this algorithm in your work, please cite:
 
-A. Kirkley*, A. Rojas, M. Rosvall, and J-G. Young, Compressing network populations with modal networks reveals structural diversity. Communications Physics 6, 148 (2023). 
+A. Kirkley, A. Rojas, M. Rosvall, and J-G. Young, Compressing network populations with modal networks reveals structural diversity. Communications Physics 6, 148 (2023). 
 Paper: https://arxiv.org/abs/2209.13827
