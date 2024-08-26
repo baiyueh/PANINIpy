@@ -17,13 +17,21 @@ extensions = [
     'sphinx.ext.imgmath',
     'sphinx.ext.autosectionlabel',
     'sphinx.ext.autodoc',
-    'sphinx.ext.viewcode'
+    'sphinx.ext.viewcode',
+    'myst_parser',
+    'sphinxcontrib.bibtex'
 ]
+
+source_suffix = {
+    '.rst': 'restructuredtext',
+    '.md': 'markdown',
+}
 
 templates_path = ['_templates']
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 pygments_style = 'sphinx'
 highlight_language = 'python'
+bibtex_bibfiles = ['paper.bib']
 
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
