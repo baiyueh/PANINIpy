@@ -9,7 +9,7 @@ setup(
     long_description=open('README.md', encoding='utf-8').read(),
     long_description_content_type='text/markdown',
     url='https://scholarcodecollective.readthedocs.io/en/latest/index.html',
-    author='Author Name',
+    author='Baiyue He',
     author_email='baiyueh@hku.hk',
     license='The Unlicense',
     projects_urls={
