@@ -44,8 +44,8 @@ There are number of existing Python packages containing individual methods that 
 Modules can be flexibly added to the package as needed. All modules take as input a standard representation of a network (either as an edgelist or an adjacency list in Python).   
 
 - `hypergraph_binning`: Methods for identifying MDL-optimal temporally contiguous partitions of event data between distinct node sets (e.g. users and products). Utilizes method of @Kirkley2024HypergraphBinning.
-- `population_clustering`: Methods for performing clustering of observed network populations, multilayer network layers, or temporal networks. Utilizes method of @Kirkley2023PopulationClustering.
-- `distributional_regionalization`: Methods for performing MDL-based regionalization on distributional (e.g. census) data over space. Utilizes method of @Kirkley2022DistributionalRegionalization.   
+- `population_clustering`: Methods for performing clustering of observed network populations, multilayer network layers, or temporal networks. Utilizes method of @Kirkley2023PopulationClustering. Also includes method for generating synthetic network populations using the method of @young2022clustering.
+- `distributional_regionalization`: Methods for performing MDL-based regionalization on distributional (e.g. census) data over space. Utilizes method of @Kirkley2022DistributionalRegionalization.
 - `hub_identification`: Methods for inferring hub nodes in a network using different information theoretic criteria. Utilizes method of @Kirkley2024HubIdentification.
 - `community_regionalization`: Perform contiguous regionalization of spatial network data with a wide class of community detection methods. Utilizes method of @MorelBalbiKirkley2024CommunityRegionalization.
 
