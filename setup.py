@@ -1,10 +1,8 @@
 from setuptools import setup, find_packages, Extension
-from Cython.Build import cythonize
-import numpy
 
 setup(
     name='paninipy',
-    version='0.4',
+    version='0.6',
     description='Packageof Algorithms for Nonparametric Inference on Networks in Python',
     long_description=open('README.md', encoding='utf-8').read(),
     long_description_content_type='text/markdown',
