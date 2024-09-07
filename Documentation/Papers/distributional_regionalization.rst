@@ -355,8 +355,7 @@ Step 1: Import necessary libraries
 
 .. code:: python
 
-    import ScholarCodeCollective as SCC
-    from ScholarCodeCollective.distributional_regionalization import MDL_regionalization
+    from paninipy.distributional_regionalization import MDL_regionalization
     import matplotlib.pyplot as plt
     import sys
     import os
@@ -472,7 +471,7 @@ Step 5: Define the visualization function and plot the results
 Example Output
 --------------
 
-.. figure:: MDL_regionalization_demo.png
+.. figure:: Figures/MDL_regionalization_demo.png
     :alt: Example output showing the MDL regionalization clustering results for New Haven-Milford, CT.
 
 Example output showing the MDL regionalization results for New Haven-Milford, CT using 2010 census data indicating the ethnoracial distribution within each spatial unit's (census tract's) population. The top plot shows the spatial distribution of the clusters of spatial units, indicated by different colors. The bottom plot shows the fraction of the population within each cluster falling into the categories ['Non-Hispanic White', 'Non-Hispanic Black', 'Asian', 'Hispanic', 'Other'].

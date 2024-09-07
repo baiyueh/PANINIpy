@@ -565,8 +565,7 @@ Example Code
     import numpy as np
     import matplotlib.pyplot as plt
     import time
-    import ScholarCodeCollective as SCC
-    from ScholarCodeCollective.population_clustering import generate_synthetic, MDL_populations
+    from paninipy.population_clustering import generate_synthetic, MDL_populations
     import networkx as nx
     import random
 
@@ -683,12 +682,12 @@ Example Code
 Example Output
 --------------
 
-.. figure:: synthetic_networks_population_example.png
+.. figure:: Figures/synthetic_networks_population_example.png
     :alt: Nine sample networks from the specified synthetic population, with cluster labels.
 
     Nine sample networks from the specified synthetic population, with cluster labels. The index of the network sample and the mode it was generated from are indicated along with each sample.
 
-.. figure:: MDL_population_clusters_example.png
+.. figure:: Figures/MDL_population_clusters_example.png
     :alt: MDL population clustering result.
 
 MDL population clustering result. The optimal mode configuration inferred by the run_sims() method for discontiguous network population clustering is shown along with the number of clusters in each network. The inverse compression ratio of this clustering is displayed above the figure.

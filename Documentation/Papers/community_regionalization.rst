@@ -409,7 +409,7 @@ Step 1: Import necessary libraries and configure LaTeX settings
     import geopandas as gpd
     import matplotlib
     import matplotlib.pyplot as plt
-    from ScholarCodeCollective.community_regionalization import greedy_opt
+    from paninipy.community_regionalization import greedy_opt
 
     # LaTeX preamble
     matplotlib.rcParams.update({'text.usetex': True})
@@ -492,7 +492,7 @@ Step 7: Plot the results
 Example Output
 --------------
 
-.. figure:: output.png
+.. figure:: Figures/output.png
     :alt: Example output showing the spatial regionalization results for Baton Rouge, LA.
 
 Spatial regionalization Rrsults for Baton Rouge, LA. Colors indicate the inferred clusters, while the black lines show the underlying tract subdivisions. The optimal description length in nats and the optimal number of clusters B are shown above the figure.

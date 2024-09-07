@@ -230,8 +230,7 @@ Example Code
 .. code-block:: python
 
     import time
-    import ScholarCodeCollective as SCC
-    from ScholarCodeCollective.hypergraph_binning import MDL_hypergraph_binning, logOmega, logchoose
+    from paninipy.hypergraph_binning import MDL_hypergraph_binning, logOmega, logchoose
     import matplotlib
     import matplotlib.pyplot as plt
     import numpy as np
@@ -337,12 +336,12 @@ Example Output
         number of time steps = 50
         runtime = 0.0036
 
-.. figure:: timeline_plot_with_exact_dynamic_programming.png
+.. figure:: Figures/timeline_plot_with_exact_dynamic_programming.png
     :alt: Hypergraph binning results for synthetic dataset with exact dynamic programming solution.
     
 Hypergraph binning results for synthetic dataset with exact dynamic programming solution. The x-axis represents time and the events are plotted with colors indicating event clusters. Events labeled with "0" are partitioned into the first group (light blue), and events labeled with "1" are partitioned into the second group (light red). Each group forms a cohesive hypergraph structure involving the two sets of nodes.
 
-.. figure:: timeline_plot_with_fast_greedy_agglomerative.png
+.. figure:: Figures/timeline_plot_with_fast_greedy_agglomerative.png
     :alt: Hypergraph binning results for synthetic dataset with greedy agglomerative solution.
     
 Hypergraph binning results for synthetic dataset with greedy agglomerative solution. 

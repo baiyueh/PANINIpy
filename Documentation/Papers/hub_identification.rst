@@ -203,8 +203,7 @@ Example Code
     import numpy as np
     import matplotlib.pyplot as plt
     import time
-    import ScholarCodeCollective as SCC
-    from ScholarCodeCollective.hub_identification import Network_hubs
+    from paninipy.hub_identification import Network_hubs
     import networkx as nx
     import random
 
@@ -304,12 +303,12 @@ Example Code
 Example Output
 --------------
 
-.. figure:: kidnappings_Network_ERs_hubs.png
+.. figure:: Figures/kidnappings_Network_ERs_hubs.png
     :alt: Kidnappings network with hubs identified with the ERs encoding.
 
 Kidnappings network (giant component only, for simpler visualization) with hubs identified with the ERs encoding. Non-hub nodes are colored light blue, while hub nodes are in red. The nodes are labelled with their in-degree values, and the optimal description length (DL) and compression ratio (CR) of the encoding are specified at the top of the figure.
 
-.. figure:: kidnappings_Network_CMs_hubs.png
+.. figure:: Figures/kidnappings_Network_CMs_hubs.png
     :alt: Example output showing the kidnappings network hubs identifying through CM encoding.
 
 Kidnappings network with hubs identified with the ERs encoding. Non-hub nodes are colored light blue, while hub nodes are in green.
