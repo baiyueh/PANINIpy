@@ -1,9 +1,9 @@
-.. SCC documentation documentation master file, created by
-   sphinx-quickstart on Mon May  6 02:14:25 2024.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
+.. meta::
+    :description lang=en:
+        PANINIpy: Package of Algorithms for Nonparametric Inference with Networks in Python is a package designed for nonparametric inference with complex network data, 
+        with methods for identifying hubs in networks, regionalizing mobility or distributional data over spatial networks, clustering network populations, and constructing hypergraphs from temporal data among other features.
 
-Welcome to PANINIpy's documentation!
+PANINIpy: Package of Algorithms for Nonparametric Inference with Networks in Python
 =============================================
 
 .. toctree::
