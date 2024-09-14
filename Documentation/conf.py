@@ -8,8 +8,7 @@ extensions = [
     'sphinx.ext.autodoc',
     'sphinx.ext.viewcode',
     'myst_parser',
-    'sphinxcontrib.bibtex',
-    'sphinx.ext.meta'
+    'sphinxcontrib.bibtex'
 ]
 
 source_suffix = {
