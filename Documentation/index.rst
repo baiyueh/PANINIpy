@@ -1,3 +1,7 @@
+.. raw:: html
+
+    <meta name="google-site-verification" content="3l7OZw91tYxNz06CwcXcnLpSpus8NPIqopuAM_wWi3M" />
+
 .. meta::
     :description lang=en:
         PANINIpy: Package of Algorithms for Nonparametric Inference with Networks in Python is a package designed for nonparametric inference with complex network data, 
