@@ -40,6 +40,3 @@ imgmath_latex_preamble = r'''
 \usepackage{amsfonts}
 \usepackage{bm}
 '''
-html_context = {
-    'metatags': '<meta name="google-site-verification" content="3l7OZw91tYxNz06CwcXcnLpSpus8NPIqopuAM_wWi3M" />',
-}
