@@ -1,3 +1,4 @@
 sphinx-rtd-theme
 myst_parser
 sphinxcontrib.bibtex
+sphinx.ext.meta
