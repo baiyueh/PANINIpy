@@ -1,25 +1,34 @@
-import numpy as np
-from scipy.special import loggamma
+MDL network population clustering
++++++++++
 
-def logchoose(n,k):
-    """computes log of binomial coefficient"""
-    if n == k: return 0
-    return loggamma(n+1) - loggamma(k+1) - loggamma((n-k)+1)
+Source Code
+------------
 
-def logmultiset(n,k):
-    """computes log of multiset coefficient"""
-    return logchoose(n+k-1,k)
+.. code-block:: python
 
+    import numpy as np
+    from scipy.special import loggamma
 
-def MDL_backboning(elist,directed=True,out_edges=True,allow_empty=True):
+.. _logchoose:
+
+.. code-block:: python
     
-    """
-    input: elist consisting of directed tuples [(i,j,w_ij)] for edges i --> j with weight w_ij
-           'directed' arg tells us whether input edge list is directed or undirected
-           'out_edges' arg tells us whether to track out-edges or in-edges attached to each node in the local pruning method (does not matter for undirected elist)
-           'allow_empty': by symmetry, the DL is identical for complete/empty graphs in the global objective, and complete/empty neighborhoods in local objective. defaults to leaving these empty when situation is encountered, but setting allow_empty = False will keep the complete graph/neighborhoods
-    output: edge lists and inverse compression ratios for global and local MDL backbones
-    """
+    def logchoose(n,k):
+    """computes log of binomial coefficient"""
+        if n == k: return 0
+        return loggamma(n+1) - loggamma(k+1) - loggamma((n-k)+1)
+
+.. _logmultiset:
+
+.. code-block:: python
+
+    def logmultiset(n,k):
+        """computes log of multiset coefficient"""
+        return logchoose(n+k-1,k)
+
+.. _fglobal:
+
+.. code-block:: python
 
     def fglobal(W,E,Wb,Eb):
         """
@@ -28,12 +37,31 @@ def MDL_backboning(elist,directed=True,out_edges=True,allow_empty=True):
         initial_cost = np.log(W-E+1) + np.log(W+1) + np.log(E+1)
         return initial_cost + logchoose(E,Eb) + logchoose(Wb-1,Eb-1) + logchoose(W-Wb-1,E-Eb-1)
 
+.. _flocal:
+
+.. code-block:: python
+
     def flocal(si,ki,sbi,kbi):
         """
         local description length objective at node-level
         """
         initial_cost = np.log(si-ki+1) + np.log(si+1) + np.log(ki+1)
         return initial_cost + logchoose(ki,kbi) + logchoose(sbi-1,kbi-1) + logchoose(si-sbi-1,ki-kbi-1)
+
+      
+.. _mdl-backboning:
+
+.. code-block:: python
+
+    def MDL_backboning(elist,directed=True,out_edges=True,allow_empty=True):
+    
+    """
+    input: elist consisting of directed tuples [(i,j,w_ij)] for edges i --> j with weight w_ij
+           'directed' arg tells us whether input edge list is directed or undirected
+           'out_edges' arg tells us whether to track out-edges or in-edges attached to each node in the local pruning method (does not matter for undirected elist)
+           'allow_empty': by symmetry, the DL is identical for complete/empty graphs in the global objective, and complete/empty neighborhoods in local objective. defaults to leaving these empty when situation is encountered, but setting allow_empty = False will keep the complete graph/neighborhoods
+    output: edge lists and inverse compression ratios for global and local MDL backbones
+    """
 
     #add two directed edges for each undirected edge if input is undirected. don't duplicate self-edges.
     if not(directed):

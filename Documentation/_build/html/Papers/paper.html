@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Summary &mdash; PANINIpy: Packageof Algorithms for Nonparametric Inference with Networks in Python  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=5a409b2d" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="MDL Network Backbones" href="mdl_backboning.html" />
+<meta name="google-site-verification" content="3l7OZw91tYxNz06CwcXcnLpSpus8NPIqopuAM_wWi3M" />
+ 
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            PANINIpy: Packageof Algorithms for Nonparametric Inference with Networks in Python
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Methods:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="hypergraph_binning.html">Binning Temporal Hypergraphs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="population_clustering.html">Clustering Network Populations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="distributional_regionalization.html">Regionalization with Distributional Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="hub_identification.html">Identifying Network Hubs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="community_regionalization.html">Regionalization with Community Detection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mdl_backboning.html">MDL Network Backbones</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Table of Content:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Summary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#statement-of-need">Statement of Need</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#related-software-packages">Related Software Packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#current-modules">Current Modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#acknowledgments">Acknowledgments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#references">References</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">PANINIpy: Packageof Algorithms for Nonparametric Inference with Networks in Python</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Summary</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/Papers/paper.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="summary">
+<h1>Summary<a class="headerlink" href="#summary" title="Link to this heading"></a></h1>
+<p>Complex networks provide a highly flexible representation of the relational structure within a variety of real-world systems, from city streets to the Internet [Barabási 2016]. The topology and dynamics of real network data are often too complex to summarize or visualize using traditional data analysis methods, which has triggered a substantial research movement within multiple fields—including physics, computer science, sociology, mathematics, and economics among others—to develop new tools for statistical inference and machine learning specifically suited for networks.</p>
+<p>Research on complex network inference has the goal of learning meaningful structural and dynamical regularities in network data in a manner that is often independent of the particular application of interest but relies on fundamental principles that govern a wide range of networks such as transitivity, degree heterogeneity, and assortativity [&#64;newman2018networks]. For example, a major research interest in this area over the last two decades has been the construction and evaluation of a vast array of algorithms for <em>community detection</em>, which aim to infer highly connected subsets of nodes to summarize the mesoscale structure of a network [&#64;fortunato2010community]. Another major area of interest is <em>network reconstruction</em> [&#64;peel2022statistical], which aims to infer statistically significant functional connections from time series or other activity patterns as well as identify spurious correlations and missing edges in partially observed noisy network data. A third focus area within complex network inference is the clustering of network populations or multilayer networks arising in longitudinal and cross-sectional studies [&#64;young2022clustering].</p>
+<p>Although community detection, network reconstruction, and clustering network populations are some of the most widely researched areas in complex network inference, there is a broad range of tasks for which there is active development of new methods. For example, there is a large new body of work aimed at inferring statistically significant structure in higher order networks [&#64;battiston2021physics] and networks with different types of metadata on the nodes and/or edges [&#64;fajardo2022node].</p>
+</section>
+<section id="statement-of-need">
+<h1>Statement of Need<a class="headerlink" href="#statement-of-need" title="Link to this heading"></a></h1>
+<p>Due to their discrete, relational, and heterogeneous nature, complex networks present new obstacles for statistical inference. Many inference objectives on networks are intrinsically combinatorial and produce complex summaries in the form of sets or partitions. These factors make scalability and interpretability of critical importance for practical algorithms, which are not often easily accommodated within learning frameworks that focus on continuous ordered data. There are also a number of ways uncertainty can be introduced in the collection of a network dataset, whether through measurement error, sampling bias, or fluctuations across experimental settings in longitudinal or cross-sectional studies. These factors emphasize the importance of developing new principled and flexible methods for extracting structural and dynamical regularities in networks that do not rely on ad hoc parameter choices or heuristics, allowing them to be robust in the presence of noise.</p>
+<p><a class="reference external" href="https://github.com/baiyueh/PANINIpy">PANINIpy</a> is a flexible and easy-to-use collection of nonparametric statistical inference methods for unsupervised learning with network data. These methods are unified in their motivation from fundamental principles—currently, the Minimum Description Length (MDL) principle underlies all the methods—and their lack of dependence on arbitrary parameter choices that can impose unwanted biases in inference results. PANINIpy is highly accessible for practitioners as its methods do not require the user to manually tune any input parameters and everything is written from scratch in pure Python to be optimized for each task of interest without reliance on existing packages. PANINIpy therefore provides an important complement to existing network analysis packages in Python such as NetworkX [&#64;hagberg2008exploring] that focus primarily on network metrics, network visualization, and community detection.</p>
+</section>
+<section id="related-software-packages">
+<h1>Related Software Packages<a class="headerlink" href="#related-software-packages" title="Link to this heading"></a></h1>
+<p>There are a number of existing Python packages containing individual methods that perform nonparametric inference with networks, but none that are unified under this scope with the ease-of-use of PANINIpy. The <a class="reference external" href="https://graph-tool.skewed.de">Graph-Tool</a> [&#64;peixoto_graph-tool_2014] package includes a number of excellent principled Bayesian methods for complex network inference, many of which are nonparametric. As its core functionalities are implemented in C++, Graph-tool is also quite efficient given the computational demand of the inference problems it considers. However, the data structures in Graph-tool are often challenging to navigate for new users and its optimization routines are largely dependent on MCMC methods which are highly flexible but tricky to tune. Other popular packages such as <a class="reference external" href="https://networkx.github.io">NetworkX</a> [&#64;hagberg2008exploring] and <a class="reference external" href="https://igraph.org">iGraph</a> [&#64;csardi2006igraph] also have methods for complex network inference—largely for the task of community detection— but are much broader in scope, being used primarily for network summary statistics and visualization. PANINIpy fills an important gap in the software space for network inference methods with very simple dependencies in pure Python.</p>
+</section>
+<section id="current-modules">
+<h1>Current Modules<a class="headerlink" href="#current-modules" title="Link to this heading"></a></h1>
+<p>Modules can be flexibly added to the package as needed. All modules take as input a standard representation of a network (either as an edgelist or an adjacency list in Python). The existing modules at the time of this publication are:</p>
+<ul class="simple">
+<li><p><strong>hypergraph_binning</strong>: Methods for identifying MDL-optimal temporally contiguous partitions of event data between distinct node sets (e.g. users and products). Utilizes method of [&#64;Kirkley2024HypergraphBinning].</p></li>
+<li><p><strong>population_clustering</strong>: Methods for performing clustering of observed network populations, multilayer network layers, or temporal networks. Utilizes method of [&#64;Kirkley2023PopulationClustering]. Also includes method for generating synthetic network populations using the method of [&#64;young2022clustering].</p></li>
+<li><p><strong>distributional_regionalization</strong>: Methods for performing MDL-based regionalization on distributional (e.g. census) data over space. Utilizes method of [&#64;Kirkley2022DistributionalRegionalization].</p></li>
+<li><p><strong>hub_identification</strong>: Methods for inferring hub nodes in a network using different information theoretic criteria. Utilizes method of [&#64;Kirkley2024HubIdentification].</p></li>
+<li><p><strong>community_regionalization</strong>: Perform contiguous regionalization of spatial network data with a wide class of community detection methods. Utilizes method of [&#64;MorelBalbiKirkley2024CommunityRegionalization].</p></li>
+</ul>
+</section>
+<section id="acknowledgments">
+<h1>Acknowledgments<a class="headerlink" href="#acknowledgments" title="Link to this heading"></a></h1>
+<p>The authors thank Sebastian Morel-Balbi for useful discussions. This work was supported by an HKU Urban Systems Institute Fellowship Grant and the Hong Kong Research Grants Council under ECS–27302523 and GRF-17301024.</p>
+</section>
+<section id="references">
+<h1>References<a class="headerlink" href="#references" title="Link to this heading"></a></h1>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="mdl_backboning.html" class="btn btn-neutral float-left" title="MDL Network Backbones" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Baiyue.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
