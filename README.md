@@ -49,10 +49,10 @@ Utilizes methods derived in “Identifying hubs in directed networks” (Kirkley
 Perform community detection-based regionalization on network data.\
 Utilizes method derived in “Urban Boundary Delineation from Commuting Data with Bayesian Stochastic Blockmodeling: Scale, Contiguity, and Hierarchy” (Morel-Balbi and Kirkley, 2024, https://arxiv.org/pdf/2405.04911).
 
-### [MDL Network Backbones](https://paninipy.readthedocs.io/en/latest/Papers/community_regionalization.html)
+### [MDL Network Backbones](https://paninipy.readthedocs.io/en/latest/Papers/mdl_backboning.html)
 
-Infer the backbons of a network using the minimum description length principle .\
- “Fast nonparametric inference of network backbones for graph sparsification” (Kirkley, 2024, https://arxiv.org/abs/2409.06417).
+Infer global and local backbones of a network using the minimum description length principle .\
+Utilizes method derived in “Fast nonparametric inference of network backbones for graph sparsification” (Kirkley, 2024, https://arxiv.org/abs/2409.06417).
 
 ## Documentation 
 
