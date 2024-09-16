@@ -303,12 +303,12 @@ Example Code
 Example Output
 --------------
 
-.. figure:: Figures/mdl_network_backbones.png
+.. figure:: Figures/mdl_network_backbones_example.png
     :alt: Visualization of the original network and the extracted backbones with statistics.
 
-Visualization of the original network (left), displays all nodes and edges with the total weight and number of edges.
-Global backbone (center), Shows the most significant edges contributing to the global structure, along with updated statistics and inverse compression ratio.
-And local backbone (right), highlights important edges from the perspective of individual nodes, with corresponding statistics and inverse compression ratio.
+Left: Original weighted, directed network, with edge width proportional to weight. 
+Center: Global MDL backbone, which learns a global threshold on the edge weights for network sparsification. 
+Right: Local MDL backbone using out-neighborhoods. The local MDL method learns a threshold adapted to each neighborhood's weight heterogeneity. Summary statistics are shown below each network.
 
 Paper Source
 ============

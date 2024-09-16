@@ -687,10 +687,11 @@ Example Output
 
     Nine sample networks from the specified synthetic population, with cluster labels. The index of the network sample and the mode it was generated from are indicated along with each sample.
 
-.. figure:: Figures/MDL_population_clusters_example.png
+.. figure:: Figures/MDL_population_clusters_example_2.png
     :alt: MDL population clustering result.
 
-MDL population clustering result. The optimal mode configuration inferred by the run_sims() method for discontiguous network population clustering is shown along with the number of clusters in each network. The inverse compression ratio of this clustering is displayed above the figure.
+MDL population clustering result. Planted and inferred cluster modes using discontiguous MDL clustering algorithm by the run_sims() method. Colors indicate the correspondence between the true and inferred modes. The mixture probability :math:`\pi_k` of generating from each planted mode as well as the number of networks within each inferred mode's cluster are indicated. 
+
 
 Paper source
 ====

@@ -1,4 +1,4 @@
-project = 'PANINIpy: Packageof Algorithms for Nonparametric Inference with Networks in Python'
+project = 'PANINIpy: Package of Algorithms for Nonparametric Inference with Networks in Python'
 copyright = '2024, Baiyue'
 author = 'Baiyue'
 
