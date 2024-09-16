@@ -3,7 +3,7 @@
 [![PyPI version](https://badge.fury.io/py/paninipy.svg)](https://pypi.org/project/paninipy/)
 [![ReadTheDocs](https://img.shields.io/readthedocs/paninipy.svg)](
     https://paninipy.readthedocs.io/en/latest/)
-![CI](https://github.com/baiyueh/PANINIpy/actions/workflows/pages/pages-build-deployment/badge.svg?branch=gh-pages)(https://baiyueh.github.io/PANINIpy/)
+[![CI](https://github.com/baiyueh/PANINIpy/actions/workflows/pages/pages-build-deployment/badge.svg?branch=gh-pages)](https://baiyueh.github.io/PANINIpy/)
 
 # [PANINIpy] (https://github.com/baiyueh/PANINIpy)
 
