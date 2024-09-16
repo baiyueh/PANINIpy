@@ -1,5 +1,10 @@
 <meta name="google-site-verification" content="QBsxqO0wWO-ZZl0YBi0pC_PCSEgF9Z671lLwrUavwyE" />
 
+[![PyPI version](https://badge.fury.io/py/paninipy.svg)](https://badge.fury.io/py/paninipy.svg)
+[![ReadTheDocs](https://img.shields.io/readthedocs/paninipy.svg)](
+    https://paninipy.readthedocs.io/en/latest/)
+![CI](https://github.com/baiyueh/PANINIpy/actions/workflows/pages/pages-build-deployment/badge.svg?branch=gh-pages)
+
 # [PANINIpy] (https://github.com/baiyueh/PANINIpy)
 
 PANINIpy: Package of Algorithms for Nonparametric Inference with Networks in Python is a package designed for nonparametric inference with complex network data, with methods for identifying hubs in networks, regionalizing mobility or distributional data over spatial networks, clustering network populations, and constructing hypergraphs from temporal data among other features. 
