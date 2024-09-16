@@ -18,6 +18,7 @@ PANINIpy: Package of Algorithms for Nonparametric Inference with Networks in Pyt
   - [Regionalization with Distributional Data](#regionalization-with-distributional-data)
   - [Identifying Network Hubs](#identifying-network-hubs)
   - [Regionalization with Community Detection](#regionalization-with-community-detection)
+  - [MDL Network Backbones](#mdl-network-backbones)
 - [Documentation](#documentation)
 - [License](#license)
 
