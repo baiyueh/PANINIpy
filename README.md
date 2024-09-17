@@ -1,6 +1,6 @@
 <meta name="google-site-verification" content="QBsxqO0wWO-ZZl0YBi0pC_PCSEgF9Z671lLwrUavwyE" />
 
-[![PyPI version](https://badge.fury.io/py/paninipy.svg)](https://pypi.org/project/paninipy/)
+[![PyPI version](https://badge.fury.io/py/paninipy.svg)](https://pypi.org/project/paninipy/?kill_cache=1)
 [![ReadTheDocs](https://img.shields.io/readthedocs/paninipy.svg)](
     https://paninipy.readthedocs.io/en/latest/)
 [![CI](https://github.com/baiyueh/PANINIpy/actions/workflows/pages/pages-build-deployment/badge.svg?branch=gh-pages)](https://baiyueh.github.io/PANINIpy/)
@@ -53,7 +53,7 @@ Utilizes methods derived in “Identifying hubs in directed networks” (Kirkley
 ### [Regionalization with Community Detection](https://paninipy.readthedocs.io/en/latest/Papers/community_regionalization.html)
 
 Perform community detection-based regionalization on network data.\
-Utilizes method derived in “Urban Boundary Delineation from Commuting Data with Bayesian Stochastic Blockmodeling: Scale, Contiguity, and Hierarchy” (Morel-Balbi and Kirkley, 2024, https://arxiv.org/pdf/2405.04911).
+Utilizes method derived in “Bayesian regionalization of urban mobility networks” (Morel-Balbi and Kirkley, 2024, https://journals.aps.org/prresearch/abstract/10.1103/PhysRevResearch.6.033307).
 
 ### [MDL Network Backbones](https://paninipy.readthedocs.io/en/latest/Papers/mdl_backboning.html)
 
