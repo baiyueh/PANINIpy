@@ -53,7 +53,7 @@ Utilizes methods derived in “Identifying hubs in directed networks” (Kirkley
 ### [Regionalization with Community Detection](https://paninipy.readthedocs.io/en/latest/Papers/community_regionalization.html)
 
 Perform community detection-based regionalization on network data.\
-Utilizes method derived in “Urban Boundary Delineation from Commuting Data with Bayesian Stochastic Blockmodeling: Scale, Contiguity, and Hierarchy” (Morel-Balbi and Kirkley, 2024, https://arxiv.org/pdf/2405.04911).
+Utilizes method derived in “Bayesian regionalization of urban mobility networks” (Morel-Balbi and Kirkley, 2024, https://journals.aps.org/prresearch/abstract/10.1103/PhysRevResearch.6.033307).
 
 ### [MDL Network Backbones](https://paninipy.readthedocs.io/en/latest/Papers/mdl_backboning.html)
 

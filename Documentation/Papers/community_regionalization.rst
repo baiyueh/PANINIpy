@@ -4,7 +4,7 @@ Regionalization with Community Detection
 Tutorial 
 ===============
 
-Code to perform spatial regionalization based on the greedy agglomerative algorithm derived in "Urban Boundary Delineation from Commuting Data with Bayesian Stochastic Blockmodeling: Scale, Contiguity, and Hierarchy" (Morel-Balbi and Kirkley, 2024, https://arxiv.org/pdf/2405.04911). 
+Code to perform spatial regionalization based on the greedy agglomerative algorithm derived in “Bayesian regionalization of urban mobility networks” (Morel-Balbi and Kirkley, 2024, https://journals.aps.org/prresearch/abstract/10.1103/PhysRevResearch.6.033307).
 
 Inputs are:
 
@@ -502,5 +502,5 @@ Paper source
 
 If you use this algorithm in your work, please cite:
 
-S. Morel-Balbi and A. Kirkley, Urban Boundary Delineation from Commuting Data with Bayesian Stochastic Blockmodeling: Scale, Contiguity, and Hierarchy. Preprint arXiv:2405.04911 (2024). 
-Paper: https://arxiv.org/abs/2405.04911 
+S. Morel-Balbi and A. Kirkley, Bayesian regionalization of urban mobility networks. Physical Review Research 6, 033307 (2024). 
+Paper: https://journals.aps.org/prresearch/abstract/10.1103/PhysRevResearch.6.033307.
