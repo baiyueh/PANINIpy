@@ -52,7 +52,7 @@ Modules can be flexibly added to the package as needed. All modules take as inpu
 - **distributional_regionalization**: Methods for performing MDL-based regionalization on distributional (e.g. census) data over space. Utilizes method of [@Kirkley2022DistributionalRegionalization].
 - **hub_identification**: Methods for inferring hub nodes in a network using different information theoretic criteria. Utilizes method of [@Kirkley2024HubIdentification].
 - **community_regionalization**: Perform contiguous regionalization of spatial network data, applicable to a wide class of community detection objectives. Utilizes method of [@MorelBalbiKirkley2024CommunityRegionalization].
-- **network_backbones**: Perform global and local network backboning for a weighted network. Utilizes method of [@Kirkley2024fast].
+- **network_backbones**: Perform global and local network backboning for a weighted network. Utilizes method of [@kirkley2024fastnonparametricinferencenetwork].
 
 Please refer to the [documentation](https://paninipy.readthedocs.io/en/latest/) for details on the methodology, implementation, and usage for each module. 
 
