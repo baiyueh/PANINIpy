@@ -22,7 +22,7 @@ Paper Draft
 
 .. toctree::
    :maxdepth: 2
-   :caption: Table of Content:
+   :caption: Table of Contents:
 
    Papers/paper
 ..
@@ -31,4 +31,5 @@ Paper Draft
    Code/distributional_regionalization
    Code/hub_identification
    Code/community_regionalization
+   Code/mdl_backboning
 
