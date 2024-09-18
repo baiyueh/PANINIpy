@@ -20,14 +20,14 @@ affiliations:
    index: 2
  - name: Urban Systems Institute, University of Hong Kong, Hong Kong
    index: 3
-date: 24 August 2024
+date: 18 September 2024
 bibliography: paper.bib
 ---
 
 
 # Summary
 
-Complex networks provide a highly flexible representation of the relational structure within a variety of real-world systems, from city streets to the Internet [Barabási 2016]. The topology and dynamics of real network data are often too complex to summarize or visualize using traditional data analysis methods, which has triggered a substantial research movement within multiple fields—including physics, computer science, sociology, mathematics, and economics among others—to develop new tools for statistical inference and machine learning specifically suited for networks. 
+Complex networks provide a highly flexible representation of the relational structure within a variety of real-world systems, from city streets to the Internet [Barabási 2016]. The topology and dynamics of real network data are often too complex to summarize or visualize using traditional data analysis methods, which has triggered a substantial research movement within multiple fields—--including physics, computer science, sociology, mathematics, and economics among others—--to develop new tools for statistical inference and machine learning specifically suited for networks. 
 
 Research on complex network inference has the goal of learning meaningful structural and dynamical regularities in network data in a manner that is often independent of the particular application of interest but relies on fundamental principles that govern a wide range of networks such as transitivity, degree heterogeneity, and assortativity [@newman2018networks]. For example, a major research interest in this area over the last two decades has been the construction and evaluation of a vast array of algorithms for *community detection*, which aim to infer highly connected subsets of nodes to summarize the mesoscale structure of a network [@fortunato2010community]. Another major area of interest is *network reconstruction* [@peel2022statistical], which aims to infer statistically significant functional connections from time series or other activity patterns as well as identify spurious correlations and missing edges in partially observed noisy network data. A third focus area within complex network inference is the clustering of network populations or multilayer networks arising in longitudinal and cross-sectional studies [@young2022clustering]. 
 
