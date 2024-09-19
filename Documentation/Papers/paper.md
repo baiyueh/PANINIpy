@@ -56,12 +56,13 @@ Modules can be flexibly added to the package as needed. All modules take as inpu
 
 Please refer to the [documentation](https://paninipy.readthedocs.io/en/latest/) for details on the methodology, implementation, and usage for each module. 
 
+<!--
 # Example Figures
 
 ![(Top) Sample networks from a synthetic network population generated with the `generate_synthetic` method, along with the mode (cluster) from which each sample was generated. (Bottom) Planted and inferred cluster modes using the discontiguous MDL clustering algorithm of @Kirkley2023PopulationClustering, implemented as an `MDL_populations` class method. Colors indicate the correspondence between the true and inferred modes. The mixture probability $\pi_k$ of generating from each planted mode, as well as the number of networks within each inferred mode's cluster, are indicated.](Figures/mdl_clusters_top_bottom.png){width="100%"}
 
 ![(Left) Yeast transcription network [@milo2002network] with red nodes indicating the hubs inferred using the ER encoding of @Kirkley2024HubIdentification, implemented as an `Network_hubs` class method. (Right) Same network, with green nodes indicating hubs inferred using the CM encoding. Nodes are scaled proportionally to their degrees.](Figures/yeast_transcription_Network_ER_and_CM_hubs.png){width="100%"}
-
+-->
 
 # Acknowledgments
 
