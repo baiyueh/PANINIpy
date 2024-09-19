@@ -22,7 +22,7 @@ Paper Draft
 
 .. toctree::
    :maxdepth: 2
-   :caption: Table of Contents:
+   :caption: Summary Paper:
 
    Papers/paper
 ..
