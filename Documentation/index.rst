@@ -17,19 +17,3 @@ PANINIpy: Package of Algorithms for Nonparametric Inference with Networks in Pyt
    Papers/community_regionalization
    Papers/mdl_backboning
 
-Paper Draft
-==================
-
-.. toctree::
-   :maxdepth: 2
-   :caption: Summary Paper:
-
-   Papers/paper
-..
-   Code/hypergraph_binning
-   Code/population_clustering
-   Code/distributional_regionalization
-   Code/hub_identification
-   Code/community_regionalization
-   Code/mdl_backboning
-
