@@ -1,4 +1,4 @@
-project = 'PANINIpy: Package of Algorithms for Nonparametric Inference with Networks in Python'
+project = 'PANINIpy'
 copyright = '2024, Baiyue'
 author = 'Baiyue'
 
@@ -24,6 +24,7 @@ bibtex_bibfiles = ['paper.bib']
 
 html_theme = 'sphinx_rtd_theme'
 html_static_path = ['_static']
+html_logo = "_static/pixel_paninipy.png"
 html_css_files = [
     'custom.css',
 ]

@@ -65,3 +65,14 @@
 .param-type {
     font-style: italic;
 }
+
+.wy-side-nav-search, .wy-nav-top {
+    background: #eedfcc;
+}
+
+.wy-menu > .caption > span.caption-text {
+  color: #eedfcc;
+}
+.wy-side-nav-search .wy-dropdown > a img.logo, .wy-side-nav-search > a img.logo {
+    width: 260px;
+}
