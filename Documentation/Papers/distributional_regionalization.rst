@@ -357,22 +357,18 @@ Step 1: Import necessary libraries
 
     from paninipy.distributional_regionalization import MDL_regionalization
     import matplotlib.pyplot as plt
-    import sys
-    import os
     import pandas as pd
     import numpy as np
     import geopandas as gpd
     from shapely.geometry import Point
     from matplotlib.colors import ListedColormap
 
-Step 2: Load and prepare the data
+Step 2: Load and prepare the data (example datasets are available inside `PANINIpy/Example_dataset <https://github.com/baiyueh/PANINIpy/tree/main/Example_dataset>`)
 
 .. code:: python
 
-    data_dir = r"D:\Research HKU\PYPI_lib\ScholarCodeCollective\distributional_regionalization"
-    sys.path.append(data_dir)
-    nodelist = pd.read_csv(os.path.join(data_dir, 'metro_tract_metadata.csv'))
-    edgelist = pd.read_csv(os.path.join(data_dir, 'metro_network_edgelists.csv'))
+    nodelist = pd.read_csv('metro_tract_metadata.csv')
+    edgelist = pd.read_csv('metro_network_edgelists.csv')
     nodelist = nodelist[nodelist['metro'] == 'New_Haven-Milford--CT']
     nodelist['tract_index'] = range(nodelist.shape[0])
     edgelist = edgelist[edgelist['tract1'].isin(nodelist['tractID'].values) & edgelist['tract2'].isin(nodelist['tractID'].values)]
@@ -403,9 +399,8 @@ Step 4: Load geometries and map clusters
 
 .. code:: python
 
-    geometry_data_dir = 'D:\Research HKU\mobility\geometry_trct'
     print("Loading geometries...")
-    geometries_us = gpd.read_file(os.path.join(geometry_data_dir, 'Tract_2010Census_DP1_ct.shp'))
+    geometries_us = gpd.read_file('Tract_2010Census_DP1_ct.shp')
     geometries_us['tractID'] = geometries_us['GEOID10'].astype(str).str[1:]
 
     required_columns = ['tractID', 'geometry']

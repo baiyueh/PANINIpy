@@ -1,4 +1,4 @@
-Installation
+Installation Steps
 +++++++++
 
 PANINIpy is available on PyPI and can be installed using ``pip``:

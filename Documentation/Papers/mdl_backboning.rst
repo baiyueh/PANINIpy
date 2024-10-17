@@ -222,7 +222,6 @@ Example Code
 
 .. code:: python
 
-    import numpy as np
     import networkx as nx
     import matplotlib.pyplot as plt
     from paninipy.mdl_backboning import MDL_backboning
@@ -232,8 +231,13 @@ Example Code
 .. code:: python
 
     # Weighted edge list for the example
-    elist = [(0,1,12),(0,3,20),(0,4,8),(1,2,1),(1,4,3),(2,0,1),(2,1,3),(3,2,3),(3,4,1),(4,3,1)]
-
+    elist = [
+        (0, 1, 12), (0, 3, 20), (0, 4, 8),
+        (1, 2, 1), (1, 4, 3),
+        (2, 0, 1), (2, 1, 3),
+        (3, 2, 3), (3, 4, 1),
+        (4, 3, 1)
+    ]
 **Step 3: Compute backbones and compression ratios**
 
 .. code:: python

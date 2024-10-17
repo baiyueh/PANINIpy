@@ -200,12 +200,9 @@ Example Code
 
 .. code-block:: python
 
-    import numpy as np
     import matplotlib.pyplot as plt
-    import time
     from paninipy.hub_identification import Network_hubs
     import networkx as nx
-    import random
 
 **Step 2: Function to convert GML position format**
 

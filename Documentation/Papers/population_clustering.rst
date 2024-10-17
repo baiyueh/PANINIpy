@@ -564,10 +564,8 @@ Example Code
 
     import numpy as np
     import matplotlib.pyplot as plt
-    import time
     from paninipy.population_clustering import generate_synthetic, MDL_populations
     import networkx as nx
-    import random
 
 **Step 2: Function to visualize synthetic clusters**
 

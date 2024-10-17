@@ -231,11 +231,7 @@ Example Code
 
     import time
     from paninipy.hypergraph_binning import MDL_hypergraph_binning, logOmega, logchoose
-    import matplotlib
     import matplotlib.pyplot as plt
-    import numpy as np
-    import networkx as nx
-    from collections import Counter, defaultdict
 
 **Step 2: Generate synthetic event dataset and choose time discretization**
 
