@@ -1,5 +1,6 @@
 <meta name="google-site-verification" content="QBsxqO0wWO-ZZl0YBi0pC_PCSEgF9Z671lLwrUavwyE" />
 
+![](https://imgur.com/RPhHG5W.png)
 [![PyPI version](https://badge.fury.io/py/paninipy.svg)](https://pypi.org/project/paninipy/?kill_cache=1)
 [![ReadTheDocs](https://img.shields.io/readthedocs/paninipy.svg)](
     https://paninipy.readthedocs.io/en/latest/)
