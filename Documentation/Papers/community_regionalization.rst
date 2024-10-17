@@ -417,7 +417,7 @@ Step 1: Import necessary libraries and configure LaTeX settings
                                 "font.serif": "Times"})
     matplotlib.rcParams.update({'font.family':'serif'})
 
-Step 2: Load pickled data for the Baton Rouge CBSA
+Step 2: Load pickled data for the Baton Rouge CBSA (example datasets are available inside `PANINIpy/Example_dataset <https://github.com/baiyueh/PANINIpy/tree/main/Example_dataset>`_).
 
 .. code:: python
 

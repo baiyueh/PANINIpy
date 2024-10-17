@@ -257,7 +257,7 @@ Example Code
         plt.savefig(f'{filename}.png', bbox_inches='tight', dpi=200)
         plt.show()
 
-**Step 4: Read the GML file and prepare data**
+**Step 4: Read the GML file and prepare data** (example datasets are available inside `PANINIpy/Example_dataset <https://github.com/baiyueh/PANINIpy/tree/main/Example_dataset>`_).
 
 .. code-block:: python
 

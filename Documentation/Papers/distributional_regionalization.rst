@@ -363,7 +363,7 @@ Step 1: Import necessary libraries
     from shapely.geometry import Point
     from matplotlib.colors import ListedColormap
 
-Step 2: Load and prepare the data (example datasets are available inside `PANINIpy/Example_dataset <https://github.com/baiyueh/PANINIpy/tree/main/Example_dataset>`)
+Step 2: Load and prepare the data (example datasets are available inside `PANINIpy/Example_dataset <https://github.com/baiyueh/PANINIpy/tree/main/Example_dataset>`_).
 
 .. code:: python
 
