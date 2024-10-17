@@ -1,10 +1,10 @@
 <meta name="google-site-verification" content="QBsxqO0wWO-ZZl0YBi0pC_PCSEgF9Z671lLwrUavwyE" />
-
 <img src="https://imgur.com/RPhHG5W.png" width="250px">
+
 [![PyPI version](https://badge.fury.io/py/paninipy.svg)](https://pypi.org/project/paninipy/?kill_cache=1)
-[![ReadTheDocs](https://img.shields.io/readthedocs/paninipy.svg)](
-    https://paninipy.readthedocs.io/en/latest/)
+[![ReadTheDocs](https://img.shields.io/readthedocs/paninipy.svg)](https://paninipy.readthedocs.io/en/latest/)
 [![CI](https://github.com/baiyueh/PANINIpy/actions/workflows/pages/pages-build-deployment/badge.svg?branch=gh-pages)](https://baiyueh.github.io/PANINIpy/)
+
 
 # [PANINIpy](https://github.com/baiyueh/PANINIpy)
 
