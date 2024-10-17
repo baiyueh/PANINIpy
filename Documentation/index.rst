@@ -20,7 +20,8 @@ PANINIpy: Package of Algorithms for Nonparametric Inference with Networks in Pyt
 - **Statistical Robustness**: The methods are designed to separate significant structural regularities from noise in network data, making them suitable for real-world datasets that may contain statistical fluctuations and measurement error.
 - **Focus on Network Inference**: Unlike broader network analysis packages, *PANINIpy* specifically focuses on nonparametric inference, filling a gap for specialized statistical analysis without the overhead of broader functionalities.
 
-# Statement of Need
+Statement of Need
+=============================================
 
 Due to their discrete, relational, and heterogeneous nature, complex networks present new obstacles for statistical inference. Many inference objectives on networks are intrinsically combinatorial and produce complex summaries in the form of sets or partitions. These factors make scalability and interpretability of critical importance for practical algorithms, which are not often easily accommodated within learning frameworks that focus on continuous ordered data. There are also a number of ways uncertainty can be introduced in the collection of a network dataset, whether through measurement error, sampling bias, or fluctuations across experimental settings in longitudinal or cross-sectional studies. These factors underscore the importance of developing new principled and flexible methods for extracting structural and dynamical regularities in networks that do not rely on ad hoc parameter choices or heuristics, allowing them to be robust in the presence of noise. 
 
