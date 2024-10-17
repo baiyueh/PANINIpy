@@ -1,9 +1,9 @@
 Guidelines for Contributing
 +++++++++
 
-**Feature Improving**
+**Feature Improvement**
 
-Contributions to PANINIpy are certainly welcome! Please follow the following guidlines to contribute to the development of the project with new features and modules:
+Contributions to PANINIpy are very welcome and encouraged! Please refer to the following guidlines to contribute to the development of the project with new features and modules:
 
 1. **Fork the Repository**: Create a personal fork of the repository on GitHub.
 
