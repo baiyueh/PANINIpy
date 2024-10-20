@@ -64,8 +64,16 @@ Utilizes method derived in “Fast nonparametric inference of network backbones 
 ## Documentation 
 
 Detailed documentation for each module and function is available at the link below:
-
 ### [PANINIpy Documentation](https://paninipy.readthedocs.io/en/latest/)
+
+
+### Attribution
+The logo for this package was enhanced using **Stable Diffusion model**, an AI-based generative model created by Robin Rombach, Patrick Esser and contributors. 
+
+The model is released under the **CreativeML Open RAIL-M License**. For more details on the model and its licensing, refer to the following:
+
+- [Stable Diffusion Project](https://stability.ai/)
+- [CreativeML Open RAIL-M License](https://github.com/CompVis/stable-diffusion/blob/main/LICENSE)
 
 ## License 
 Distributed under the MIT License. See LICENSE for more information.

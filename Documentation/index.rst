@@ -49,3 +49,12 @@ There are number of existing Python packages containing individual methods that 
    Papers/community_regionalization
    Papers/mdl_backboning
 
+Attribution
+=============================================
+
+The logo for this package was enhanced using **Stable Diffusion model**, an AI-based generative model created by Robin Rombach, Patrick Esser and contributors. 
+
+The model is released under the **CreativeML Open RAIL-M License**. For more details on the model and its licensing, refer to the following:
+
+- Stable Diffusion Project: https://stability.ai/
+- CreativeML Open RAIL-M License: https://github.com/CompVis/stable-diffusion/blob/main/LICENSE
