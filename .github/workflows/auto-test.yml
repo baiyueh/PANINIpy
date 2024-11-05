@@ -1,6 +1,10 @@
 name: Run Auto-Tests
-
-on: [push, pull_request]
+on:
+  push:
+    paths:
+      - 'paninipy/**'
+      - '.github/workflows/auto-test.yml'
+  pull_request
 
 jobs:
   test:
