@@ -70,6 +70,7 @@ To run the tests manually, users need to clone the *PANINIpy* GitHub repository 
    .. code-block:: console
 
        pip install -r requirements.txt
+       pip install paninipy
        pip install pytest
 
 3. **Run the Tests**: Use `pytest` to execute all tests in the `Tests` folder.
