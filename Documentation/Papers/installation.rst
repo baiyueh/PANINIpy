@@ -1,7 +1,7 @@
 Installation Steps
 +++++++++
 
-PANINIpy is available on PyPI and can be installed using ``pip``:
+PANINIpy is available on PyPI and can be installed using ``pip``, which will include the dependencies automatically:
 
 .. code-block:: console
 
@@ -12,6 +12,15 @@ Or, install the latest version along with necessary build dependencies from the 
 .. code-block:: console
 
     pip install git+https://github.com/baiyueh/PANINIpy.git
+
+For users who prefer installing dependencies manually, we provide a requirements.txt file on GitHub. To install PANINIpy and its dependencies using this file:
+
+.. code-block:: console
+    
+    git clone https://github.com/baiyueh/PANINIpy.git
+    cd PANINIpy
+    pip install -r requirements.txt
+
 
 **Source Code and Discussion Channel**
 

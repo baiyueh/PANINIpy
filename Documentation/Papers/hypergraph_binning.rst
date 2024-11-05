@@ -230,7 +230,7 @@ Example Code
 .. code-block:: python
 
     import time
-    from paninipy.hypergraph_binning import MDL_hypergraph_binning, logOmega, logchoose
+    from paninipy.hypergraph_binning import MDL_hypergraph_binning
     import matplotlib.pyplot as plt
 
 **Step 2: Generate synthetic event dataset and choose time discretization**
