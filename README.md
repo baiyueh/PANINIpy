@@ -26,6 +26,7 @@ PANINIpy: Package of Algorithms for Nonparametric Inference with Networks in Pyt
 ## Installation
 
 pip install paninipy
+
 ### [PyPI](https://pypi.org/project/paninipy/)
 
 ## Modules
