@@ -4,7 +4,9 @@ on:
     paths:
       - 'paninipy/**'
       - '.github/workflows/auto-test.yml'
-  pull_request
+  pull_request:
+    branches:
+      - main
 
 jobs:
   test:
