@@ -10,7 +10,7 @@ setup(
     author='Baiyue He',
     author_email='baiyue.he@connect.hku.hk',
     license='The MIT License',
-    projects_urls={
+    project_urls={
         "Documentation": "https://paninipy.readthedocs.io/en/latest/index.html",
         "Source": "https://paninipy.readthedocs.io/en/latest/index.html"
     },
