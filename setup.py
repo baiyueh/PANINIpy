@@ -2,7 +2,7 @@ from setuptools import setup, find_packages, Extension
 
 setup(
     name='paninipy',
-    version='1.1',
+    version='1.2',
     description='Package of Algorithms for Nonparametric Inference with Networks in Python',
     long_description=open('README.md', encoding='utf-8').read(),
     long_description_content_type='text/markdown',
