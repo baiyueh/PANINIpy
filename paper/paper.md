@@ -45,12 +45,12 @@ Due to their discrete, relational, and heterogeneous nature, complex networks pr
 
 Modules can be flexibly added to the package as needed. All modules take as input a standard representation of a network (either as an edgelist or an adjacency list in Python). The existing modules at the time of this publication are:   
 
-- **hypergraph_binning**: Methods for identifying MDL-optimal temporally contiguous partitions of event data between distinct node sets (e.g. users and products). Utilizes method of [@Kirkley2024HypergraphBinning].
-- **population_clustering**: Methods for performing clustering of observed network populations, multilayer network layers, or temporal networks. Utilizes method of [@Kirkley2023PopulationClustering]. Also includes method for generating synthetic network populations using the method of [@young2022clustering].
-- **distributional_regionalization**: Methods for performing MDL-based regionalization on distributional (e.g. census) data over space. Utilizes method of [@Kirkley2022DistributionalRegionalization].
-- **hub_identification**: Methods for inferring hub nodes in a network using different information theoretic criteria. Utilizes method of [@Kirkley2024HubIdentification].
-- **community_regionalization**: Perform contiguous regionalization of spatial network data, applicable to a wide class of community detection objectives. Utilizes method of [@MorelBalbiKirkley2024CommunityRegionalization].
-- **network_backbones**: Perform global and local network backboning for a weighted network. Utilizes method of [@kirkley2024fastnonparametricinferencenetwork].
+- **hypergraph_binning** [@Kirkley2024HypergraphBinning]: Methods for identifying MDL-optimal temporally contiguous partitions of event data between distinct node sets (e.g. users and products).
+- **population_clustering** [@Kirkley2023PopulationClustering]: Methods for performing clustering of observed network populations, multilayer network layers, or temporal networks. Also includes method for generating synthetic network populations [@young2022clustering].
+- **distributional_regionalization** [@Kirkley2022DistributionalRegionalization]: Methods for performing MDL-based regionalization on distributional (e.g. census) data over space.
+- **hub_identification** [@Kirkley2024HubIdentification]: Methods for inferring hub nodes in a network using different information theoretic criteria.
+- **community_regionalization** [@MorelBalbiKirkley2024CommunityRegionalization]: Perform contiguous regionalization of spatial network data, applicable to a wide class of community detection objectives.
+- **network_backbones** [@kirkley2024fastnonparametricinferencenetwork]: Perform global and local network backboning for a weighted network.
 
 Please refer to the [documentation](https://paninipy.readthedocs.io/en/latest/) for details on the methodology, implementation, and usage for each module. 
 
