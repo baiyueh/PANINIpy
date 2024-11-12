@@ -4,7 +4,7 @@
 [![PyPI version](https://badge.fury.io/py/paninipy.svg)](https://pypi.org/project/paninipy/?kill_cache=1)
 [![ReadTheDocs](https://img.shields.io/readthedocs/paninipy.svg)](https://paninipy.readthedocs.io/en/latest/)
 [![Run Auto-Tests](https://github.com/baiyueh/PANINIpy/actions/workflows/auto-test.yml/badge.svg)](https://github.com/baiyueh/PANINIpy/actions/workflows/auto-test.yml)
-[![DOI](https://zenodo.org/badge/824217298.svg)](https://doi.org/10.5281/zenodo.14099384)
+[![DOI](https://zenodo.org/badge/824217298.svg)](https://doi.org/10.5281/zenodo.14100356)
 
 
 # [PANINIpy](https://github.com/baiyueh/PANINIpy)
