@@ -1,5 +1,5 @@
 ---
-title: '**PANINIpy**: **P**ackage of **A**lgorithms for **N**onparametric **I**nference with **N**etworks **I**n **P**ython'
+title: 'PANINIpy: Package of Algorithms for Nonparametric Inference with Networks In Python'
 tags:
   - Python
   - complex networks
