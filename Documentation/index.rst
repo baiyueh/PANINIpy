@@ -61,7 +61,7 @@ Kirkley, A., & He, B. (2024). PANINIpy: Package of Algorithms for Nonparametric 
 
 **How to Cite**
 
-To reference **PANINIpy**, you can use either the BibTeX or APA format provided above. Please ensure that the citation includes the DOI and the link to the official article for clarity and accessibility.
+To reference **PANINIpy**, one can use either the BibTeX or APA format provided above. Please ensure that the citation includes the DOI and the link to the official article for clarity and accessibility.
 
 For more details, visit the official article published in the `Journal of Open Source Software <https://doi.org/10.21105/joss.07312>`_.
 
