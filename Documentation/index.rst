@@ -29,6 +29,42 @@ Due to their discrete, relational, and heterogeneous nature, complex networks pr
 
 *PANINIpy* fills an important gap in the software space by focusing on nonparametric inference methods for tasks beyond community detection and network reconstruction, for which there are many well developed and maintained Python packages (including Graph-Tool, NetworkX, iGraph, and netrd among others). There are no existing Python packages allowing for the breadth of network inference problems tackled by *PANINIpy*, which provides methods for network hub identification, temporal and multilayer network aggregation, spatially contiguous regionalization, and network backboning among other methods. By providing a unified package with these methods, users can identify parsimonious summaries of their network data from multiple perspectives, all comparable on the absolute scale of data compression in bits (for the MDL-based methods). *PANINIpy* does not have the extensive dependency requirements of existing packages and tailors its data structures for each specific network inference problem for efficient algorithmic performance and easy maintenance. *PANINIpy* therefore provides an important complement to existing network analysis packages in Python such as NetworkX that focus on network metrics and network visualization (with some methods for community detection), as well as Graph-Tool and netrd which focus on community detection and network reconstruction respectively.
 
+Citation
+========
+
+If you use **PANINIpy** in your research or projects, please cite it as follows:
+
+**BibTeX Format**
+
+For BibTeX users, include the following entry in the bibliography file:
+
+.. code-block:: bibtex
+
+    @article{Kirkley2024,
+        doi = {10.21105/joss.07312},
+        url = {https://doi.org/10.21105/joss.07312},
+        year = {2024},
+        publisher = {The Open Journal},
+        volume = {9},
+        number = {103},
+        pages = {7312},
+        author = {Alec Kirkley and Baiyue He},
+        title = {PANINIpy: Package of Algorithms for Nonparametric Inference with Networks In Python},
+        journal = {Journal of Open Source Software}
+    }
+
+**APA Format**
+
+For APA users, cite as:
+
+Kirkley, A., & He, B. (2024). PANINIpy: Package of Algorithms for Nonparametric Inference with Networks In Python. Journal of Open Source Software, 9(103), 7312, https://doi.org/10.21105/joss.07312
+
+**How to Cite**
+
+To reference **PANINIpy**, you can use either the BibTeX or APA format provided above. Please ensure that the citation includes the DOI and the link to the official article for clarity and accessibility.
+
+For more details, visit the official article published in the `Journal of Open Source Software <https://doi.org/10.21105/joss.07312>`_.
+
 .. toctree::
    :maxdepth: 2
    :caption: Installation and Contributing

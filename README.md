@@ -3,6 +3,7 @@
 
 [![PyPI version](https://badge.fury.io/py/paninipy.svg)](https://pypi.org/project/paninipy/?kill_cache=1)
 [![ReadTheDocs](https://img.shields.io/readthedocs/paninipy.svg)](https://paninipy.readthedocs.io/en/latest/)
+[![DOI](https://joss.theoj.org/papers/10.21105/joss.07312/status.svg)](https://doi.org/10.21105/joss.07312)
 [![Run Auto-Tests](https://github.com/baiyueh/PANINIpy/actions/workflows/auto-test.yml/badge.svg)](https://github.com/baiyueh/PANINIpy/actions/workflows/auto-test.yml)
 [![DOI](https://zenodo.org/badge/824217298.svg)](https://doi.org/10.5281/zenodo.14100356)
 
@@ -22,6 +23,7 @@ PANINIpy: Package of Algorithms for Nonparametric Inference with Networks in Pyt
   - [Regionalization with Community Detection](#regionalization-with-community-detection)
   - [MDL Network Backbones](#mdl-network-backbones)
 - [Documentation](#documentation)
+- [Citation](#citation)
 - [License](#license)
 
 ## Installation
@@ -67,6 +69,41 @@ Utilizes method derived in “Fast nonparametric inference of network backbones 
 
 Detailed documentation for each module and function is available at the link below:
 ### [PANINIpy Documentation](https://paninipy.readthedocs.io/en/latest/)
+
+## Citation
+
+If you use **PANINIpy** in your research or projects, please cite it as follows:
+
+### BibTeX Format
+
+For BibTeX users, include the following entry in the bibliography file:
+
+```bibtex
+@article{Kirkley2024,
+    doi = {10.21105/joss.07312},
+    url = {https://doi.org/10.21105/joss.07312},
+    year = {2024},
+    publisher = {The Open Journal},
+    volume = {9},
+    number = {103},
+    pages = {7312},
+    author = {Alec Kirkley and Baiyue He},
+    title = {PANINIpy: Package of Algorithms for Nonparametric Inference with Networks In Python},
+    journal = {Journal of Open Source Software}
+}
+```
+
+### APA Format
+
+For APA users, cite as:
+
+Kirkley, A., & He, B. (2024). PANINIpy: Package of Algorithms for Nonparametric Inference with Networks In Python. Journal of Open Source Software, 9(103), 7312, https://doi.org/10.21105/joss.07312
+
+### How to Cite
+
+To reference **PANINIpy**, you can use either the BibTeX or APA format provided above. Please ensure that the citation includes the DOI and the link to the official article for clarity and accessibility.
+
+For more details, visit the official article published in the [Journal of Open Source Software](https://doi.org/10.21105/joss.07312).
 
 
 ### Attribution
