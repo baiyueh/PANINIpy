@@ -105,6 +105,8 @@ To reference **PANINIpy**, you can use either the BibTeX or APA format provided 
 
 For more details, visit the official article published in the [Journal of Open Source Software](https://doi.org/10.21105/joss.07312).
 
+## License 
+Distributed under the MIT License. See LICENSE for more information.
 
 ### Attribution
 The logo for this package was enhanced using **Stable Diffusion model**, an AI-based generative model created by Robin Rombach, Patrick Esser and contributors. 
@@ -113,6 +115,3 @@ The model is released under the **CreativeML Open RAIL-M License**. For more det
 
 - [Stable Diffusion Project](https://stability.ai/)
 - [CreativeML Open RAIL-M License](https://github.com/CompVis/stable-diffusion/blob/main/LICENSE)
-
-## License 
-Distributed under the MIT License. See LICENSE for more information.
