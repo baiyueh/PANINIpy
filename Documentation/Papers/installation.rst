@@ -7,12 +7,6 @@ PANINIpy is available on PyPI and can be installed using ``pip``, which will inc
 
     pip install paninipy
 
-Or, install the latest version along with necessary build dependencies from the GitHub repository:
-
-.. code-block:: console
-
-    pip install git+https://github.com/baiyueh/PANINIpy.git
-
 For users who prefer installing dependencies manually, we provide a requirements.txt file on GitHub. To install PANINIpy and its dependencies using this file:
 
 .. code-block:: console
@@ -57,3 +51,35 @@ To ensure running in a working environment please make sure the python version `
     print('Inverse Compression Ratio (Local):', compression_local)
 
 If the installation was successful, running this code should display the global and local backbones along with their inverse compression ratios.
+
+**Testing and Continuous Integration**
+
+*PANINIpy* is equipped with automated testing on GitHub Actions to ensure that all functionalities work as expected. As part of CI/CD pipeline, this process helps maintain code quality and quickly catches any issues.
+
+To run the tests manually, users need to clone the *PANINIpy* GitHub repository as the tests are not included in the PyPI package installation.
+
+1. **Clone the Repository**: First, clone the *PANINIpy* GitHub repository to access the `Tests` folder.
+
+   .. code-block:: console
+
+       git clone https://github.com/baiyueh/PANINIpy.git
+       cd PANINIpy
+
+2. **Install the Required Packages**: Ensure all dependencies, including `pytest`, are installed by running the following commands:
+
+   .. code-block:: console
+
+       pip install -r requirements.txt
+       pip install paninipy
+       pip install pytest
+
+3. **Run the Tests**: Use `pytest` to execute all tests in the `Tests` folder.
+
+   .. code-block:: console
+
+       pytest Tests/
+
+4. **View the Results**: The output will display any failed tests and provide detailed information on each failed test case.
+
+GitHub Actions runs these tests automatically with the latest stable versions of Python and relevant dependencies each time code is pushed to the repository or a pull request is made. For more information about workflows runs, see `Workflows <https://github.com/baiyueh/PANINIpy/actions>`_ in the repository.
+

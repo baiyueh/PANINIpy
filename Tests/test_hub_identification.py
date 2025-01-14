@@ -35,6 +35,5 @@ def test_hub_identification():
     assert results['LOUBAR']['hub_nodes'] == [1, 3, 4], "Loubar model: Unexpected hub nodes"
     assert results['LOUBAR']['hub_degrees'] == [10.0, 8.0], "Loubar model: Unexpected hub degrees for AVG"
 
-# Run the test function
 if __name__ == "__main__":
     pytest.main()
