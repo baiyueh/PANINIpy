@@ -1,5 +1,5 @@
 <meta name="google-site-verification" content="QBsxqO0wWO-ZZl0YBi0pC_PCSEgF9Z671lLwrUavwyE" />
-<img src="https://imgur.com/a/Z40wFed.png" width="275px">
+<img src="https://github.com/baiyueh/PANINIpy/blob/main/Documentation/_static/pixel_paninipy.png" width="275px">
 
 [![PyPI version](https://badge.fury.io/py/paninipy.svg)](https://pypi.org/project/paninipy/?kill_cache=1)
 [![ReadTheDocs](https://img.shields.io/readthedocs/paninipy.svg)](https://paninipy.readthedocs.io/en/latest/)
