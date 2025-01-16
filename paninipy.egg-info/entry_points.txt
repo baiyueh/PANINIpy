@@ -1,0 +1,2 @@
+[console_scripts]
+paper = paper.cli:main
