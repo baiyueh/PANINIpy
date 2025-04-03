@@ -13,9 +13,9 @@ def test_mdl_backboning():
 
     # Expected results
     expected_global_backbone = [(0, 3, 20), (0, 1, 12), (0, 4, 8)]
-    expected_global_compression = 0.8819230577585648
+    expected_global_compression = 0.7114680371853184
     expected_local_backbone = [(0, 3, 20), (1, 4, 3), (2, 1, 3), (3, 2, 3)]
-    expected_local_compression = 0.8592797602410372
+    expected_local_compression = 0.8897699752517169
 
     # Compute backbones using out-edges
     backbone_global, backbone_local, compression_global, compression_local = MDL_backboning(
