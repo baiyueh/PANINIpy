@@ -5,4 +5,4 @@ The "MDL_backboning" function in functions.py inputs a weighted edgelist (direct
 
 If you use this algorithm in your work please cite:
 
-A. Kirkley, Fast nonparametric inference of network backbones for graph sparsification. Preprint arXiv:24XXXXXXX (2024)
+A. Kirkley, Fast nonparametric inference of network backbones for weighted graph sparsification. Preprint arXiv:2409.06417 (2024).
