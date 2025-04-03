@@ -32,7 +32,7 @@ The method minimizes the following MDL objectives according to Eq. 1 and Eq. 5 i
 **Microcanonical Local Description Length Objective of Network Backbone:**
 
 .. math::
-    \mathcal{L}_M^{(\text{local})}\left(G^{(b)}\right) = \log\binom{N+W-E-1}{W-E} \sum_{i=1}^{N} \Bigg(\log(k_i + 1)
+    \mathcal{L}_M^{(\text{local})}\left(G^{(b)}\right) = \log\binom{N+W-E-1}{W-E} + \sum_{i=1}^{N} \Bigg(\log(k_i + 1)
     + \log(s_i - k_i + 1) + \log \binom{k_i}{k_i^{(b)}} 
     + \log \binom{s_i^{(b)} - 1}{k_i^{(b)} - 1} 
     + \log \binom{s_i - s_i^{(b)} - 1}{k_i - k_i^{(b)} - 1} \Bigg)
