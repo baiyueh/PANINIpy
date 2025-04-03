@@ -22,20 +22,18 @@ Outputs include the global and local network backbones along with their inverse 
 
 The method minimizes the following MDL objectives according to Eq. 1 and Eq. 5 in https://arxiv.org/abs/2409.06417:
 
-**Global Description Length Objective at Network Backbone:**
+**Microcanonical Global Description Length Objective of Network Backbone:**
 
 .. math::
 
-    \mathcal{L}^{(\text{global})}\left(G^{(b)}\right) = \log(W - E + 1) + \log(W + 1) 
-    + \log(E + 1) + \log \binom{E}{E^{(b)}} 
-    + \log \binom{W^{(b)} - 1}{E^{(b)} - 1} 
-    + \log \binom{W - W^{(b)} - 1}{E - E^{(b)} - 1}
+    \mathcal{L}_M^{(\text{global})}(G^{(b)}) = \log (E+1) + \log (W-E+1) + \log \binom{E}{E^{(b)}} 
+     +\log \binom{W^{(b)}-1}{E^{(b)}-1} +\log\binom{W-W^{(b)}-1}{E-E^{(b)}-1}
 
-**Local Description Length Objective at Network Backbone:**
+**Microcanonical Local Description Length Objective of Network Backbone:**
 
 .. math::
-    \mathcal{L}^{(\text{local})}\left(G^{(b)}\right) = \sum_{i=1}^{N} \Bigg( \log(s_i - k_i + 1) + \log(s_i + 1) 
-    + \log(k_i + 1) + \log \binom{k_i}{k_i^{(b)}} 
+    \mathcal{L}_M^{(\text{local})}\left(G^{(b)}\right) = \log\binom{N+W-E-1}{W-E} \sum_{i=1}^{N} \Bigg(\log(k_i + 1)
+    + \log(s_i - k_i + 1) + \log \binom{k_i}{k_i^{(b)}} 
     + \log \binom{s_i^{(b)} - 1}{k_i^{(b)} - 1} 
     + \log \binom{s_i - s_i^{(b)} - 1}{k_i - k_i^{(b)} - 1} \Bigg)
 
@@ -53,10 +51,6 @@ This module provides functions to calculate the MDL-optimal network backbones fo
      - Compute the logarithm of the binomial coefficient.
    * - `logmultiset(n, k) <#logmultiset>`_
      - Compute the logarithm of the multiset coefficient.
-   * - `fglobal(W, E, Wb, Eb) <#fglobal>`_
-     - Compute the global description length objective.
-   * - `flocal(si, ki, sbi, kbi) <#flocal>`_
-     - Compute the local description length objective at node-level.
    * - `MDL_backboning(elist, directed=True, out_edges=True, allow_empty=True) <#MDL_backboning>`_
      - Compute the MDL-optimal global and local network backbones.
 
@@ -118,66 +112,6 @@ Compute the logarithm of the multiset coefficient.
 
 **Returns**:
   - **float**: Logarithm of the multiset coefficient.
-
-.. _fglobal:
-
-.. raw:: html
-
-   <div id="fglobal" class="function-header">
-       <span class="class-name">function</span> <span class="function-name">fglobal(W, E, Wb, Eb)</span> 
-       <a href="../Code/mdl_backboning.html#fglobal" class="source-link">[source]</a>
-   </div>
-
-**Description**:
-Compute the global description length objective.
-
-**Parameters**:
-
-.. raw:: html
-
-   <div class="parameter-block">
-       (W, E, Wb, Eb)
-   </div>
-
-   <ul class="parameter-list">
-       <li><span class="param-name">W</span>: Total weight of the network.</li>
-       <li><span class="param-name">E</span>: Total number of edges in the network.</li>
-       <li><span class="param-name">Wb</span>: Total weight of the backbone.</li>
-       <li><span class="param-name">Eb</span>: Total number of edges in the backbone.</li>
-   </ul>
-
-**Returns**:
-  - **float**: Global description length objective value.
-
-.. _flocal:
-
-.. raw:: html
-
-   <div id="flocal" class="function-header">
-       <span class="class-name">function</span> <span class="function-name">flocal(si, ki, sbi, kbi)</span> 
-       <a href="../Code/mdl_backboning.html#flocal" class="source-link">[source]</a>
-   </div>
-
-**Description**:
-Compute the local description length objective at node-level.
-
-**Parameters**:
-
-.. raw:: html
-
-   <div class="parameter-block">
-       (si, ki, sbi, kbi)
-   </div>
-
-   <ul class="parameter-list">
-       <li><span class="param-name">si</span>: Total strength (sum of weights) of node i.</li>
-       <li><span class="param-name">ki</span>: Degree (number of edges) of node i.</li>
-       <li><span class="param-name">sbi</span>: Backbone strength of node i.</li>
-       <li><span class="param-name">kbi</span>: Backbone degree of node i.</li>
-   </ul>
-
-**Returns**:
-  - **float**: Local description length objective value for node i.
 
 .. _MDL_backboning:
 
@@ -319,5 +253,5 @@ Paper Source
 
 If you use this algorithm in your work, please cite:
 
-A. Kirkley, "Fast nonparametric inference of network backbones for graph sparsification." arXiv preprint arXiv:2409.06417 (2024).
+A. Kirkley, "Fast nonparametric inference of network backbones for weighted graph sparsification." arXiv preprint arXiv:2409.06417 (2024).
 Paper: https://arxiv.org/abs/2409.06417
