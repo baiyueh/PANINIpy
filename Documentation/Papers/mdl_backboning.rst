@@ -4,7 +4,7 @@ MDL Network Backbones
 Tutorial 
 =========
 
-Code to perform network backboning method derived in "Fast nonparametric inference of network backbones for graph sparsification" (Kirkley, 2024, https://arxiv.org/abs/2409.06417). 
+Code to perform network backboning method derived in "Fast nonparametric inference of network backbones for weighted graph sparsification" (Kirkley, 2024, https://arxiv.org/abs/2409.06417). 
 
 The function allows for both directed and undirected networks and provides options to adjust the analysis according to the network's characteristics.
 
