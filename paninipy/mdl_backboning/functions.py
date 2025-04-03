@@ -10,31 +10,45 @@ def logmultiset(n,k):
     """computes log of multiset coefficient"""
     return logchoose(n+k-1,k)
 
-
-def MDL_backboning(elist,directed=True,out_edges=True,allow_empty=True):
+def MDL_backboning(elist,directed=True,out_edges=True,allow_empty=True,CR_type='Max'):
     
     """
     input: elist consisting of directed tuples [(i,j,w_ij)] for edges i --> j with weight w_ij
            'directed' arg tells us whether input edge list is directed or undirected
-           'out_edges' arg tells us whether to track out-edges or in-edges attached to each node in the local pruning method (does not matter for undirected elist)
-           'allow_empty': by symmetry, the DL is identical for complete/empty graphs in the global objective, and complete/empty neighborhoods in local objective. defaults to leaving these empty when situation is encountered, but setting allow_empty = False will keep the complete graph/neighborhoods
-    output: edge lists and inverse compression ratios for global and local MDL backbones
+           'out_edges' arg tells us whether to track out-edges or in-edges attached to each node in the local pruning method
+           'allow_empty' arg tells us whether or not we allow empty backbones (empty and full are equivalent by symmetry)
+           'CR_type' arg allows adjusting the type of compression ratio. 
+               'Relative': divides MDL by DL of corresponding (global or local) naive model
+               'Max': divides MDL by max(DL of naive global model,DL of naive local model)
+    output: edge lists for MDL backbones for global and local methods, corresponding inverse compression ratios
     """
 
     def fglobal(W,E,Wb,Eb):
         """
         global description length objective
         """  
-        initial_cost = np.log(W-E+1) + np.log(W+1) + np.log(E+1)
+        initial_cost = np.log(E+1) + np.log(W-E+1)
         return initial_cost + logchoose(E,Eb) + logchoose(Wb-1,Eb-1) + logchoose(W-Wb-1,E-Eb-1)
-
+    
     def flocal(si,ki,sbi,kbi):
         """
         local description length objective at node-level
         """
-        initial_cost = np.log(si-ki+1) + np.log(si+1) + np.log(ki+1)
-        return initial_cost + logchoose(ki,kbi) + logchoose(sbi-1,kbi-1) + logchoose(si-sbi-1,ki-kbi-1)
-
+        initial_cost = np.log(ki+1) + np.log(si-ki+1)
+        return initial_cost + logchoose(ki,kbi) + logchoose(sbi-1,kbi-1) + logchoose(si-sbi-1,ki-kbi-1)      
+    
+    def naiveglobal(W,E):
+        """
+        naive global description length objective
+        """ 
+        return fglobal(W,E,0,0)
+    
+    def naivelocal(si,ki):
+        """
+        naive local description length objective at node-level
+        """ 
+        return flocal(si,ki,0,0)
+        
     #add two directed edges for each undirected edge if input is undirected. don't duplicate self-edges.
     if not(directed):
         self_edge_indices = set([i for i,e in enumerate(elist) if e[0] == e[1]])
@@ -62,8 +76,8 @@ def MDL_backboning(elist,directed=True,out_edges=True,allow_empty=True):
     N = len(nodes)
 
     #greedily add edges to global backbone and track total description length
-    Lglobal0 = fglobal(W,E,0,0)
-    Lglobal = Lglobal0
+    Lglobal0 = naiveglobal(W,E)
+    Lglobal = fglobal(W,E,0,0)
     min_DL_global = Lglobal
     backbone_Eb = 0
     Wb,Eb = 0,0
@@ -81,14 +95,13 @@ def MDL_backboning(elist,directed=True,out_edges=True,allow_empty=True):
     if (backbone_Eb == 0) and not(allow_empty): backbone_Eb = E #by symmetry, DL is equivalent, so can choose to keep all edges
     
     #greedily add edges to local backbone and track description length at each node
-    Llocal0 = 0.
-    min_DL_local = Llocal0
+    Llocal0,min_DL_local = logchoose(N+W-E-1,W-E),logchoose(N+W-E-1,W-E)
     backbone_degrees = {}
     for i in adj_edges:
         
         si,ki,sbi,kbi = sum(adj_weights[i]),len(adj_edges[i]),0,0
         Llocali = flocal(si,ki,0,0)
-        Llocal0 += Llocali
+        Llocal0 += naivelocal(si,ki)
         best_Llocali,best_kbi,best_sbi = Llocali,kbi,sbi
         for w_ij in adj_weights[i]:
             
@@ -124,7 +137,13 @@ def MDL_backboning(elist,directed=True,out_edges=True,allow_empty=True):
         backbone_local = np.unique([tuple([sorted([e[0],e[1]])+[e[2]]]) for e in backbone_local])
 
     #compute inverse compression ratios
-    baseline_DL = max(Lglobal0,Llocal0)
-    compression_global,compression_local = min_DL_global/baseline_DL,min_DL_local/baseline_DL
+    if CR_type == 'Relative':
+        compression_global,compression_local = min_DL_global/Lglobal0,min_DL_local/Llocal0
+    
+    elif CR_type == 'Max':
+        compression_global,compression_local = min_DL_global/max(Lglobal0,Llocal0),min_DL_local/max(Lglobal0,Llocal0)
+
+    elif CR_type == 'Min':
+        compression_global,compression_local = min_DL_global/min(Lglobal0,Llocal0),min_DL_local/min(Lglobal0,Llocal0)
     
     return backbone_global,backbone_local,compression_global,compression_local
