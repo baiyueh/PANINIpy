@@ -11,7 +11,9 @@ def logmultiset(n,k):
     return logchoose(n+k-1,k)
 
 def to_undirected(edge_list, policy="sum"):
-    """Converts a directed edge list to an undirected edge list by merging edges"""
+    """
+    Converts a directed edge list to an undirected edge list by merging edges
+    """
     edge_dict = {}
     for u, v, w in edge_list:
         i, j = sorted((u, v))
