@@ -116,16 +116,19 @@ Compute the logarithm of the multiset coefficient.
   - **float**: Logarithm of the multiset coefficient.
 
 .. _to-undirected:
+
 .. raw:: html
 
    <div id="to-undirected" class="function-header">
        <span class="class-name">function</span> <span class="function-name">to_undirected(edge_list, policy="sum")</span> 
        <a href="../Code/mdl_backboning.html#to-undirected" class="source-link">[source]</a>
    </div>
+
 **Description**:
 Convert a directed edge list to an undirected edge list by merging edges.
 
 **Parameters**:
+
 .. raw:: html
 
    <div class="parameter-block">
@@ -135,9 +138,11 @@ Convert a directed edge list to an undirected edge list by merging edges.
    <ul class="parameter-list">
        <li><span class="param-name">edge_list</span>: List of directed edges as tuples (i, j, w_ij).</li>
        <li><span class="param-name">policy</span>: Policy for merging edges, can be "sum", "max", "min", or "error". Defaults to "sum".</li>
-**/Returns**:
+    </ul>
+
+**Returns**:
   - **list**: Undirected edge list as tuples (i, j, w_ij) where edges are merged according to the specified policy.
-  
+
 .. _MDL_backboning:
 
 .. raw:: html
