@@ -24,3 +24,10 @@ paninipy/partial_rankings/functions.py
 paninipy/partial_rankings/preprocessing.py
 paninipy/population_clustering/__init__.py
 paninipy/population_clustering/functions.py
+tests/test_community_regionalization.py
+tests/test_distributional_regionalization.py
+tests/test_hub_identification.py
+tests/test_hypergraph_binning.py
+tests/test_mdl_backboning.py
+tests/test_partial_rankings.py
+tests/test_population_clustering.py
