@@ -14,7 +14,7 @@ setup(
         "Documentation": "https://paninipy.readthedocs.io/en/latest/index.html",
         "Source": "https://paninipy.readthedocs.io/en/latest/index.html"
     },
-    python_requires=">=3.9, <3.12",
+    python_requires=">=3.9",
     install_requires=[
         "numpy>=1.24",    
         "pandas>=2.2",

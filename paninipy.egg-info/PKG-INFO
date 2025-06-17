@@ -1,4 +1,4 @@
-Metadata-Version: 2.1
+Metadata-Version: 2.4
 Name: paninipy
 Version: 1.7
 Summary: Package of Algorithms for Nonparametric Inference with Networks in Python
@@ -8,9 +8,24 @@ Author-email: baiyue.he@connect.hku.hk, akirkley@hku.hk
 License: The MIT License
 Project-URL: Documentation, https://paninipy.readthedocs.io/en/latest/index.html
 Project-URL: Source, https://paninipy.readthedocs.io/en/latest/index.html
-Requires-Python: >=3.9, <3.12
+Requires-Python: >=3.9
 Description-Content-Type: text/markdown
 License-File: LICENSE.txt
+Requires-Dist: numpy>=1.24
+Requires-Dist: pandas>=2.2
+Requires-Dist: scipy>=1.10
+Requires-Dist: ray>=2.40.0
+Dynamic: author
+Dynamic: author-email
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: license
+Dynamic: license-file
+Dynamic: project-url
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary
 
 <meta name="google-site-verification" content="QBsxqO0wWO-ZZl0YBi0pC_PCSEgF9Z671lLwrUavwyE" />
 <img src="https://github.com/baiyueh/PANINIpy/blob/main/Documentation/_static/pixel_paninipy.png" width="275px">

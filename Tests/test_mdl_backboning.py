@@ -28,5 +28,20 @@ def test_mdl_backboning():
     assert pytest.approx(compression_global, rel=1e-6) == expected_global_compression, "Global Compression does not match expected result"
     assert pytest.approx(compression_local, rel=1e-6) == expected_local_compression, "Local Compression does not match expected result"
 
+    # Compute backbones with undirected edges
+    expected_global_backbone = [(0, 1, 12), (0, 4, 8), (0, 3, 20)]
+    expected_global_compression = 0.7348799446767645
+    expected_local_backbone = [(0, 1, 12), (0, 4, 8), (1, 2, 3), (0, 3, 20)]
+    expected_local_compression = 0.8223220603580707
+
+    backbone_global, backbone_local, compression_global, compression_local = MDL_backboning(
+        elist, directed=True, out_edges=True
+    )
+
+    assert backbone_global == expected_global_backbone, "Global Backbone does not match expected result"
+    assert backbone_local == expected_local_backbone, "Local Backbone does not match expected result"
+    assert pytest.approx(compression_global, rel=1e-6) == expected_global_compression, "Global Compression does not match expected result"
+    assert pytest.approx(compression_local, rel=1e-6) == expected_local_compression, "Local Compression does not match expected result"
+
 if __name__ == "__main__":
     pytest.main()
