@@ -25,7 +25,31 @@ Source Code
     def logmultiset(n,k):
         """computes log of multiset coefficient"""
         return logchoose(n+k-1,k)
-      
+
+.. _to-undirected:
+
+.. code-block:: python
+
+    def to_undirected(edge_list, policy="sum"):
+        """Converts a directed edge list to an undirected edge list by merging edges"""
+        edge_dict = {}
+        for u, v, w in edge_list:
+            i, j = sorted((u, v))
+            key = (i, j)
+
+            if key not in edge_dict:
+                edge_dict[key] = w
+            else:
+                if policy == "max":               # keep the larger weight
+                    edge_dict[key] = max(edge_dict[key], w)
+                elif policy == "min":             # keep the smaller
+                    edge_dict[key] = min(edge_dict[key], w)
+                elif policy == "sum":             # sum the weights
+                    edge_dict[key] += w
+                elif policy == "error":
+                    raise ValueError(f"Duplicate edge {key} with conflicting weights")
+        return [(i, j, w) for (i, j), w in edge_dict.items()]
+
 .. _mdl-backboning:
 
 .. code-block:: python

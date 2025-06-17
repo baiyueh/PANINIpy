@@ -51,6 +51,8 @@ This module provides functions to calculate the MDL-optimal network backbones fo
      - Compute the logarithm of the binomial coefficient.
    * - `logmultiset(n, k) <#logmultiset>`_
      - Compute the logarithm of the multiset coefficient.
+   * - `to_undirected(edge_list, policy="sum") <#to-undirected>`_
+     - Convert a directed edge list to an undirected edge list by merging edges.
    * - `MDL_backboning(elist, directed=True, out_edges=True, allow_empty=True) <#MDL_backboning>`_
      - Compute the MDL-optimal global and local network backbones.
 
@@ -113,6 +115,29 @@ Compute the logarithm of the multiset coefficient.
 **Returns**:
   - **float**: Logarithm of the multiset coefficient.
 
+.. _to-undirected:
+.. raw:: html
+
+   <div id="to-undirected" class="function-header">
+       <span class="class-name">function</span> <span class="function-name">to_undirected(edge_list, policy="sum")</span> 
+       <a href="../Code/mdl_backboning.html#to-undirected" class="source-link">[source]</a>
+   </div>
+**Description**:
+Convert a directed edge list to an undirected edge list by merging edges.
+
+**Parameters**:
+.. raw:: html
+
+   <div class="parameter-block">
+       (edge_list, policy="sum")
+   </div>
+
+   <ul class="parameter-list">
+       <li><span class="param-name">edge_list</span>: List of directed edges as tuples (i, j, w_ij).</li>
+       <li><span class="param-name">policy</span>: Policy for merging edges, can be "sum", "max", "min", or "error". Defaults to "sum".</li>
+**/Returns**:
+  - **list**: Undirected edge list as tuples (i, j, w_ij) where edges are merged according to the specified policy.
+  
 .. _MDL_backboning:
 
 .. raw:: html

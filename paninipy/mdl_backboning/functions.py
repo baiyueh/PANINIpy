@@ -11,6 +11,7 @@ def logmultiset(n,k):
     return logchoose(n+k-1,k)
 
 def to_undirected(edge_list, policy="sum"):
+    """Converts a directed edge list to an undirected edge list by merging edges"""
     edge_dict = {}
     for u, v, w in edge_list:
         i, j = sorted((u, v))
@@ -30,7 +31,6 @@ def to_undirected(edge_list, policy="sum"):
     return [(i, j, w) for (i, j), w in edge_dict.items()]
 
 def MDL_backboning(elist,directed=True,out_edges=True,allow_empty=True,CR_type='Max'):
-    
     """
     input: elist consisting of directed tuples [(i,j,w_ij)] for edges i --> j with weight w_ij
            'directed' arg tells us whether input edge list is directed or undirected
