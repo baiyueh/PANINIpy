@@ -1,6 +1,0 @@
-# Ignore IPython checkpoints
-.ipynb_checkpoints
-
-# Ignore Python byproducts
-spatial_regionalization.egg-info/
-__pycache__/

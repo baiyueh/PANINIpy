@@ -1,4 +1,0 @@
-graft paper
-include setup.py
-global.exclude *.py[cod]
-exclude Tests/*
